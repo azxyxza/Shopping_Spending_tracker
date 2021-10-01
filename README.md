@@ -20,7 +20,7 @@ This project aims to create a shopping-money-tracker application for customer to
 **Who will use it**
 
 *For everyone who is:*
-- interested to keep their shopping list organized
+- interested in keep their shopping list organized
 - want to be well-prepared before going into the supermarket
 - keep track of the balance and spend money wisely
 
