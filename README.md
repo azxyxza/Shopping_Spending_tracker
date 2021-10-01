@@ -18,7 +18,6 @@ This project aims to create a shopping-money-tracker application for customer to
   - The spending page will visualize all your balance and expenses
 
 **Who will use it**
-
     *For everyone who is:*
 - interested to keep their shopping list organized
 - want to be well-prepared before going into the supermarket
