@@ -45,4 +45,4 @@ to life, better managing our relationship with shopping and money.
 - As a user, I want to be able to set the budget for the shopping  
 - As a user, I want to be able to enter the price of that item in transaction list
 - As a user, I want to be able to view the list of transactions
-- As a user, I want to be able to view the total expenses and budget on spending page 
+- As a user, I want to be able to view the budget, total expenses, and balance on spending page 
