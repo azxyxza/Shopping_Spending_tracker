@@ -1,25 +1,26 @@
 # Shopping tracker
 
-## Be wise with shopping list and balance
+## Shop smart, Spend wise!
 
 
-This project aims to create a shopping-money-tracker application for customer to use before, during, and after the shopping.
+This project aims to create a shopping-finance-tracker application for customer to use before, during, and after the shopping.
 
 **What does the shopping tracker do**
 - *Before the shopping*
-  - Set the expected spending for this shopping
+  - Check out what you have in the "Fridge" (avoid wasting)
   - Add whatever you plan to buy to the shopping list
+  - Set the expected spending for this shopping
   - You can also categorize the need to buy a thing including "Must", "May", "Can", "Based on mood"
 - *During the shopping*
-  - Cross the things off that have already added to the chart
+  - Cross the things off that have already added to the shopping cart
 - *After the shopping*
-  - the purchased item will be added to the transaction page 
-  - Enter the amount of money you spent on that object and load the expense to the spending page
-  - The spending page will visualize all your balance and expenses
+  - the purchased item will be added to the "Fridge" page and "Transaction" page 
+  - Enter the amount of money you spent on that object and keep track in the "Spending" page
+  - The "Spending" page will visualize all your balance and expenses
 
 **Who will use it**
 
-*For everyone who is:*
+*For everyone who is...*
 - interested in keep their shopping list organized
 - want to be well-prepared before going into the supermarket
 - keep track of the balance and spend money wisely
@@ -33,3 +34,15 @@ actually don't need. Since my living expenses is limited, I realized the importa
 spending-tracking application. Therefore, I want to create this intelligent app that could bring efficiency and happiness
 to life, better managing our relationship with shopping and money.
 
+## User Stories
+- As a user, I want to be able to view what items I already have and the quantity of them in the fridge list
+- As a user, I want to be able to add an item to the fridge
+- As a user, I want to be able to add an item to my shopping list
+- As a user, I want to be able to categorize an item based on the level of necessity 
+- As a user, I want to be able to view the list of items needed to buy on my shopping list based on necessity
+- As a user, I want to be able to mark an item as already added to the cart
+- As a user, I want to be able to delete a certain item from the shopping list
+- As a user, I want to be able to set the budget for the shopping  
+- As a user, I want to be able to enter the price of that item in transaction list
+- As a user, I want to be able to view the list of transactions
+- As a user, I want to be able to view the total expenses and budget on spending page 
