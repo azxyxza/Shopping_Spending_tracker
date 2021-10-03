@@ -35,7 +35,7 @@ spending-tracking application. Therefore, I want to create this intelligent app 
 to life, better managing our relationship with shopping and money.
 
 ## User Stories
-- As a user, I want to be able to view what items I already have and the quantity of them in the fridge list
+- As a user, I want to be able to view what items I already have and the amount of them in the fridge list
 - As a user, I want to be able to add an item to the fridge
 - As a user, I want to be able to add an item to my shopping list
 - As a user, I want to be able to categorize an item based on the level of necessity 
