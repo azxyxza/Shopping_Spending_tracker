@@ -31,7 +31,7 @@ public class Fridge {
             case NECESSITIES:
                 this.necessities.add(it);
                 break;
-            case OTHERS:
+            default:
                 this.others.add(it);
                 break;
         }
