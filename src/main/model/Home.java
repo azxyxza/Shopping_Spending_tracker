@@ -93,15 +93,15 @@ public class Home {
 
     public void addToList(Item it, Categories categories) {
         switch (categories) {
-            case food:
+            case Food:
                 this.food.add(it);
                 break;
-            case drinks:
+            case Drinks:
                 this.drinks.add(it);
                 break;
-            case fruitAndVegetables:
+            case FruitAndVegetables:
                 this.fruitAndVeg.add(it);
-            case necessities:
+            case Necessities:
                 this.necessities.add(it);
                 break;
             default:

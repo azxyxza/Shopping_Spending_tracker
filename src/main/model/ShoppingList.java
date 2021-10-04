@@ -7,6 +7,7 @@ public class ShoppingList {
 
     private double budget;
     private List<Item> food;
+    private List<Item> fruitAndVeg;
     private List<Item> drinks;
     private List<Item> necessities;
     private List<Item> others;
@@ -16,12 +17,14 @@ public class ShoppingList {
     public ShoppingList() {
         budget = 0.0;
         food = new ArrayList<>();
+        fruitAndVeg = new ArrayList<>();
         drinks = new ArrayList<>();
         necessities = new ArrayList<>();
         others = new ArrayList<>();
         toBuy = new ArrayList<>();
         toBuy.add(food);
         toBuy.add(drinks);
+        toBuy.add(fruitAndVeg);
         toBuy.add(necessities);
         toBuy.add(others);
     }
@@ -42,20 +45,7 @@ public class ShoppingList {
         Categories categories = it.getCategories();
 
         if (isContained(it)) {
-            switch (categories) {
-                case food:
-                    this.food.add(it);
-                    break;
-                case drinks:
-                    this.drinks.add(it);
-                    break;
-                case necessities:
-                    this.necessities.add(it);
-                    break;
-                case others:
-                    this.others.add(it);
-                    break;
-            }
+            // stub
         }
     }
 
