@@ -5,13 +5,13 @@ public class Item {
     private String name;
     private int amount;
     private Categories categories;
-    private boolean isNecessary;
+    private boolean isFavorite;
 
     public Item(String name, int amount, Categories categories) {
         this.name = name;
         this.amount = amount;
         this.categories = categories;
-        this.isNecessary = false;
+        this.isFavorite = false;
     }
 
     // getters
@@ -27,8 +27,8 @@ public class Item {
         return categories;
     }
 
-    public boolean isNecessary() {
-        return isNecessary;
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
 
@@ -45,8 +45,8 @@ public class Item {
         this.categories = categories;
     }
 
-    public void setNecessary(boolean necessary) {
-        isNecessary = necessary;
+    public void setToFavorite(boolean isFavorite) {
+        this.isFavorite = true;
     }
 
 

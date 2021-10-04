@@ -8,14 +8,14 @@ before, during, and after the shopping.
 
 **What does the shopping tracker do**
 - *Before the shopping*
-  - Check out what you have in the "Fridge" (avoid wasting)
-  - Categorize your fridge based on items' property (make your fridge organized)
+  - Check out what you have at "Home" (avoid wasting)
+  - Categorize your home based on items' property (make your house organized)
   - Add whatever you plan to buy to the shopping list
   - Set the budget for this shopping 
 - *During the shopping*
   - Cross the things off that have already added to the shopping cart
 - *After the shopping*
-  - the purchased item will be added to the "Fridge" page and "Transaction" page 
+  - the purchased item will be added to the "Home" page and "Transaction" page 
   - Enter the amount of money you spent on that object and keep track in the "Spending" page
   - The "Spending" page will visualize all your balance and expenses
 
@@ -39,12 +39,13 @@ and happiness to life, have a more pleasant shopping experience, and better mana
 
 
 ## User Stories
-- As a user, I want to be able to view what items I already have and the amount of them in the fridge list
-- As a user, I want to be able to add an item to the fridge
-- As a user, I want to be able to delete an item from the fridge
+- As a user, I want to be able to view what items I already have and the amount of them in the Home list
+- As a user, I want to be able to add an item to the Home
+- As a user, I want to be able to add an item to the favorite list 
+- As a user, I want to be able to delete an item from the Home
 - As a user, I want to be able to move an item to a certain category
-- As a user, I want to be able to create an individualized category for the items
-- As a user, I want to be able to get the number of items in the fridge
+- As a user, I want to be able to view the favorite items in the Home
+- As a user, I want to be able to get the number of items in the Home
 - As a user, I want to be able to add an item to my shopping list
 - As a user, I want to be able to delete an item from my shopping list
 - As a user, I want to be able to view the items needed to buy based on categories 

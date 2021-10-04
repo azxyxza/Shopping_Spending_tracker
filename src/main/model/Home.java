@@ -3,18 +3,20 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fridge {
+public class Home {
     private List<Item> food;
     private List<Item> drinks;
     private List<Item> necessities;
     private List<Item> others;
 
-    public Fridge() {
+    public Home() {
         food = new ArrayList<>();
         drinks = new ArrayList<>();
         necessities = new ArrayList<>();
         others = new ArrayList<>();
     }
+
+    // EFFECTS: get the
 
     // REQUIRES: item != null
     // MODIFIES: this
