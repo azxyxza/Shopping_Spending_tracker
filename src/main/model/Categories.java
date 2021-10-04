@@ -1,5 +1,5 @@
 package model;
 
 public enum Categories {
-    FOOD, DRINKS, NECESSITIES, OTHERS
+    food, fruitAndVegetables, drinks, necessities, others
 }

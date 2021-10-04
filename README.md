@@ -39,7 +39,7 @@ and happiness to life, have a more pleasant shopping experience, and better mana
 
 
 ## User Stories
-- As a user, I want to be able to view what items I already have and the amount of them in the Home list
+- As a user, I want to be able to view what items and the amount of each I already have for each category in the Home list
 - As a user, I want to be able to add an item to the Home
 - As a user, I want to be able to add an item to the favorite list 
 - As a user, I want to be able to delete an item from the Home

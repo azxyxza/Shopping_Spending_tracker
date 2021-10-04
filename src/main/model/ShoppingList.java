@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class ShoppingList {
 
@@ -41,18 +40,19 @@ public class ShoppingList {
     // in the fridge
     public void addToBuy(Item it) {
         Categories categories = it.getCategories();
-        if (toBuy.contains(it)) {
+
+        if (isContained(it)) {
             switch (categories) {
-                case FOOD:
+                case food:
                     this.food.add(it);
                     break;
-                case DRINKS:
+                case drinks:
                     this.drinks.add(it);
                     break;
-                case NECESSITIES:
+                case necessities:
                     this.necessities.add(it);
                     break;
-                case OTHERS:
+                case others:
                     this.others.add(it);
                     break;
             }
@@ -71,4 +71,14 @@ public class ShoppingList {
     public void delete(Item item) {
 
     }
+
+    public Boolean isContained(Item item) {
+        for (List<Item> items : toBuy) {
+            if (items.contains(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
