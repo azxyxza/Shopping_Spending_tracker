@@ -45,7 +45,7 @@ public class Item {
         this.categories = categories;
     }
 
-    public void setToFavorite(boolean isFavorite) {
+    public void setToFavorite() {
         this.isFavorite = true;
     }
 
