@@ -2,122 +2,125 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+/** This is the home class that stores the items that we already have/just bought,
+ * while the list "all" stores all the items, the items are also stored based on categories
+ * (with each one of the food, fruitAndVegetables, drinks, necessities, others); for the items
+ * that set to be favorite, they are also stored in favorite list.
+ */
 
-public class Home {
-    private List<Item> food;
-    private List<Item> fruitAndVeg;
-    private List<Item> drinks;
-    private List<Item> necessities;
-    private List<Item> others;
-    private List<List<Item>> all;
+public class Home extends Categorize { // TODO: whether shopping list and spending should extend?
+    private List<Item> all;
     private List<Item> favorite;
 
     public Home() {
-        food = new ArrayList<>();
-        fruitAndVeg = new ArrayList<>();
-        drinks = new ArrayList<>();
-        necessities = new ArrayList<>();
-        others = new ArrayList<>();
         all = new ArrayList<>();
         favorite = new ArrayList<>();
-        all.add(food);
-        all.add(fruitAndVeg);
-        all.add(drinks);
-        all.add(necessities);
-        all.add(others);
+        addToFavorite();
     }
 
-
-    // EFFECTS: view the items in certain categories along with the amount of each item
-    public void viewItems(Categories categories) {
-        // stub
+    public List<Item> getFood() {
+        return food;
     }
+
+    public List<Item> getFruitAndVeg() {
+        return fruitAndVeg;
+    }
+
+    public List<Item> getDrinks() {
+        return drinks;
+    }
+
+    public List<Item> getNecessities() {
+        return necessities;
+    }
+
+    public List<Item> getOthers() {
+        return others;
+    }
+
+    public List<Item> getAll() {
+        return all;
+    }
+
+    public List<Item> getFavorite() {
+        return favorite;
+    }
+
 
     // REQUIRES: item != null
     // MODIFIES: this
     // EFFECTS: stores the given Item (it) into the appropriate categories within this class
     public void addItem(Item it) {
         Categories categories = it.getCategories();
-        addToList(it, categories);
+        super.addToList(it, categories);
+        all.add(it);
+    }
+
+    // EFFECTS: get total amount of items at home
+    public int totalItem() {
+        int sum = 0;
+        for (Item item : all) {
+            sum++;
+        }
+        return sum;
     }
 
     // REQUIRES: the item is in the list
     // MODIFIES: this
-    // EFFECTS: remove the certain item from the given categories
-    public void delete(Item it) {
-        for (List<Item> items : all) {
-            if (items.contains(it)) {
-                items.remove(it);
-                System.out.println(it + " is gone now!");
+    // EFFECTS: remove the certain item from the whole list and the given categories
+    public void deleteItem(Item it) {
+        if (all.contains(it)) {
+            all.remove(it);
+            switch (it.getCategories()) {
+                case Food:
+                    food.remove(it);
+                case Drinks:
+                    drinks.remove(it);
+                case FruitAndVegetables:
+                    fruitAndVeg.remove(it);
+                case Necessities:
+                    necessities.remove(it);
+                case Others:
+                    others.remove(it);
             }
+        }
+    }
+
+    // EFFECTS: get amount of items in specific categories
+    public int getTypeAmount(Categories categories) {
+        switch (categories) {
+            case Food:
+                return food.size();
+            case Drinks:
+                return drinks.size();
+            case FruitAndVegetables:
+                return fruitAndVeg.size();
+            case Necessities:
+                return necessities.size();
+            default:
+                return others.size();
         }
     }
 
 
     // REQUIRES: item != null
     // EFFECTS: add the item to the favorite
-    public void beFavorite() {
-        for (List<Item> items : all) {
-            for (Item i : items) {
-                if (i.isFavorite()) {
-                    favorite.add(i);
-                }
+    public void addToFavorite() {
+        for (Item i : all) {
+            if (i.isFavorite()) {
+                favorite.add(i);
             }
         }
     }
 
-
-    // EFFECTS: view the list of favorite items in list
-    public void viewFavorite() {
-        System.out.println("Here is my favorite list!");
-        for (Item i : favorite) {
-            System.out.println(i + " still have " + i.getAmount());
-        }
-    }
 
     // REQUIRES: the item is in one of the categories, or it is in favorite
-    // EFFECTS: move an item to a certain categories
+    // EFFECTS: delete the item from previous categories and move an item to the new categories
     public void moveItem(Item item, Categories categories) {
-        for (List<Item> items : all) {
-            if (items.contains(item)) {
-                if (item.getCategories().equals(categories)) {
-                    System.out.println(item + " is already in the " + categories);
-                } else {
-                    items.remove(item);
-                }
-            }
+        if (all.contains(item)) {
+            deleteItem(item);
+            super.addToList(item, categories);
+            all.add(item);
         }
-        this.addToList(item, categories);
-        System.out.println(item + "is now in the " + categories);
-    }
-
-    public void addToList(Item it, Categories categories) {
-        switch (categories) {
-            case Food:
-                this.food.add(it);
-                break;
-            case Drinks:
-                this.drinks.add(it);
-                break;
-            case FruitAndVegetables:
-                this.fruitAndVeg.add(it);
-            case Necessities:
-                this.necessities.add(it);
-                break;
-            default:
-                this.others.add(it);
-                break;
-        }
-    }
-
-
-    public int totalItem() {
-        int sum = 0;
-        for (List<Item> items : all) {
-            for (Item i : items) {
-                sum++;
-            }
-        }
-        return sum;
     }
 }

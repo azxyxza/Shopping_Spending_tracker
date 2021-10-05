@@ -3,68 +3,83 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingList {
+/**
+ * This is the shoppingList class. We can set the budget for this shopping. And the toBuy list stores
+ * all the things that we added which needed to buy. When the items are bought (added to the cart), the
+ * things are removed from the toBuy list and goes into the bought list.
+ */
 
+public class ShoppingList {
     private double budget;
-    private List<Item> food;
-    private List<Item> fruitAndVeg;
-    private List<Item> drinks;
-    private List<Item> necessities;
-    private List<Item> others;
-    private List<List<Item>> toBuy;
-    private List<Item> bought;
+    protected List<Item> toBuy;
+    protected List<Item> bought;
 
     public ShoppingList() {
         budget = 0.0;
-        food = new ArrayList<>();
-        fruitAndVeg = new ArrayList<>();
-        drinks = new ArrayList<>();
-        necessities = new ArrayList<>();
-        others = new ArrayList<>();
         toBuy = new ArrayList<>();
-        toBuy.add(food);
-        toBuy.add(drinks);
-        toBuy.add(fruitAndVeg);
-        toBuy.add(necessities);
-        toBuy.add(others);
+        bought = new ArrayList<>();
     }
 
+    // Getter and Setter
     public double getBudget() {
         return budget;
+    }
+
+    public List<Item> getToBuy() {
+        return toBuy;
+    }
+
+    public List<Item> getBought() {
+        return bought;
     }
 
     public void setBudget(double budget) {
         this.budget = budget;
     }
 
-    // REQUIRES: item != null
+    // REQUIRES: item != null, item not contain in the shopping list already
     // MODIFIES: this
-    // EFFECTS: stores the given Item (it) into the shopping list in appropriate categories if the item is not
-    // in the fridge
-    public void addToBuy(Item it) {
-        Categories categories = it.getCategories();
+    // EFFECTS: add the given Item (item) into the toBuy list
+    public boolean addToBuy(Item item) {
+        if (!isContained(item.getName())) {
+            toBuy.add(item);
+            return true;
+        }
+        return false;
+    }
 
-        if (isContained(it)) {
-            // stub
+    // REQUIRES: items not null, item is in the toBuy list
+    // MODIFIES: this
+    // EFFECTS: for the already-added-to-cart items, stores the transaction to home
+    // create a new transaction for the item.
+    public void bought(Item item) {
+        if (isContained(item.getName())) {
+            delete(item);
+            bought.add(item);
         }
     }
 
-
-    // REQUIRES: items not null;
+    // REQUIRES: item != null
     // MODIFIES: this
-    // EFFECTS: for the already-added-to-cart items, move the given item to the bought list,
-    // create a new transaction for the item.
-    public void checkIt(Item item) {
-        // TODO
-    }
-
+    // EFFECTS: delete the items from the toBuy list
     public void delete(Item item) {
-
+        toBuy.remove(item);
     }
 
-    public Boolean isContained(Item item) {
-        for (List<Item> items : toBuy) {
-            if (items.contains(item)) {
+    // EFFECTS: return the number of items needed to buy in the list
+    public int amountToBuy() {
+        int sum = 0;
+        for (Item i : toBuy) {
+            sum++;
+        }
+        return sum;
+    }
+
+    // EFFECTS: check if the item is already in the list with given item name, if it is in the list,
+    // return true, if not return false
+    public Boolean isContained(String name) {
+        for (Item i : toBuy) {
+            if (i.getName().equals(name)) {
                 return true;
             }
         }
