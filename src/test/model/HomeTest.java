@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import static model.Categories.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,12 +15,12 @@ class HomeTest {
     private Item necessities;
     private Item others;
     private Home testHome;
-    private LocalDateTime t;
+    private LocalDate t;
 
     @BeforeEach
     void runBefore(){
         testHome = new Home();
-        t = LocalDateTime.now();
+        t = LocalDate.now();
         food = new Item("strawberry cake", 2, Food, t);
         fruitAndVeg = new Item("apple", 5, FruitAndVegetables,t);
         drinks = new Item("milk", 1, Drinks,t);

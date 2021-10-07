@@ -9,15 +9,17 @@ import java.util.List;
  * things are removed from the toBuy list and goes into the bought list.
  */
 
-public class ShoppingList {
+public class ShoppingList extends CategoryList {
     private double budget;
     protected List<Item> toBuy;
     protected List<Item> bought;
+    private Spending spending;
 
     public ShoppingList() {
         budget = 0.0;
         toBuy = new ArrayList<>();
         bought = new ArrayList<>();
+        spending = new Spending();
     }
 
     // Getter and Setter
@@ -37,16 +39,33 @@ public class ShoppingList {
         this.budget = budget;
     }
 
+
+    // EFFECTS: return the number of items needed to buy in the list
+    public int totalItem() {
+        int sum = 0;
+        for (Item i : toBuy) {
+            sum++;
+        }
+        return sum;
+    }
+
+
     // REQUIRES: item != null, item not contain in the shopping list already
     // MODIFIES: this
     // EFFECTS: add the given Item (item) into the toBuy list
-    public boolean addToBuy(Item item) {
+    public void addItem(Item item) {
         if (!isContained(item.getName())) {
             toBuy.add(item);
-            return true;
         }
-        return false;
     }
+
+    // REQUIRES: item != null
+    // MODIFIES: this
+    // EFFECTS: delete the items from the toBuy list
+    public void deleteItem(Item item) {
+        toBuy.remove(item);
+    }
+
 
     // REQUIRES: items not null, item is in the toBuy list
     // MODIFIES: this
@@ -54,26 +73,12 @@ public class ShoppingList {
     // create a new transaction for the item.
     public void bought(Item item) {
         if (isContained(item.getName())) {
-            delete(item);
+            deleteItem(item);
+            spending.reset();
             bought.add(item);
         }
     }
 
-    // REQUIRES: item != null
-    // MODIFIES: this
-    // EFFECTS: delete the items from the toBuy list
-    public void delete(Item item) {
-        toBuy.remove(item);
-    }
-
-    // EFFECTS: return the number of items needed to buy in the list
-    public int amountToBuy() {
-        int sum = 0;
-        for (Item i : toBuy) {
-            sum++;
-        }
-        return sum;
-    }
 
     // EFFECTS: check if the item is already in the list with given item name, if it is in the list,
     // return true, if not return false

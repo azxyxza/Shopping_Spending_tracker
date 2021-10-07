@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Categorize {
+public abstract class CategoryList {
     protected List<Item> food;
     protected List<Item> fruitAndVeg;
     protected List<Item> drinks;
@@ -11,7 +11,7 @@ public abstract class Categorize {
     protected List<Item> others;
     protected List<Item> all;
 
-    public Categorize() {
+    public CategoryList() {
         food = new ArrayList<>();
         fruitAndVeg = new ArrayList<>();
         drinks = new ArrayList<>();
@@ -39,4 +39,10 @@ public abstract class Categorize {
                 break;
         }
     }
+
+    public abstract int totalItem();
+
+    public abstract void addItem(Item item);
+
+    public abstract void deleteItem(Item item);
 }

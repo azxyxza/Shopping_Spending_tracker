@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /** This is the Item class. Each item contains a name, the amount, a category, and the bought time.
  * we can set the item to be favorite.
@@ -12,14 +12,14 @@ public class Item {
     private int amount;
     private Categories categories;
     private boolean isFavorite;
-    private LocalDateTime time;
+    private LocalDate date;
 
-    public Item(String name, int amount, Categories categories, LocalDateTime time) {
+    public Item(String name, int amount, Categories categories, LocalDate date) {
         this.name = name;
         this.amount = amount;
         this.categories = categories;
         this.isFavorite = false;
-        this.time = time;
+        this.date = date;
     }
 
     // getters
@@ -39,8 +39,8 @@ public class Item {
         return isFavorite;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDate getDate() {
+        return date;
     }
 
     // setters
@@ -62,7 +62,7 @@ public class Item {
 
     // EFFECTS: set the item's time to current time
     public void setTime() {
-        this.time = LocalDateTime.now();
+        this.date = LocalDate.now();
     }
 
 }

@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static model.Categories.Food;
@@ -11,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemTest {
     private Item testItem;
-    private LocalDateTime t;
+    private LocalDate t;
 
     @BeforeEach
     void runBefore() {
-        t = LocalDateTime.of(2021,9,16,2,2);
+        t = LocalDate.of(2021,9,16);
         testItem = new Item("strawberry cake", 2, Food, t);
     }
 
@@ -42,8 +43,8 @@ public class ItemTest {
 
     @Test
     void testSetTime() { // TODO: how to test setTime
-        assertEquals(t, testItem.getTime());
+        assertEquals(t, testItem.getDate());
         testItem.setTime();
-        assertEquals(LocalDateTime.now(), testItem.getTime());
+        assertEquals(LocalDate.now(), testItem.getDate());
     }
 }

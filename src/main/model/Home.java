@@ -2,13 +2,14 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /** This is the home class that stores the items that we already have/just bought,
  * while the list "all" stores all the items, the items are also stored based on categories
  * (with each one of the food, fruitAndVegetables, drinks, necessities, others); for the items
  * that set to be favorite, they are also stored in favorite list.
  */
 
-public class Home extends Categorize { // TODO: whether shopping list and spending should extend?
+public class Home extends CategoryList { // TODO: whether shopping list and spending should extend?
     private List<Item> all;
     private List<Item> favorite;
 
@@ -56,6 +57,7 @@ public class Home extends Categorize { // TODO: whether shopping list and spendi
         all.add(it);
     }
 
+
     // EFFECTS: get total amount of items at home
     public int totalItem() {
         int sum = 0;
@@ -86,23 +88,6 @@ public class Home extends Categorize { // TODO: whether shopping list and spendi
         }
     }
 
-    // EFFECTS: get amount of items in specific categories
-    public int getTypeAmount(Categories categories) {
-        switch (categories) {
-            case Food:
-                return food.size();
-            case Drinks:
-                return drinks.size();
-            case FruitAndVegetables:
-                return fruitAndVeg.size();
-            case Necessities:
-                return necessities.size();
-            default:
-                return others.size();
-        }
-    }
-
-
     // REQUIRES: item != null
     // EFFECTS: add the item to the favorite
     public void addToFavorite() {
@@ -121,6 +106,23 @@ public class Home extends Categorize { // TODO: whether shopping list and spendi
             deleteItem(item);
             super.addToList(item, categories);
             all.add(item);
+        }
+    }
+
+
+    // EFFECTS: get amount of items in specific categories
+    public int getTypeAmount(Categories categories) {
+        switch (categories) {
+            case Food:
+                return food.size();
+            case Drinks:
+                return drinks.size();
+            case FruitAndVegetables:
+                return fruitAndVeg.size();
+            case Necessities:
+                return necessities.size();
+            default:
+                return others.size();
         }
     }
 }
