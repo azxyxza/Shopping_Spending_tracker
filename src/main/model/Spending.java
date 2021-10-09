@@ -1,22 +1,23 @@
 package model;
 
-import java.time.LocalDate;
 import java.util.LinkedList;
 
 /**
  * This is the Spending class. The spending stores the list of budget, expenses, and total balance for each month
  */
 public class Spending { // TODO: update monthly?
-    private double budget;
+    private double income;
     private double expense;
     private double balance;
-    private LinkedList<Transaction> transactions;
+    protected LinkedList<Transaction> transactions;
 
     public Spending() {
+//        reset();
+        transactions = new LinkedList<>();
     }
 
-    public double getBudget() {
-        return budget;
+    public double getIncome() {
+        return income;
     }
 
     public double getExpense() {
@@ -27,28 +28,38 @@ public class Spending { // TODO: update monthly?
         return balance;
     }
 
-
-    // MODIFIES: this
-    // EFFECTS: reset the budget, expense, balance to 0 to start a new month
-    public void reset() {
-        if (LocalDate.now().getDayOfMonth() == 1) {
-            budget = 0.0;
-            expense = 0.0;
-            balance = 0.0;
-        }
+    public LinkedList<Transaction> getTransactions() {
+        return transactions;
     }
 
 
     // MODIFIES: this
     // EFFECTS: set the budget for this new month
-    public void setBudget(Double budget) {
-        this.budget = budget;
+    public void setIncome(Double income) {
+        this.income = income;
     }
+
 
     // MODIFIES: this
     // EFFECTS: store the expense for the transaction when new items bought
     public void trackExpense(LinkedList<Transaction> transactions) {
+        for (Transaction t : transactions) {
+            expense += t.getExpense();
+        }
+    }
 
+
+    //    // MODIFIES: this
+//    // EFFECTS: reset the budget, expense, balance to 0 to start a new month
+//    public void reset() {
+//        if (LocalDate.now().getDayOfMonth() == 1) {
+//            budget = 0.0;
+//            expense = 0.0;
+//            balance = 0.0;
+//        }
+//    }
+    public void setBalance() {
+        this.balance = income - expense;
     }
 
 }

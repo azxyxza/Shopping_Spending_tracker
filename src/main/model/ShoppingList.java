@@ -35,6 +35,11 @@ public class ShoppingList extends CategoryList {
         return bought;
     }
 
+    public Spending getSpending() {
+        return spending;
+    }
+
+    // EFFECTS: set the budget for this shopping
     public void setBudget(double budget) {
         this.budget = budget;
     }
@@ -42,11 +47,7 @@ public class ShoppingList extends CategoryList {
 
     // EFFECTS: return the number of items needed to buy in the list
     public int totalItem() {
-        int sum = 0;
-        for (Item i : toBuy) {
-            sum++;
-        }
-        return sum;
+        return toBuy.size();
     }
 
 
@@ -71,11 +72,11 @@ public class ShoppingList extends CategoryList {
     // MODIFIES: this
     // EFFECTS: for the already-added-to-cart items, stores the transaction to home
     // create a new transaction for the item.
-    public void bought(Item item) {
+    public void markItem(Item item) {
         if (isContained(item.getName())) {
             deleteItem(item);
-            spending.reset();
             bought.add(item);
+            addTransaction();
         }
     }
 
@@ -89,6 +90,15 @@ public class ShoppingList extends CategoryList {
             }
         }
         return false;
+    }
+
+
+    // EFFECTS: create a new transaction for each bought items
+    public void addTransaction() {
+        for (Item i : bought) {
+            Transaction t = new Transaction(i, 0.0);
+            spending.getTransactions().add(t);
+        }
     }
 }
 
