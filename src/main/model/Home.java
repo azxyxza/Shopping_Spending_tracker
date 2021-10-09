@@ -3,7 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/** This is the home class that stores the items that we already have/just bought,
+/**
+ * This is the home class that stores the items that we already have/just bought,
  * while the list "all" stores all the items, the items are also stored based on categories
  * (with each one of the food, fruitAndVegetables, drinks, necessities, others); for the items
  * that set to be favorite, they are also stored in favorite list.
@@ -71,7 +72,7 @@ public class Home extends CategoryList { // TODO: whether shopping list and spen
     // MODIFIES: this
     // EFFECTS: remove the certain item from the whole list and the given categories
     public void deleteItem(Item it) {
-        if (all.contains(it)) {
+        if (isContained(it.getName())) {
             all.remove(it);
             switch (it.getCategories()) {
                 case Food:
@@ -124,5 +125,26 @@ public class Home extends CategoryList { // TODO: whether shopping list and spen
             default:
                 return others.size();
         }
+    }
+
+    // EFFECTS: return true if item is contained at home
+    public boolean isContained(String item) {
+        for (Item i : all) {
+            if (i.getName().equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // TODO: need test
+    // EFFECTS: get the item in the list based on item's name
+    public Item getItem(String name) {
+        for (Item i : all) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
     }
 }

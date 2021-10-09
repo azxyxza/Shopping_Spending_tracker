@@ -17,12 +17,9 @@ public class Transaction {
         this.expense = expense;
     }
 
+    // getter and setter
     public Item getItem() {
         return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 
     public double getExpense() {
@@ -32,6 +29,5 @@ public class Transaction {
     public void setExpense(double expense) {
         this.expense = expense;
     }
-
 
 }
