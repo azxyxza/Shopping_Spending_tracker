@@ -6,26 +6,26 @@
 This project aims to create a shopping-budget-tracker application for customer to use 
 before, during, and after the shopping.
 
-**What does the shopping tracker do**
-- *Before the shopping*
+### What does the shopping tracker do
+- **Before the shopping**
   - Check out what you have at "Home" (avoid wasting)
   - Categorize your home based on items' property (make your Home organized)
   - Add whatever you plan to buy to the shopping list
   - Set the budget for this shopping trip
-- *During the shopping*
+- **During the shopping**
   - Cross the things off that have already added to the shopping cart
-- *After the shopping*
+- **After the shopping**
   - Enter the expenses of the objects you bought and keep track in the "Spending" page
   - Visualize all your expenses and balance
 
-**Who will use it**
+### Who will use it
 
-*For everyone who ...*
+**For everyone who ...**
 - want to be well-prepared before going into the supermarket
 - is interested in keeping track the objects they have
 - would like to keep track of the balance, manage and spend money wisely
 
-**My inspiration for this project**
+### My inspiration for this project
 
 As an international student who lives alone on campus, I need to go shopping weekly to prepare for the food, necessities,
 and anything I needed for the following week. Without a list, I always feel disoriented and overwhelmed by the dazzling 
