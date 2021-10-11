@@ -12,15 +12,17 @@ before, during, and after the shopping.
   - Categorize your home based on items' property (make your Home organized)
   - Add whatever you plan to buy to the shopping list
   - Set the budget for this shopping trip
+  
 - **During the shopping**
   - Cross the things off that have already added to the shopping cart
+  
 - **After the shopping**
   - Enter the expenses of the objects you bought and keep track in the "Spending" page
   - Visualize all your expenses and balance
 
 ### Who will use it
 
-**For everyone who ...**
+-*For everyone who ...*
 - want to be well-prepared before going into the supermarket
 - is interested in keeping track the objects they have
 - would like to keep track of the balance, manage and spend money wisely
@@ -46,14 +48,15 @@ and happiness to life, have a more pleasant shopping experience, and better mana
 - As a user, I want to be able to view what items and the amount I have in certain categories
 
 ### For the shopping list:
-- As a user, I want to be able to view the favorite items in the Home
-- As a user, I want to be able to get the number of items in the Home
+- As a user, I want to be able to set the budget for this shopping
+- As a user, I want to be able to view the number of items needed to buy in the list
 - As a user, I want to be able to add an item to my shopping list
 - As a user, I want to be able to delete an item from my shopping list
-- As a user, I want to be able to view the items needed to buy based on categories 
-- As a user, I want to be able to mark an item as already added to the cart
-- As a user, I want to be able to get the number of items needed to buy in shopping list
-- As a user, I want to be able to set the budget for the shopping  
-- As a user, I want to be able to enter the price of the item in transaction list
-- As a user, I want to be able to view the list of transactions
-- As a user, I want to be able to view the budget, total expenses, and balance on spending page 
+- As a user, I want to be able to mark an item as already added to the cart (bought)
+
+### For the Spending & Transaction:
+- As a user, I want to be able to view the list of transactions and the total number of transactions
+- As a user, I want to be able to view my income, total expenses, and balance on spending page 
+- As a user, I want to be able to add new income to spending page 
+- As a user, I want to be able to enter the price of bought item in order
+- As a user, I want to be able to enter the price for specific bought item

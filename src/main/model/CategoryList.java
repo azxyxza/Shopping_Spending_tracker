@@ -40,6 +40,7 @@ public abstract class CategoryList {
         }
     }
 
+
     public abstract int totalItem();
 
     public abstract void addItem(Item item);

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import static model.Categories.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,14 +63,13 @@ class HomeTest {
         testHome.deleteItem(food);
         assertEquals(1, testHome.getAll().size());
         assertFalse(testHome.getFood().contains(food));
+        assertFalse(testHome.isContained("strawberry cake"));
         assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
     }
 
     @Test
     void testGetAmountType(){
         assertEquals(0, testHome.getTypeAmount(Food));
-
-
 
         Item donut = new Item("donut", 1, Food, t);
         Item croissant = new Item("croissant", 1, Food,t);
@@ -121,4 +119,5 @@ class HomeTest {
         assertEquals(2, testHome.getTypeAmount(Others));
         assertEquals(0, testHome.getTypeAmount(Drinks));
     }
+
 }

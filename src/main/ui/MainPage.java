@@ -13,11 +13,13 @@ public class MainPage {
     }
 
     private void runTracker() {
-        while (true) {
+        boolean running = true;
+        while (running) {
             displayMenu();
             String command = input.next();
             command = command.toLowerCase();
             if (command.equals("q")) {
+                running = false;
                 System.out.println("Goodbye! Have a nice day!");;
             } else {
                 processCommand(command);
@@ -34,9 +36,6 @@ public class MainPage {
                 break;
             case "l":
                 new ShoppingListApp();
-                break;
-            case "t":
-                new TransactionApp();
                 break;
             case "s":
                 new SpendingApp();
@@ -55,8 +54,7 @@ public class MainPage {
         System.out.println("\nYou can go to:");
         System.out.println("\th -> My home");
         System.out.println("\tl -> Shopping list");
-        System.out.println("\tt -> Transaction");
-        System.out.println("\ts -> Spending");
+        System.out.println("\ts -> Spending & Transaction");
         System.out.println("\tq -> quit");
     }
 

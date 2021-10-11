@@ -14,6 +14,7 @@ public class Spending { // TODO: update monthly?
     public Spending() {
 //        reset();
         transactions = new LinkedList<>();
+        trackExpense(transactions);
     }
 
     public double getIncome() {
@@ -36,7 +37,7 @@ public class Spending { // TODO: update monthly?
     // MODIFIES: this
     // EFFECTS: set the budget for this new month
     public void setIncome(Double income) {
-        this.income = income;
+        this.income += income;
     }
 
 

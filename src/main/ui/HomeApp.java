@@ -5,7 +5,6 @@ import model.Home;
 import model.Item;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Scanner;
 
 import static model.Categories.*;
@@ -24,8 +23,6 @@ public class HomeApp {
 
     private void runHome() {
 
-        init();
-
         while (true) {
             displayMenu();
             String command = input.next();
@@ -37,11 +34,6 @@ public class HomeApp {
             }
         }
 
-    }
-
-    private void init() {
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
     }
 
     private void processCommand(String command) {
@@ -58,8 +50,6 @@ public class HomeApp {
             case "f":
                 doFavorite();
                 break;
-            case "q":
-                return;
             default:
                 System.out.println("Selection not valid...");
         }
@@ -84,13 +74,23 @@ public class HomeApp {
      */
 
     private void runViewItems() {
-        init();
-
+        boolean isInt;
+        int command = 0;
         while (true) {
             displayViewer();
-            String command = input.next();
-            command = command.toLowerCase();
-            if (command.equals("q")) {
+
+            do {
+                if (input.hasNextInt()) {
+                    isInt = true;
+                    command = input.nextInt();
+                } else {
+                    System.out.println(">>>Please enter a number from 1-6");
+                    isInt = false;
+                    input.next();
+                }
+            } while (!isInt);
+
+            if (command == 6) {
                 return;
             } else {
                 processView(command);
@@ -101,32 +101,32 @@ public class HomeApp {
 
     private void displayViewer() {
         System.out.println("\nWhich category do you want to view:");
-        System.out.println("\tf -> Food");
-        System.out.println("\tv -> Fruits & Vegetables");
-        System.out.println("\td -> Drinks");
-        System.out.println("\tn -> Necessities");
-        System.out.println("\to -> Others");
-        System.out.println("\tq -> back to Home");
+        System.out.println("\t1 -> Food");
+        System.out.println("\t2 -> Fruits & Vegetables");
+        System.out.println("\t3 -> Drinks");
+        System.out.println("\t4 -> Necessities");
+        System.out.println("\t5 -> Others");
+        System.out.println("\t6 -> back to Home");
     }
 
-    private void processView(String command) {
+    private void processView(int command) {
         switch (command) {
-            case "f":
+            case 1:
                 categoryView(Food);
                 break;
-            case "v":
+            case 2:
                 categoryView(FruitAndVegetables);
                 break;
-            case "d":
+            case 3:
                 categoryView(Drinks);
                 break;
-            case "n":
+            case 4:
                 categoryView(Necessities);
                 break;
-            case "o":
+            case 5:
                 categoryView(Others);
                 break;
-            case "q":
+            case 6:
                 return;
             default:
                 System.out.println("Not valid input...");
@@ -182,24 +182,22 @@ public class HomeApp {
                 return Drinks;
             case "n":
                 return Necessities;
-            case "o":
-                return Others;
             default:
-                return null;
+                return Others;
         }
     }
 
     private void doFavorite() {
-        init();
+        Scanner input = new Scanner(System.in);
         System.out.println("What items at home do you want to add to favorite?");
         String name = input.nextLine();
         if (home.isContained(name)) {
-            Item i = home.getItem(name);
+            Item i = getItem(name);
             i.setToFavorite();
             home.addToFavorite();
             System.out.println("Now " + name + " becomes your favorite!");
         } else {
-            System.out.println("Oops... It seems " + name + "is not at home!");
+            System.out.println("Oops... It seems " + name + " is not at home!");
         }
     }
 
@@ -210,12 +208,22 @@ public class HomeApp {
         String name = item.nextLine();
 
         if (home.isContained(name)) {
-            home.deleteItem(home.getItem(name));
-            System.out.println("You have successfully added " + name + " to your home at " + LocalDate.now());
+            home.deleteItem(getItem(name));
+            System.out.println(name + " is gone now!");
         } else {
             System.out.println("Oops... You don't have this item at home! No need to delete :)");
         }
 
+
+    }
+
+    public Item getItem(String name) {
+        for (Item i : home.getAll()) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
     }
 }
 

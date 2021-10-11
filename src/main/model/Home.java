@@ -137,14 +137,5 @@ public class Home extends CategoryList { // TODO: whether shopping list and spen
         return false;
     }
 
-    // TODO: need test
-    // EFFECTS: get the item in the list based on item's name
-    public Item getItem(String name) {
-        for (Item i : all) {
-            if (i.getName().equals(name)) {
-                return i;
-            }
-        }
-        return null;
-    }
+
 }
