@@ -35,9 +35,8 @@ public abstract class CategoryList {
             case Necessities:
                 necessities.add(it);
                 break;
-            case Others:
+            default:
                 others.add(it);
-                break;
         }
     }
 

@@ -83,7 +83,7 @@ public class Home extends CategoryList { // TODO: whether shopping list and spen
                     fruitAndVeg.remove(it);
                 case Necessities:
                     necessities.remove(it);
-                case Others:
+                default:
                     others.remove(it);
             }
         }

@@ -1,21 +1,19 @@
 package ui;
 
 import model.Item;
-import model.ShoppingList;
 import model.Spending;
 import model.Transaction;
 
-import java.util.List;
 import java.util.Scanner;
 
+import static ui.ShoppingListApp.shoppingList;
+
 public class SpendingApp {
-    private Spending spending;
+    private static Spending spending;
     private Scanner input;
-    private ShoppingList shoppingList;
 
     // EFFECTS: runs the spending page
     public SpendingApp() {
-        shoppingList = new ShoppingList();
         spending = new Spending();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
@@ -90,6 +88,7 @@ public class SpendingApp {
         }
     }
 
+    // TODO: expense & balance not display
     private void displaySpendingMenu() {
         Double income = 0.0;
         income += spending.getIncome();
@@ -120,7 +119,8 @@ public class SpendingApp {
     }
 
 
-    private void runTransaction() {
+    protected static void runTransaction() {
+        Scanner input = new Scanner(System.in);
         boolean isInt;
         int command = 0;
         while (true) {
@@ -144,13 +144,12 @@ public class SpendingApp {
         }
     }
 
-    private void displayTransactionMenu() {
-
-        if (shoppingList.getBought().isEmpty()) {
-            System.out.println("\n>>>> There is no new bought item that needed to be tracking");
+    private static void displayTransactionMenu() {
+        if (shoppingList.getSpending().getTransactions().isEmpty()) {
+            System.out.println("\n>>>> There is no Transactions made.");
         } else {
-            System.out.println(">>>> Here are the things you bought that still needed to enter a price: ");
-            printBought();
+            System.out.println(">>>> Here are the things you bought: ");
+            printTransaction();
         }
 
         System.out.println("\n --- Do you want to: ---");
@@ -159,13 +158,13 @@ public class SpendingApp {
         System.out.println("\t3 -> Back to main page");
     }
 
-    private void processTransactionCommand(int command) {
+    private static void processTransactionCommand(int command) {
         switch (command) {
             case 1:
-                doEnterPrice();
+                doSetExpense();
                 break;
             case 2:
-                doSetExpense();
+                doEnterPrice();
                 break;
             default:
                 System.out.println("Selection not valid...");
@@ -173,36 +172,36 @@ public class SpendingApp {
     }
 
 
-    private void printBought() {
-        for (Item i : shoppingList.getBought()) {
-            System.out.println(i.getName());
+    private static void printTransaction() {
+        for (Transaction t : shoppingList.getSpending().getTransactions()) {
+            System.out.println(t.getItem().getName() + " is bought at " + t.getItem().getDate());
         }
     }
 
 
-    private void doSetExpense() {
+    private static void doSetExpense() {
         Scanner input = new Scanner(System.in);
         for (Item i : shoppingList.getBought()) {
             System.out.println("How much did you spend on " + i.getAmount() + " " + i.getName() + ": ");
-            double price = input.nextDouble();
-            for (Transaction t : spending.getTransactions()) {
-                t.setExpense(price);
+            String price = input.nextLine();
+            for (Transaction t : shoppingList.getSpending().getTransactions()) {
+                t.setExpense(Double.parseDouble(price));
             }
         }
     }
 
-    private void doEnterPrice() {
+    private static void doEnterPrice() {
         Scanner input = new Scanner(System.in);
         System.out.println("What item do you want to record the price for: ");
         System.out.println("Enter the name of item: ");
         String name = input.nextLine();
         if (shoppingList.getBought().contains(getItem(name))) {
             System.out.println("The price: ");
-            double price = input.nextDouble();
+            String price = input.nextLine();
 
-            for (Transaction t : spending.getTransactions()) {
+            for (Transaction t : shoppingList.getSpending().getTransactions()) {
                 if (t.getItem().getName().equals(name)) {
-                    t.setExpense(price);
+                    t.setExpense(Double.parseDouble(price));
                 }
             }
         } else {
@@ -211,7 +210,7 @@ public class SpendingApp {
 
     }
 
-    public Item getItem(String name) {
+    public static Item getItem(String name) {
         for (Item i : shoppingList.getBought()) {
             if (i.getName().equals(name)) {
                 return i;
