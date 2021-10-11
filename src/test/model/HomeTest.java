@@ -52,20 +52,6 @@ class HomeTest {
         assertEquals(5, testHome.totalItem());
     }
 
-    @Test
-    void testDeleteItem(){
-        testHome.addItem(food);
-        testHome.addItem(fruitAndVeg);
-        assertEquals(2, testHome.getAll().size());
-        assertEquals(food, testHome.getFood().get(0));
-        assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
-
-        testHome.deleteItem(food);
-        assertEquals(1, testHome.getAll().size());
-        assertFalse(testHome.getFood().contains(food));
-        assertFalse(testHome.isContained("strawberry cake"));
-        assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
-    }
 
     @Test
     void testGetAmountType(){
@@ -120,4 +106,91 @@ class HomeTest {
         assertEquals(0, testHome.getTypeAmount(Drinks));
     }
 
+    @Test
+    void testAddToList(){
+        testHome.addItem(food);
+        testHome.addItem(fruitAndVeg);
+        testHome.addItem(necessities);
+        testHome.addItem(drinks);
+        testHome.addItem(others);
+        assertEquals(1, testHome.getFood().size());
+        assertEquals(1, testHome.getFruitAndVeg().size());
+        assertEquals(1, testHome.getNecessities().size());
+        assertEquals(1, testHome.getDrinks().size());
+        assertEquals(1, testHome.getOthers().size());
+
+        assertEquals(food, testHome.getFood().get(0));
+        assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
+        assertEquals(necessities, testHome.getNecessities().get(0));
+        assertEquals(drinks, testHome.getDrinks().get(0));
+        assertEquals(others, testHome.getOthers().get(0));
+    }
+
+
+    @Test
+    void testDeleteFoodItem(){
+        testHome.addItem(food);
+        testHome.addItem(fruitAndVeg);
+        assertEquals(2, testHome.getAll().size());
+        assertEquals(food, testHome.getFood().get(0));
+        assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
+
+        testHome.deleteItem(food);
+        assertEquals(1, testHome.getAll().size());
+        assertFalse(testHome.getFood().contains(food));
+        assertFalse(testHome.isContained("strawberry cake"));
+        assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
+    }
+
+    @Test
+    void testDeleteFruitAndVegItem(){
+        Item fruit2 = new Item("A", 2, FruitAndVegetables, LocalDate.now());
+        testHome.addItem(fruitAndVeg);
+        testHome.addItem(fruit2);
+        assertEquals(2, testHome.getFruitAndVeg().size());
+        assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
+        testHome.deleteItem(fruitAndVeg);
+        assertEquals(1, testHome.getFruitAndVeg().size());
+        testHome.deleteItem(fruitAndVeg);
+        assertEquals(1, testHome.getFruitAndVeg().size());
+    }
+
+    @Test
+    void testDeleteNeceesityItem(){
+        Item necessities2 = new Item("A", 2, Necessities, LocalDate.now());
+        testHome.addItem(necessities);
+        testHome.addItem(necessities2);
+        assertEquals(2, testHome.getNecessities().size());
+        assertEquals(necessities, testHome.getNecessities().get(0));
+        testHome.deleteItem(necessities);
+        assertEquals(1, testHome.getNecessities().size());
+        testHome.deleteItem(necessities);
+        assertEquals(1, testHome.getNecessities().size());
+    }
+
+    @Test
+    void testDeleteOtherItem(){
+        Item others2 = new Item("A", 2, Others, LocalDate.now());
+        testHome.addItem(others);
+        testHome.addItem(others2);
+        assertEquals(2, testHome.getOthers().size());
+        assertEquals(others, testHome.getOthers().get(0));
+        testHome.deleteItem(others);
+        assertEquals(1, testHome.getOthers().size());
+        testHome.deleteItem(others);
+        assertEquals(1, testHome.getOthers().size());
+    }
+
+    @Test
+    void testDeleteDrinksItem(){
+        Item drinks2 = new Item("A", 2, Drinks, LocalDate.now());
+        testHome.addItem(drinks);
+        testHome.addItem(drinks2);
+        assertEquals(2, testHome.getDrinks().size());
+        assertEquals(drinks, testHome.getDrinks().get(0));
+        testHome.deleteItem(drinks);
+        assertEquals(1, testHome.getDrinks().size());
+        testHome.deleteItem(drinks);
+        assertEquals(1, testHome.getDrinks().size());
+    }
 }

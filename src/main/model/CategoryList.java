@@ -31,6 +31,7 @@ public abstract class CategoryList {
                 break;
             case FruitAndVegetables:
                 fruitAndVeg.add(it);
+                break;
             case Necessities:
                 necessities.add(it);
                 break;
