@@ -14,7 +14,7 @@ public class SpendingApp {
 
     // EFFECTS: runs the spending page
     public SpendingApp() {
-        spending = new Spending();
+        spending = shoppingList.getSpending();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runSpendingAndTraction();
@@ -88,14 +88,14 @@ public class SpendingApp {
         }
     }
 
-    // TODO: expense & balance not display
     private void displaySpendingMenu() {
         Double income = 0.0;
         income += spending.getIncome();
         System.out.println(">>> Here are your financial tracker: ");
         System.out.println("\tIncome: " + income);
-        System.out.println("\tExpense: " + spending.getExpense());
-        System.out.println("\tBalance: " + spending.getBalance());
+        System.out.println("\tExpense: "
+                + spending.trackExpense(spending.getTransactions()));
+        System.out.println("\tBalance: " + shoppingList.getSpending().getBalance());
 
         System.out.println("\n");
         System.out.println("\tEnter 1 to add your income");
@@ -114,7 +114,21 @@ public class SpendingApp {
     private void doSetIncome() {
         Scanner input = new Scanner(System.in);
         System.out.println("(Enter a number) What did you earn: ");
-        double income = Double.parseDouble(input.next());
+        boolean isDouble;
+        double income = 0.0;
+        do {
+            if (input.hasNextDouble()) {
+                isDouble = true;
+                income = input.nextDouble();
+            } else if (input.hasNextInt()) {
+                isDouble = true;
+                income = input.nextInt();
+            } else {
+                System.out.println(">>>Please enter a number for your income");
+                isDouble = false;
+                input.next();
+            }
+        } while (!isDouble);
         spending.setIncome(income);
     }
 
@@ -150,11 +164,10 @@ public class SpendingApp {
         } else {
             System.out.println(">>>> Here are the things you bought: ");
             printTransaction();
+            System.out.println("\n --- Do you want to: ---");
+            System.out.println("\t1 -> Enter the prices of each items in order");
+            System.out.println("\t2 -> Enter the price for a particular item");
         }
-
-        System.out.println("\n --- Do you want to: ---");
-        System.out.println("\t1 -> Enter the prices of each items in order");
-        System.out.println("\t2 -> Enter the price for a particular item");
         System.out.println("\t3 -> Back to main page");
     }
 
@@ -181,11 +194,27 @@ public class SpendingApp {
 
     private static void doSetExpense() {
         Scanner input = new Scanner(System.in);
+        boolean isDouble;
+        double price = 0.0;
         for (Item i : shoppingList.getBought()) {
             System.out.println("How much did you spend on " + i.getAmount() + " " + i.getName() + ": ");
-            String price = input.nextLine();
+
+            do {
+                if (input.hasNextDouble()) {
+                    isDouble = true;
+                    price = input.nextDouble();
+                } else if (input.hasNextInt()) {
+                    isDouble = true;
+                    price = input.nextInt();
+                } else {
+                    System.out.println(">>>Please enter a number for your price:");
+                    isDouble = false;
+                    input.next();
+                }
+            } while (!isDouble);
+
             for (Transaction t : shoppingList.getSpending().getTransactions()) {
-                t.setExpense(Double.parseDouble(price));
+                t.setExpense(price);
             }
         }
     }

@@ -42,7 +42,7 @@ public class ItemTest {
     }
 
     @Test
-    void testSetTime() { // TODO: how to test setTime
+    void testSetTime() {
         assertEquals(t, testItem.getDate());
         testItem.setTime();
         assertEquals(LocalDate.now(), testItem.getDate());

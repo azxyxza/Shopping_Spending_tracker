@@ -10,7 +10,7 @@ import java.util.List;
  * that set to be favorite, they are also stored in favorite list.
  */
 
-public class Home extends CategoryList { // TODO: whether shopping list and spending should extend?
+public class Home extends CategoryList {
     private List<Item> all;
     private List<Item> favorite;
 

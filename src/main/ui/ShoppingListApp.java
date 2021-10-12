@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static model.Categories.*;
 
 public class ShoppingListApp {
-    static ShoppingList shoppingList;
+    protected static ShoppingList shoppingList;
     private Scanner input;
     private int amount;
 
@@ -65,7 +65,7 @@ public class ShoppingListApp {
         System.out.println("\t4 -> Mark something as bought");
         System.out.println("\t5 -> View what you have bought");
         System.out.println("\t6 -> Enter the transactions for your bought items");
-        System.out.println("\t7 -> Back to main page");
+        System.out.println("\t7 -> Back to previous");
     }
 
     private void printToBuy() {

@@ -21,12 +21,8 @@ public class Spending { // TODO: update monthly?
         return income;
     }
 
-    public double getExpense() {
-        return expense;
-    }
-
     public double getBalance() {
-        return balance;
+        return balance = income - expense;
     }
 
     public LinkedList<Transaction> getTransactions() {
@@ -43,10 +39,11 @@ public class Spending { // TODO: update monthly?
 
     // MODIFIES: this
     // EFFECTS: store the expense for the transaction when new items bought
-    public void trackExpense(LinkedList<Transaction> transactions) {
+    public double trackExpense(LinkedList<Transaction> transactions) {
         for (Transaction t : transactions) {
-            expense += t.getExpense();
+            this.expense += t.getExpense();
         }
+        return expense;
     }
 
 
