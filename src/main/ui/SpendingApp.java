@@ -8,18 +8,28 @@ import java.util.Scanner;
 
 import static ui.ShoppingListApp.shoppingList;
 
+/**
+ * This is the spending & transaction page of the shopping-spending tracker
+ */
+
 public class SpendingApp {
     private static Spending spending;
     private Scanner input;
 
     // EFFECTS: runs the spending page
     public SpendingApp() {
-        spending = shoppingList.getSpending();
+        try {
+            spending = shoppingList.getSpending();
+        } catch (NullPointerException e) {
+            spending = new Spending();
+        }
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runSpendingAndTraction();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input for main page
     private void runSpendingAndTraction() {
         boolean isInt;
         int command = 0;
@@ -44,6 +54,7 @@ public class SpendingApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\n<<<<< Welcome to your Spending & Transaction manager >>>>>");
         System.out.println("\t1 -> Spending");
@@ -51,6 +62,8 @@ public class SpendingApp {
         System.out.println("\t3 -> Back to main page");
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processCommand(int command) {
         switch (command) {
             case 1:
@@ -64,6 +77,8 @@ public class SpendingApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input for spending page
     private void runSpending() {
         boolean isInt;
         int command = 0;
@@ -88,20 +103,35 @@ public class SpendingApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user in spending page
     private void displaySpendingMenu() {
-        Double income = 0.0;
+        double income = 0.0;
         income += spending.getIncome();
         System.out.println(">>> Here are your financial tracker: ");
         System.out.println("\tIncome: " + income);
-        System.out.println("\tExpense: "
-                + spending.trackExpense(spending.getTransactions()));
-        System.out.println("\tBalance: " + shoppingList.getSpending().getBalance());
-
+        System.out.println("\tExpense: " + doGetExpense());
+        System.out.println("\tBalance: " + spending.getBalance());
         System.out.println("\n");
         System.out.println("\tEnter 1 to add your income");
         System.out.println("\tEnter 0 to go back to main page");
     }
 
+    // MODIFIES: this
+    // EFFECTS: synchronize the expenses from shopping list
+    private double doGetExpense() {
+        try {
+            if (!shoppingList.getBought().isEmpty()) {
+                spending.trackExpense(spending.getTransactions());
+                spending.getTransactions().removeAll(spending.getTransactions());
+            }
+            return spending.getExpense();
+        } catch (NullPointerException e) {
+            return 0.0;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: process user input for spending page
     private void processSpendingCommand(int command) {
         if (command == 1) {
             doSetIncome();
@@ -110,7 +140,8 @@ public class SpendingApp {
         }
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: let the user set input
     private void doSetIncome() {
         Scanner input = new Scanner(System.in);
         System.out.println("(Enter a number) What did you earn: ");
@@ -132,7 +163,8 @@ public class SpendingApp {
         spending.setIncome(income);
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: processes user input for transaction page
     protected static void runTransaction() {
         Scanner input = new Scanner(System.in);
         boolean isInt;
@@ -158,6 +190,7 @@ public class SpendingApp {
         }
     }
 
+    // EFFECTS: displays transaction menu of options to user
     private static void displayTransactionMenu() {
         if (shoppingList.getSpending().getTransactions().isEmpty()) {
             System.out.println("\n>>>> There is no Transactions made.");
@@ -171,6 +204,8 @@ public class SpendingApp {
         System.out.println("\t3 -> Back to main page");
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user transaction command
     private static void processTransactionCommand(int command) {
         switch (command) {
             case 1:
@@ -184,14 +219,15 @@ public class SpendingApp {
         }
     }
 
-
+    // EFFECTS: print the current transactions in spending list
     private static void printTransaction() {
         for (Transaction t : shoppingList.getSpending().getTransactions()) {
             System.out.println(t.getItem().getName() + " is bought at " + t.getItem().getDate());
         }
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: let user set the expense for items in order
     private static void doSetExpense() {
         Scanner input = new Scanner(System.in);
         boolean isDouble;
@@ -219,6 +255,8 @@ public class SpendingApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: let user set the expense for specific items
     private static void doEnterPrice() {
         Scanner input = new Scanner(System.in);
         System.out.println("What item do you want to record the price for: ");
@@ -234,11 +272,12 @@ public class SpendingApp {
                 }
             }
         } else {
-            System.out.println("The item is not in the bought list~");
+            System.out.println("The item is not in the bought list ~");
         }
 
     }
 
+    // helper that return the item given name
     public static Item getItem(String name) {
         for (Item i : shoppingList.getBought()) {
             if (i.getName().equals(name)) {

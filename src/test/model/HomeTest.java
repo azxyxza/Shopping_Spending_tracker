@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+
 import static model.Categories.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,18 +18,18 @@ class HomeTest {
     private LocalDate t;
 
     @BeforeEach
-    void runBefore(){
+    void runBefore() {
         testHome = new Home();
         t = LocalDate.now();
         food = new Item("strawberry cake", 2, Food, t);
-        fruitAndVeg = new Item("apple", 5, FruitAndVegetables,t);
-        drinks = new Item("milk", 1, Drinks,t);
-        necessities = new Item("toilet paper", 2, Necessities,t);
-        others = new Item("pencil", 2, Others,t);
+        fruitAndVeg = new Item("apple", 5, FruitAndVegetables, t);
+        drinks = new Item("milk", 1, Drinks, t);
+        necessities = new Item("toilet paper", 2, Necessities, t);
+        others = new Item("pencil", 2, Others, t);
     }
 
     @Test
-    void testAddItem(){
+    void testAddItem() {
         testHome.addItem(food);
         assertEquals(1, testHome.getFood().size());
         assertEquals(1, testHome.getAll().size());
@@ -42,7 +43,7 @@ class HomeTest {
     }
 
     @Test
-    void testTotalItem(){
+    void testTotalItem() {
         assertEquals(0, testHome.totalItem());
         testHome.addItem(food);
         testHome.addItem(fruitAndVeg);
@@ -54,11 +55,11 @@ class HomeTest {
 
 
     @Test
-    void testGetAmountType(){
+    void testGetAmountType() {
         assertEquals(0, testHome.getTypeAmount(Food));
 
         Item donut = new Item("donut", 1, Food, t);
-        Item croissant = new Item("croissant", 1, Food,t);
+        Item croissant = new Item("croissant", 1, Food, t);
         Item toast = new Item("toast", 1, Food, t);
         testHome.addItem(food);
         testHome.addItem(donut);
@@ -73,7 +74,7 @@ class HomeTest {
     }
 
     @Test
-    void testAddToFavorite(){
+    void testAddToFavorite() {
         Item food2 = new Item("donut", 1, Food, t);
         Item food3 = new Item("croissant", 1, Food, t);
         testHome.addItem(food);
@@ -88,26 +89,26 @@ class HomeTest {
     }
 
     @Test
-    void testMoveItem(){
+    void testMoveItem() {
         testHome.addItem(drinks);
         testHome.addItem(others);
         assertEquals(2, testHome.getAll().size());
         assertEquals(1, testHome.getTypeAmount(Others));
         assertEquals(1, testHome.getTypeAmount(Drinks));
 
-        testHome.moveItem(drinks,Others);
+        testHome.moveItem(drinks, Others);
         assertEquals(2, testHome.getAll().size());
         assertEquals(2, testHome.getTypeAmount(Others));
         assertEquals(0, testHome.getTypeAmount(Drinks));
 
-        testHome.moveItem(food,Others);
+        testHome.moveItem(food, Others);
         assertEquals(2, testHome.getAll().size());
         assertEquals(2, testHome.getTypeAmount(Others));
         assertEquals(0, testHome.getTypeAmount(Drinks));
     }
 
     @Test
-    void testAddToList(){
+    void testAddToList() {
         testHome.addItem(food);
         testHome.addItem(fruitAndVeg);
         testHome.addItem(necessities);
@@ -128,7 +129,7 @@ class HomeTest {
 
 
     @Test
-    void testDeleteFoodItem(){
+    void testDeleteFoodItem() {
         testHome.addItem(food);
         testHome.addItem(fruitAndVeg);
         assertEquals(2, testHome.getAll().size());
@@ -143,7 +144,7 @@ class HomeTest {
     }
 
     @Test
-    void testDeleteFruitAndVegItem(){
+    void testDeleteFruitAndVegItem() {
         Item fruit2 = new Item("A", 2, FruitAndVegetables, LocalDate.now());
         testHome.addItem(fruitAndVeg);
         testHome.addItem(fruit2);
@@ -156,7 +157,7 @@ class HomeTest {
     }
 
     @Test
-    void testDeleteNeceesityItem(){
+    void testDeleteNeceesityItem() {
         Item necessities2 = new Item("A", 2, Necessities, LocalDate.now());
         testHome.addItem(necessities);
         testHome.addItem(necessities2);
@@ -169,7 +170,7 @@ class HomeTest {
     }
 
     @Test
-    void testDeleteOtherItem(){
+    void testDeleteOtherItem() {
         Item others2 = new Item("A", 2, Others, LocalDate.now());
         testHome.addItem(others);
         testHome.addItem(others2);
@@ -182,7 +183,7 @@ class HomeTest {
     }
 
     @Test
-    void testDeleteDrinksItem(){
+    void testDeleteDrinksItem() {
         Item drinks2 = new Item("A", 2, Drinks, LocalDate.now());
         testHome.addItem(drinks);
         testHome.addItem(drinks2);

@@ -9,6 +9,10 @@ import java.util.Scanner;
 
 import static model.Categories.*;
 
+/**
+ * This is the shopping list page of the shopping-spending tracker
+ */
+
 public class ShoppingListApp {
     protected static ShoppingList shoppingList;
     private Scanner input;
@@ -22,7 +26,8 @@ public class ShoppingListApp {
         runShoppingList();
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runShoppingList() {
         boolean isInt;
         int command = 0;
@@ -47,28 +52,32 @@ public class ShoppingListApp {
         }
     }
 
+    // EFFECTS: displays menu of options to user
     private void displayMenu() {
         int totalItem = shoppingList.totalItem();
         System.out.println("\n<<<<< Plan for the shopping? Let's list! >>>>>");
         System.out.println("You budget for this shopping is: " + shoppingList.getBudget());
 
-        System.out.println("\nYou have " + totalItem + " items in the to-buy list now!");
+        System.out.println("\nYou have " + totalItem + " items needed to buy "
+                + "and have bought " + shoppingList.getBought().size() + " now!");
         if (totalItem != 0) {
             System.out.println("They are: ");
-            printToBuy();
+            printToBuyNecessity();
         }
 
         System.out.println("\nDo you want to:");
         System.out.println("\t1 -> Set the budget for this shopping");
-        System.out.println("\t2 -> Add a new thing to buy");
-        System.out.println("\t3 -> Delete something from the list");
-        System.out.println("\t4 -> Mark something as bought");
-        System.out.println("\t5 -> View what you have bought");
+        System.out.println("\t2 -> Add a new thing TO BUY");
+        System.out.println("\t3 -> Delete something from TO BUY");
+        System.out.println("\t4 -> Mark something as BOUGHT");
+        System.out.println("\t5 -> View what you have BOUGHT");
         System.out.println("\t6 -> Enter the transactions for your bought items");
         System.out.println("\t7 -> Back to previous");
     }
 
-    private void printToBuy() {
+
+    // EFFECTS: print out the to-buy items
+    private void printToBuyNecessity() {
         int count = 1;
         for (Item i : shoppingList.getToBuy()) {
             System.out.println(count + ". " + i.getName() + " -> Requires amount : " + i.getAmount());
@@ -76,6 +85,8 @@ public class ShoppingListApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processCommand(int command) {
         switch (command) {
             case 1:
@@ -101,7 +112,8 @@ public class ShoppingListApp {
         }
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: let user set the budget of this shopping
     private void doSetBudget() {
         Scanner input = new Scanner(System.in);
         int budget = 0;
@@ -124,6 +136,8 @@ public class ShoppingListApp {
         System.out.println("You have successfully set your budget to " + budget);
     }
 
+    // MODIFIES: this
+    // EFFECTS: let user add items to shopping list
     public void doAddItem() {
         Scanner input = new Scanner(System.in);
         System.out.println("What is the item's name that you want to buy?");
@@ -146,7 +160,8 @@ public class ShoppingListApp {
         System.out.println("You have successfully added " + name + " to the list!");
     }
 
-    // TODO
+    // MODIFIES: this
+    // EFFECTS: check whether user's input is integer
     public void checkInt() {
         boolean isInt;
         amount = 0;
@@ -162,7 +177,8 @@ public class ShoppingListApp {
         } while (!isInt);
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: let user delete items from shopping list
     private void doDeleteItem() {
         Scanner input = new Scanner(System.in);
         System.out.println("What's the item's name that you want to delete?");
@@ -176,6 +192,8 @@ public class ShoppingListApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: let user mark something as bought
     private void doMarkItem() {
         Scanner inputName = new Scanner(System.in);
 
@@ -183,7 +201,6 @@ public class ShoppingListApp {
         String name = "";
         do {
             System.out.println("Enter the item that you have added to cart: ");
-
             if (inputName.hasNextLine()) {
                 isInt = true;
                 name = inputName.nextLine();
@@ -202,15 +219,26 @@ public class ShoppingListApp {
         }
     }
 
-    // TODO
+    // MODIFIES: this
+    // EFFECTS: ask user whether the new item that not in the list needed to buy or not
     private void doMakeSure() {
         Scanner input = new Scanner(System.in);
         System.out.println("The item you mark is not in the planed shopping list, do you want to: ");
-        System.out.println("\t 1 -> Create this new item in shopping list");
+        System.out.println("\t 1 -> Create this new item in shopping list and confirm your new bought item");
         System.out.println("\t 0 -> Cancel buying");
-
-        String choice = input.nextLine();
-        if (Integer.parseInt(choice) == 1) {
+        boolean isInt;
+        int choice = 0;
+        do {
+            if (input.hasNextInt()) {
+                isInt = true;
+                choice = input.nextInt();
+            } else {
+                System.out.println(">>>Please enter 1 or 0 for confirmation: ");
+                isInt = false;
+                input.next();
+            }
+        } while (!isInt);
+        if (choice == 1) {
             doAddItem();
             doMarkItem();
         } else {
@@ -218,10 +246,12 @@ public class ShoppingListApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: let user view what they have bought
     private void doViewBought() {
         int amount = shoppingList.getBought().size();
         if (amount == 0) {
-            System.out.println("No items found in bought list!");
+            System.out.println("You haven't bought anything yet!");
         } else {
             System.out.println("You have bought " + amount + " items now!");
             System.out.println("They are: ");
@@ -231,7 +261,8 @@ public class ShoppingListApp {
         }
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: process the categories
     public Categories categorize(String category) {
         switch (category) {
             case "f":
@@ -247,6 +278,7 @@ public class ShoppingListApp {
         }
     }
 
+    // helper that return the item given name
     public Item getToBuyItem(String name) {
         for (Item i : shoppingList.getToBuy()) {
             if (i.getName().equals(name)) {
@@ -256,6 +288,7 @@ public class ShoppingListApp {
         return null;
     }
 
+    // helper that return the item given name
     public Item getBoughtItem(String name) {
         for (Item i : shoppingList.getBought()) {
             if (i.getName().equals(name)) {

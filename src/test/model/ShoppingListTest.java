@@ -13,25 +13,25 @@ public class ShoppingListTest {
     private Item item;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         testShoppingList = new ShoppingList();
         item = new Item("strawberry cake", 2, Food, LocalDate.now());
     }
 
 
     @Test
-    void testSetBudget(){
+    void testSetBudget() {
         testShoppingList.setBudget(100.00);
         assertEquals(100.00, testShoppingList.getBudget());
     }
 
     @Test
-    void testTotalItem(){
+    void testTotalItem() {
         assertEquals(testShoppingList.getToBuy().size(), testShoppingList.totalItem());
     }
 
     @Test
-    void addItemOne(){
+    void addItemOne() {
         assertEquals(0, testShoppingList.totalItem());
         testShoppingList.addItem(item);
         assertEquals(1, testShoppingList.totalItem());
@@ -40,13 +40,13 @@ public class ShoppingListTest {
         assertEquals(1, testShoppingList.totalItem());
 
         Item cake = new Item("strawberry cake", 2, Others, LocalDate.now());
-        testShoppingList.addItem(item); // same name, different object
+        testShoppingList.addItem(cake); // same name, different object
         assertEquals(1, testShoppingList.totalItem());
     }
 
 
     @Test
-    void testAddItemMultipleAndRemove(){
+    void testAddItemMultipleAndRemove() {
         Item juice = new Item("apple juice", 2, Drinks, LocalDate.now());
         Item nuts = new Item("nuts", 1, Food, LocalDate.now());
         Item peach = new Item("peach", 3, FruitAndVegetables, LocalDate.now());
@@ -62,7 +62,7 @@ public class ShoppingListTest {
     }
 
     @Test
-    void testMarkItem(){
+    void testMarkItem() {
         Item i = new Item("strawberry bread", 1, Food, LocalDate.now());
         testShoppingList.markItem(item);
         assertEquals(0, testShoppingList.totalItem());
@@ -71,6 +71,8 @@ public class ShoppingListTest {
         testShoppingList.addItem(item);
         testShoppingList.addItem(i);
         assertEquals(2, testShoppingList.totalItem());
+        assertEquals(0, testShoppingList.getBought().size());
+
 
         testShoppingList.markItem(item);
         assertEquals(1, testShoppingList.totalItem());
@@ -78,7 +80,7 @@ public class ShoppingListTest {
     }
 
     @Test
-    void testAddTransaction(){
+    void testAddTransaction() {
         Item i = new Item("strawberry bread", 1, Food, LocalDate.now());
         testShoppingList.getBought().add(item);
         testShoppingList.getBought().add(i);

@@ -12,6 +12,8 @@ public class MainPage {
         runTracker();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runTracker() {
         boolean running = true;
         while (running) {
@@ -20,7 +22,7 @@ public class MainPage {
             command = command.toLowerCase();
             if (command.equals("q")) {
                 running = false;
-                System.out.println("Goodbye! Have a nice day!");;
+                System.out.println("Goodbye! Have a nice day!");
             } else {
                 processCommand(command);
             }
@@ -49,8 +51,8 @@ public class MainPage {
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
-        System.out.println("\n\n---Welcome to your personal shopping and financial tracker---");
-        System.out.println("-------------------Shop smart, spend wise--------------------");
+        System.out.println("\n\n=======Welcome to your personal shopping and financial tracker=======");
+        System.out.println("-----------------------Shop smart, spend wise-----------------------");
         System.out.println("\nYou can go to:");
         System.out.println("\th -> My home");
         System.out.println("\tl -> Shopping list");

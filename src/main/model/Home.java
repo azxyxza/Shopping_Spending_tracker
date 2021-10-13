@@ -58,14 +58,9 @@ public class Home extends CategoryList {
         all.add(it);
     }
 
-
     // EFFECTS: get total amount of items at home
     public int totalItem() {
-        int sum = 0;
-        for (Item item : all) {
-            sum++;
-        }
-        return sum;
+        return all.size();
     }
 
     // REQUIRES: the item is in the list
@@ -136,6 +131,4 @@ public class Home extends CategoryList {
         }
         return false;
     }
-
-
 }

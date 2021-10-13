@@ -1,15 +1,11 @@
 package model;
 
-import model.Item;
-
-import java.util.LinkedList;
-
 /**
  * This is the Transaction class. Transaction stores the bought item and expenses are required to be loaded in
  */
 
 public class Transaction {
-    private Item item;
+    private final Item item;
     private double expense;
 
     public Transaction(Item item, double expense) {

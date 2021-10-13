@@ -76,8 +76,18 @@ public class ShoppingList extends CategoryList {
         if (isContained(item.getName())) {
             deleteItem(item);
             bought.add(item);
+            addToHome(item);
             addTransaction();
         }
+    }
+
+
+    // REQUIRES: item != null
+    // MODIFIES: this
+    // EFFECTS: stores the given Item (it) into the appropriate categories within this class
+    private void addToHome(Item item) {
+        Categories categories = item.getCategories();
+        super.addToList(item, categories);
     }
 
 
@@ -92,7 +102,7 @@ public class ShoppingList extends CategoryList {
         return false;
     }
 
-
+    // MODIFIES:
     // EFFECTS: create a new transaction for each bought items
     public void addTransaction() {
         for (Item i : bought) {

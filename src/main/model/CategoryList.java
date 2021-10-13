@@ -3,6 +3,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the abstract class of Category List, including the method that
+ * Home and ShoppingList inherited and abstract method.
+ */
+
 public abstract class CategoryList {
     protected List<Item> food;
     protected List<Item> fruitAndVeg;
@@ -11,6 +16,7 @@ public abstract class CategoryList {
     protected List<Item> others;
     protected List<Item> all;
 
+    // EFFECTS: create a category list with instantiated 5 categories and "all" that stores all the items at home
     public CategoryList() {
         food = new ArrayList<>();
         fruitAndVeg = new ArrayList<>();
@@ -20,7 +26,8 @@ public abstract class CategoryList {
         all = new ArrayList<>();
     }
 
-
+    // MODIFIES: this
+    // EFFECTS: add the item to given list based on categories
     public void addToList(Item it, Categories categories) {
         switch (categories) {
             case Food:
@@ -41,9 +48,16 @@ public abstract class CategoryList {
     }
 
 
+    // EFFECTS: get total amount of items at home
     public abstract int totalItem();
 
+    // REQUIRES: item != null
+    // MODIFIES: this
+    // EFFECTS: stores the given Item into the list
     public abstract void addItem(Item item);
 
+    // REQUIRES: the item is in the list
+    // MODIFIES: this
+    // EFFECTS: remove the certain item from the list
     public abstract void deleteItem(Item item);
 }

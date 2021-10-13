@@ -14,12 +14,14 @@ public class Item {
     private Categories categories;
     private boolean isFavorite;
     private LocalDate date;
+    // private int necessity; // TODO
 
     public Item(String name, int amount, Categories categories, LocalDate date) {
         this.name = name;
         this.amount = amount;
         this.categories = categories;
         this.isFavorite = false;
+        // this.necessity = necessity;
         this.date = date;
     }
 
