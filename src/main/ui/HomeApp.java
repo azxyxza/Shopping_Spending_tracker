@@ -4,24 +4,25 @@ import model.Categories;
 import model.Home;
 import model.Item;
 
-import static ui.ShoppingListApp.shoppingList;
-
 import java.time.LocalDate;
 import java.util.Scanner;
 
 import static model.Categories.*;
+import static ui.ShoppingListApp.shoppingList;
 
 /**
  * This is the home page of the shopping-spending tracker
  */
 
+// TODO: make the things synchronize (adding things to home, visit shopping list, then come home the food is gone)
 public class HomeApp {
-    private Home home;
+    protected Home home;
     private Scanner input;
 
     // EFFECTS: run the home page
-    public HomeApp() {
-        home = new Home();
+    public HomeApp(Home home) {
+        this.home = home;
+       // home = new Home(); // TODO: each time calling, becoming new home
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runHome();
@@ -29,7 +30,7 @@ public class HomeApp {
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void runHome() {
+    public void runHome() {
         while (true) {
             displayMenu();
             String command = input.next();
@@ -40,7 +41,6 @@ public class HomeApp {
                 processCommand(command);
             }
         }
-
     }
 
 
@@ -84,10 +84,7 @@ public class HomeApp {
 
     // MODIFIES: this
     // EFFECTS: processes user input for v (view)
-    @SuppressWarnings({"checkstyle:SuppressWarnings", "checkstyle:MethodLength"})
     private void runViewItems() {
-        boolean isInt;
-        int command = 0;
         while (true) {
             if (home.getAll().isEmpty()) {
                 System.out.println("You have nothing at home now. "
@@ -95,25 +92,32 @@ public class HomeApp {
                 return;
             }
             displayViewer();
-            do {
-                if (input.hasNextInt()) {
-                    isInt = true;
-                    command = input.nextInt();
-                } else {
-                    System.out.println(">>>Please enter a number from 0-6");
-                    isInt = false;
-                    input.next();
-                }
-            } while (!isInt);
 
-            if (command == 6) {
+            int input = checkInput();
+            if (input == 6) {
                 return;
             } else {
-                processView(command);
+                processView(input);
             }
         }
     }
 
+    // EFFECTS: helper function for runViewItems to check whether the input is integer
+    private int checkInput() {
+        boolean isInt;
+        int command = 0;
+        do {
+            if (input.hasNextInt()) {
+                isInt = true;
+                command = input.nextInt();
+            } else {
+                System.out.println(">>>Please enter a number from 0-6");
+                isInt = false;
+                input.next();
+            }
+        } while (!isInt);
+        return command;
+    }
 
     // EFFECTS: displays menu of options of view
     private void displayViewer() {
@@ -140,7 +144,6 @@ public class HomeApp {
 
     // MODIFIES: this
     // EFFECTS: processes user command for v (view)
-    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void processView(int command) {
         switch (command) {
             case 0:
@@ -161,8 +164,6 @@ public class HomeApp {
             case 5:
                 categoryView(Others);
                 break;
-            case 6:
-                return;
             default:
                 System.out.println("Not valid input...");
         }
@@ -249,6 +250,7 @@ public class HomeApp {
         System.out.println("You have successfully added " + name + " to your home at " + LocalDate.now());
     }
 
+
     // EFFECTS: categorize the certain item
     public Categories categorize(String category) {
         switch (category) {
@@ -273,7 +275,7 @@ public class HomeApp {
         System.out.println("What items at home do you want to add to favorite?");
         String name = input.nextLine();
         if (home.isContained(name)) {
-            Item i = getItem(name);
+            Item i = home.getItem(name);
             i.setToFavorite();
             home.addToFavorite();
             System.out.println("Now " + name + " becomes your favorite!");
@@ -290,7 +292,7 @@ public class HomeApp {
         String name = item.nextLine();
 
         if (home.isContained(name)) {
-            home.deleteItem(getItem(name));
+            home.deleteItem(home.getItem(name));
             System.out.println(name + " is gone now!");
         } else {
             System.out.println("Oops... You don't have this item at home! No need to delete :)");
@@ -345,17 +347,6 @@ public class HomeApp {
             home.addItem(i);
         }
         System.out.println("You have successfully stored your bought items to home!");
-    }
-
-
-    // helper that return the item given name
-    public Item getItem(String name) {
-        for (Item i : home.getAll()) {
-            if (i.getName().equals(name)) {
-                return i;
-            }
-        }
-        return null;
     }
 }
 

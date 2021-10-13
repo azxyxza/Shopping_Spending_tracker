@@ -17,12 +17,13 @@ public class SpendingApp {
     private Scanner input;
 
     // EFFECTS: runs the spending page
-    public SpendingApp() {
+    public SpendingApp(Spending spending) {
         try {
-            spending = shoppingList.getSpending();
+            SpendingApp.spending = shoppingList.getSpending();
         } catch (NullPointerException e) {
-            spending = new Spending();
+            SpendingApp.spending = spending;
         }
+
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runSpendingAndTraction();
@@ -56,7 +57,8 @@ public class SpendingApp {
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
-        System.out.println("\n<<<<< Welcome to your Spending & Transaction manager >>>>>");
+        System.out.println("\n<<<<<<<<<< Welcome to your Spending & Transaction manager >>>>>>>>>>>");
+        System.out.println("\tCheck for: ");
         System.out.println("\t1 -> Spending");
         System.out.println("\t2 -> Transactions");
         System.out.println("\t3 -> Back to main page");

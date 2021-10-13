@@ -1,6 +1,7 @@
 package ui;
 
 import model.Categories;
+import model.Home;
 import model.Item;
 import model.ShoppingList;
 
@@ -15,12 +16,15 @@ import static model.Categories.*;
 
 public class ShoppingListApp {
     protected static ShoppingList shoppingList;
+    private Home home;
     private Scanner input;
     private int amount;
 
+
     // EFFECTS: run the home page
-    public ShoppingListApp() {
-        shoppingList = new ShoppingList();
+    public ShoppingListApp(ShoppingList shoppingList, Home home) {
+        ShoppingListApp.shoppingList = shoppingList;
+        this.home = home;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runShoppingList();
@@ -55,11 +59,10 @@ public class ShoppingListApp {
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         int totalItem = shoppingList.totalItem();
-        System.out.println("\n<<<<< Plan for the shopping? Let's list! >>>>>");
-        System.out.println("You budget for this shopping is: " + shoppingList.getBudget());
-
-        System.out.println("\nYou have " + totalItem + " items needed to buy "
-                + "and have bought " + shoppingList.getBought().size() + " now!");
+        System.out.println("\n<<<<<<<<<< Plan for the shopping? Let's list! >>>>>>>>>>>");
+        System.out.println("Your budget for this shopping is: " + shoppingList.getBudget());
+        System.out.println("Bought: " + shoppingList.getBought().size() + " items(s)");
+        System.out.println("Needs to buy: " + totalItem + " item(s)");
         if (totalItem != 0) {
             System.out.println("They are: ");
             printToBuyNecessity();
@@ -119,7 +122,7 @@ public class ShoppingListApp {
         int budget = 0;
         boolean isInt;
         System.out.println("Before shopping, it's always useful to set a budget. "
-                + "With the to-buy things added on, you can change the budget anytime!");
+                + "With the to-buy things added on, you can change the budget at anytime!");
         do {
             System.out.println("(Enter An Integer) Your budget is:  ");
             if (input.hasNextInt()) {
@@ -142,23 +145,75 @@ public class ShoppingListApp {
         Scanner input = new Scanner(System.in);
         System.out.println("What is the item's name that you want to buy?");
         String name = input.nextLine();
-        System.out.println("How many do you want to buy?");
-        checkInt();
-        System.out.println("You categorize " + name + " as in: ");
-        System.out.println("\nSelect from:");
-        System.out.println("\tf -> Food");
-        System.out.println("\tv -> Fruits & Vegetables");
-        System.out.println("\td -> Drinks");
-        System.out.println("\tn -> Necessities");
-        System.out.println("\to -> Others");
-        String category = input.next();
-        category = category.toLowerCase();
-
-        Categories type = categorize(category);
-        Item i = new Item(name, amount, type, LocalDate.now());
-        shoppingList.addItem(i);
-        System.out.println("You have successfully added " + name + " to the list!");
+        if (!home.isContained(name)) {
+            System.out.println("How many do you want to buy?");
+            checkInt();
+            System.out.println("You categorize " + name + " as in: ");
+            System.out.println("\nSelect from:");
+            System.out.println("\tf -> Food");
+            System.out.println("\tv -> Fruits & Vegetables");
+            System.out.println("\td -> Drinks");
+            System.out.println("\tn -> Necessities");
+            System.out.println("\to -> Others");
+            String category = input.next();
+            category = category.toLowerCase();
+            Categories type = categorize(category);
+            Item i = new Item(name, amount, type, LocalDate.now());
+            shoppingList.addItem(i);
+            System.out.println("You have successfully added " + name + " to the list!");
+        } else {
+            confirmBuyingMultiple(name);
+        }
     }
+
+    // EFFECTS: ask the user whether they want to buy the same item's again
+    private void confirmBuyingMultiple(String name) {
+        Item i = home.getItem(name);
+        System.out.println("There is " + i.getAmount() + " " + name + " at home now.");
+        System.out.println("Do you still want to buy this or cancel adding?");
+        System.out.println("\t 1 -> Yes, I like it.");
+        System.out.println("\t 0 -> Cancel buying");
+        boolean isInt;
+        int choice = 0;
+        do {
+            if (input.hasNextInt()) {
+                isInt = true;
+                choice = input.nextInt();
+            } else {
+                System.out.println(">>>Please enter 1 or 0 for confirmation: ");
+                isInt = false;
+                input.next();
+            }
+        } while (!isInt);
+        if (choice == 1) {
+            doAddSameItem(i);
+        } else {
+            System.out.println("Put it back and save for money :)");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add item to buy even though home already has that item
+    private void doAddSameItem(Item item) {
+        System.out.println("There are " + item.getAmount() + " " + item.getName() + " now.");
+        System.out.println("How many more do you want to buy?");
+        boolean isInt;
+        int amount = 0;
+        do {
+            if (input.hasNextInt()) {
+                isInt = true;
+                amount = input.nextInt();
+            } else {
+                System.out.println(">>>Please enter an Integer: ");
+                isInt = false;
+                input.next();
+            }
+        } while (!isInt);
+        Item i = new Item(item.getName(), amount, item.getCategories(), LocalDate.now());
+        shoppingList.addItem(i);
+        System.out.println("You have successfully added " + i.getName() + " to the list!");
+    }
+
 
     // MODIFIES: this
     // EFFECTS: check whether user's input is integer
@@ -196,11 +251,10 @@ public class ShoppingListApp {
     // EFFECTS: let user mark something as bought
     private void doMarkItem() {
         Scanner inputName = new Scanner(System.in);
-
         boolean isInt;
         String name = "";
         do {
-            System.out.println("Enter the item that you have added to cart: ");
+            System.out.println("Enter the item that you have added to cart (name): ");
             if (inputName.hasNextLine()) {
                 isInt = true;
                 name = inputName.nextLine();
@@ -254,7 +308,7 @@ public class ShoppingListApp {
             System.out.println("You haven't bought anything yet!");
         } else {
             System.out.println("You have bought " + amount + " items now!");
-            System.out.println("They are: ");
+            System.out.println("Here are they: ");
             for (Item i : shoppingList.getBought()) {
                 System.out.println(i.getName());
             }

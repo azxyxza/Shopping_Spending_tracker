@@ -1,15 +1,26 @@
 package ui;
 
+import model.Home;
+import model.ShoppingList;
+import model.Spending;
+
 import java.util.Scanner;
 
 public class MainPage {
     private Scanner input;
+    private Home home;
+    private ShoppingList shoppingList;
+    private Spending spending;
 
     // EFFECTS: runs the main page
     public MainPage() {
+        home = new Home();
+        shoppingList = new ShoppingList();
+        spending = new Spending();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runTracker();
+
     }
 
     // MODIFIES: this
@@ -34,16 +45,14 @@ public class MainPage {
     private void processCommand(String command) {
         switch (command) {
             case "h":
-                new HomeApp();
+                new HomeApp(home);
                 break;
             case "l":
-                new ShoppingListApp();
+                new ShoppingListApp(shoppingList, home);
                 break;
             case "s":
-                new SpendingApp();
+                new SpendingApp(spending);
                 break;
-            case "q":
-                return;
             default:
                 System.out.println("Not valid input...");
         }

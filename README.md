@@ -41,22 +41,24 @@ and happiness to life, have a more pleasant shopping experience, and better mana
 
 ## User Stories
 ### For the Home page:
-- As a user, I want to be able to view the total items I have at home page
 - As a user, I want to be able to add an item to my home page
-- As a user, I want to be able to add an item as my favorite at home
-- As a user, I want to be able to delete an item from the Home 
+- As a user, I want to be able to mark an item as my favorite at home
+- As a user, I want to be able to delete an item from the Home
+- As a user, I want to be able to view the total items I have at home page
 - As a user, I want to be able to view what items and the amount I have in certain categories
+- As a user, I want to be able to store the bought items to home
 
 ### For the shopping list:
 - As a user, I want to be able to set the budget for this shopping
-- As a user, I want to be able to view the number of items needed to buy in the list
-- As a user, I want to be able to add an item to my shopping list
+- As a user, I want to be able to add an item (that I don't have at home) to my shopping list
+- As a user, I want to be able to add certain item (that I already have at home) to my shopping list
 - As a user, I want to be able to delete an item from my shopping list
+- As a user, I want to be able to view what I needed to buy and have already bought
 - As a user, I want to be able to mark an item as already added to the cart (bought)
 
 ### For the Spending & Transaction:
 - As a user, I want to be able to view the list of transactions and the total number of transactions
-- As a user, I want to be able to view my income, total expenses, and balance on spending page 
-- As a user, I want to be able to add new income to spending page 
+- As a user, I want to be able to view my income and record new income.
+- As a user, I want to be able to view total expenses and balance on spending page
 - As a user, I want to be able to enter the price of bought item in order
 - As a user, I want to be able to enter the price for specific bought item

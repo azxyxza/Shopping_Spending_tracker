@@ -131,4 +131,14 @@ public class Home extends CategoryList {
         }
         return false;
     }
+
+    // EFFECTS: return the items given item's name
+    public Item getItem(String name) {
+        for (Item i : getAll()) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
+    }
 }

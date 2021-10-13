@@ -194,4 +194,13 @@ class HomeTest {
         testHome.deleteItem(drinks);
         assertEquals(1, testHome.getDrinks().size());
     }
+
+    @Test
+    void testGetItem() {
+        assertNull(testHome.getItem("apple"));
+        assertNull(testHome.getItem("strawberry cake"));
+        testHome.addItem(food);
+        assertNull(testHome.getItem("apple"));
+        assertEquals(food, testHome.getItem("strawberry cake"));
+    }
 }
