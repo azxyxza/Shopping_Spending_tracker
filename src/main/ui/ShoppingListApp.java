@@ -1,9 +1,6 @@
 package ui;
 
-import model.Categories;
-import model.Home;
-import model.Item;
-import model.ShoppingList;
+import model.*;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -16,7 +13,6 @@ import static model.Categories.*;
 /**
  * This is the shopping list Page of the shopping-spending tracker
  */
-
 
 public class ShoppingListApp {
     protected static ShoppingList shoppingList;
@@ -65,7 +61,7 @@ public class ShoppingListApp {
         int totalItem = shoppingList.totalItem();
         System.out.println("\n<<<<<<<<<< Plan for the shopping? Let's list! >>>>>>>>>>>");
         System.out.println("Your budget for this shopping is: " + shoppingList.getBudget());
-        System.out.println("Bought: " + shoppingList.getBought().size() + " items(s)");
+        System.out.println("Bought: " + shoppingList.getSpending().getTransactions().size() + " items(s)");
         System.out.println("Needs to buy: " + totalItem + " item(s)");
         if (totalItem != 0) {
             System.out.println("They are: ");
@@ -271,11 +267,22 @@ public class ShoppingListApp {
 
         if (shoppingList.isContained(name)) {
             shoppingList.markItem(getToBuyItem(name));
-            System.out.println("You have bought " + name + " at " + getBoughtItem(name).getDate());
+            System.out.println("You have bought " + name + " at " + getTransactionItem(name).getDate());
         } else {
             doMakeSure();
         }
     }
+
+
+    private Item getTransactionItem(String name) {
+        for (Transaction t : shoppingList.getSpending().getTransactions()) {
+            if (t.getItem().getName().equals(name)) {
+                return t.getItem();
+            }
+        }
+        return getBoughtItem(name);
+    }
+
 
     // MODIFIES: this
     // EFFECTS: ask user whether the new item that not in the list needed to buy or not
@@ -307,14 +314,14 @@ public class ShoppingListApp {
     // MODIFIES: this
     // EFFECTS: let user view what they have bought
     private void doViewBought() {
-        int amount = shoppingList.getBought().size();
+        int amount = shoppingList.getSpending().getTransactions().size();
         if (amount == 0) {
             System.out.println("You haven't bought anything yet!");
         } else {
             System.out.println("You have bought " + amount + " items now!");
             System.out.println("Here are they: ");
-            for (Item i : shoppingList.getBought()) {
-                System.out.println(i.getName());
+            for (Transaction t : shoppingList.getSpending().getTransactions()) {
+                System.out.println(t.getItem().getName());
             }
         }
     }

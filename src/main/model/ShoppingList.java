@@ -15,6 +15,7 @@ public class ShoppingList extends CategoryList {
     protected List<Item> bought;
     private Spending spending; // TODO: final?
 
+
     // EFFECTS: create a shopping list with initial budget set to 0.0,
     //          with empty to-buy list, bought list
     public ShoppingList() {
@@ -105,24 +106,21 @@ public class ShoppingList extends CategoryList {
     }
 
     // MODIFIES:
-    // EFFECTS: create a new transaction for each bought items
+    // EFFECTS: create a new transaction for each bought items,
+    //          if the bought items is already in the transaction list, see if the items have entered a price
+    //          only added the transactions that haven't entered a price
     public void addTransaction() {
-        if (spending.getTransactions().isEmpty()) {
-            for (Item i : bought) {
-                Transaction transaction = new Transaction(i, 0.0);
-                spending.getTransactions().add(transaction);
-            }
-        } else {
-            spending.getTransactions().removeAll(spending.getTransactions());
-            for (Item i : bought) {
-                Transaction transaction = new Transaction(i, 0.0);
-                spending.getTransactions().add(transaction);
-            }
-
+        for (Item i : bought) {
+            Transaction t = new Transaction(i, 0.0);
+            spending.getTransactions().add(t);
         }
-
+        bought.removeAll(getBought());
     }
 }
+
+
+
+
 
 
 

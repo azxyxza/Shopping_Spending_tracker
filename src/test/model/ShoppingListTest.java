@@ -76,7 +76,8 @@ public class ShoppingListTest {
 
         testShoppingList.markItem(item);
         assertEquals(1, testShoppingList.totalItem());
-        assertEquals(1, testShoppingList.getBought().size());
+        assertEquals(0, testShoppingList.getBought().size());
+        assertEquals(1, testShoppingList.getSpending().getTransactions().size());
     }
 
     @Test
@@ -84,11 +85,14 @@ public class ShoppingListTest {
         Item i = new Item("strawberry bread", 1, Food, LocalDate.now());
         testShoppingList.getBought().add(item);
         testShoppingList.getBought().add(i);
+        assertEquals(2, testShoppingList.getBought().size());
         testShoppingList.addTransaction();
         assertEquals(2, testShoppingList.getSpending().transactions.size());
+        assertEquals(0, testShoppingList.getBought().size());
 
         testShoppingList.getBought().add(i);
         testShoppingList.addTransaction();
         assertEquals(3, testShoppingList.getSpending().transactions.size());
+        assertEquals(0, testShoppingList.getBought().size());
     }
 }

@@ -3,6 +3,7 @@ package ui;
 import model.Categories;
 import model.Home;
 import model.Item;
+import model.Transaction;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -289,17 +290,17 @@ public class HomeApp {
     // EFFECTS: add bought item to home
     private void doAddBoughtItem() {
         int count = 1;
-        try {
-            System.out.println("You have bought " + shoppingList.getBought().size() + " items: ");
-            for (Item i : shoppingList.getBought()) {
-                System.out.println(count + ". " + i.getName());
+        if (!shoppingList.getSpending().getTransactions().isEmpty()) {
+            System.out.println("You have bought " + shoppingList.getSpending().getTransactions().size() + " items: ");
+            for (Transaction t : shoppingList.getSpending().getTransactions()) {
+                System.out.println(count + ". " + t.getItem().getName());
                 count++;
             }
             System.out.println("Do you want to add them to your home?");
             System.out.println("\t1 -> Yes, store them to my home!");
             System.out.println("\t0 -> Cancel");
             checkInt();
-        } catch (NullPointerException e) {
+        } else {
             System.out.println("You haven't bought anything yet!");
         }
     }
@@ -331,8 +332,8 @@ public class HomeApp {
     // MODIFIES: this
     // EFFECTS: add the bought items from shopping list to home
     private void doAddBought() {
-        for (Item i : shoppingList.getBought()) {
-            home.addItem(i);
+        for (Transaction t : shoppingList.getSpending().getTransactions()) {
+            home.addItem(t.getItem());
         }
         System.out.println("You have successfully stored your bought items to home!");
     }

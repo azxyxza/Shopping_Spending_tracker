@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-
 import static model.Categories.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

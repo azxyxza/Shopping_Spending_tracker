@@ -1,6 +1,8 @@
 package model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * This is the Spending class. The spending stores the list of budget, expenses, and total balance for each month
