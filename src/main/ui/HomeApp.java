@@ -10,23 +10,27 @@ import java.util.Scanner;
 import static model.Categories.*;
 import static ui.ShoppingListApp.shoppingList;
 
+// This HomePage references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+
 /**
  * This is the home page of the shopping-spending tracker
  */
 
-// TODO: make the things synchronize (adding things to home, visit shopping list, then come home the food is gone)
+
 public class HomeApp {
     protected Home home;
     private Scanner input;
 
     // EFFECTS: run the home page
     public HomeApp(Home home) {
-        this.home = home;
-       // home = new Home(); // TODO: each time calling, becoming new home
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        this.home = home;
         runHome();
+
     }
+
 
     // MODIFIES: this
     // EFFECTS: processes user input
@@ -71,7 +75,7 @@ public class HomeApp {
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         int totalItem = home.totalItem();
-        System.out.println("\n-----Welcome Home!-----");
+        System.out.println("\n----------Welcome Home!----------");
         System.out.println("You have " + totalItem + " items at home now!");
         System.out.println("\nDo you want to:");
         System.out.println("\tv -> VIEW what you have at home");
@@ -81,6 +85,7 @@ public class HomeApp {
         System.out.println("\tf -> mark something as your FAVORITE item");
         System.out.println("\tq -> BACK to main page");
     }
+
 
     // MODIFIES: this
     // EFFECTS: processes user input for v (view)
@@ -137,7 +142,7 @@ public class HomeApp {
         int count = 1;
         System.out.println("\n>>>> At home, you have: ");
         for (Item i : home.getAll()) {
-            System.out.println(count + ". " + i.getAmount() + " " + i.getName() + " bought at " + i.getDate() + ". ");
+            System.out.println(count + ". " + i.getAmount() + " " + i.getName() + " stored at " + i.getDate() + ". ");
         }
     }
 
@@ -169,20 +174,6 @@ public class HomeApp {
         }
     }
 
-    // EFFECTS: print out the favorite items
-    private void printFavorite() {
-        int a = home.getFavorite().size();
-        if (a == 0) {
-            System.out.println("You haven't added anything to your favorite now!");
-        } else {
-            System.out.println("You have " + a + " favorite item(s)");
-            System.out.println("They are ... ");
-            for (Item i : home.getFavorite()) {
-                System.out.println(i.getName());
-            }
-        }
-    }
-
 
     // EFFECTS: print out what the certain categories have
     private void categoryView(Categories categories) {
@@ -201,25 +192,20 @@ public class HomeApp {
     public void printCategory(Categories category) {
         switch (category) {
             case Food:
-                for (Item i : home.getFood()) {
-                    System.out.println(i.getName());
-                }
+                printFood();
+                break;
             case FruitAndVegetables:
-                for (Item i : home.getFruitAndVeg()) {
-                    System.out.println(i.getName());
-                }
+                printFruitAndVegetables();
+                break;
             case Drinks:
-                for (Item i : home.getDrinks()) {
-                    System.out.println(i.getName());
-                }
+                printDrinks();
+                break;
             case Necessities:
-                for (Item i : home.getNecessities()) {
-                    System.out.println(i.getName());
-                }
+                printNecessities();
+                break;
             default:
-                for (Item i : home.getOthers()) {
-                    System.out.println(i.getName());
-                }
+                printOthers();
+                break;
         }
     }
 
@@ -319,7 +305,8 @@ public class HomeApp {
     }
 
 
-    // EFFECTS: check whether input is integer
+    // EFFECTS: check whether input is integer, if not integer,
+    //          continue ask the user to re-input the value
     public void checkInt() {
         boolean isInt;
         int choice;
@@ -340,13 +327,64 @@ public class HomeApp {
         } while (!isInt);
     }
 
+
     // MODIFIES: this
-    // EFFECTS: add the bought from shopping list to home
+    // EFFECTS: add the bought items from shopping list to home
     private void doAddBought() {
         for (Item i : shoppingList.getBought()) {
             home.addItem(i);
         }
         System.out.println("You have successfully stored your bought items to home!");
     }
+
+
+    /**
+     * Some print helper method
+     */
+
+    private void printOthers() {
+        for (Item i : home.getOthers()) {
+            System.out.println(i.getName());
+        }
+    }
+
+    private void printNecessities() {
+        for (Item i : home.getNecessities()) {
+            System.out.println(i.getName());
+        }
+    }
+
+    private void printDrinks() {
+        for (Item i : home.getDrinks()) {
+            System.out.println(i.getName());
+        }
+    }
+
+    private void printFruitAndVegetables() {
+        for (Item i : home.getFruitAndVeg()) {
+            System.out.println(i.getName());
+        }
+    }
+
+    private void printFood() {
+        for (Item i : home.getFood()) {
+            System.out.println(i.getName());
+        }
+    }
+
+    // EFFECTS: print out the favorite items
+    private void printFavorite() {
+        int a = home.getFavorite().size();
+        if (a == 0) {
+            System.out.println("You haven't added anything to your favorite now!");
+        } else {
+            System.out.println("You have " + a + " favorite item(s)");
+            System.out.println("They are ... ");
+            for (Item i : home.getFavorite()) {
+                System.out.println(i.getName());
+            }
+        }
+    }
+
 }
 

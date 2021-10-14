@@ -8,7 +8,6 @@ import java.time.LocalDate;
  */
 
 public class Item {
-
     private String name;
     private int amount;
     private Categories categories;
@@ -16,6 +15,7 @@ public class Item {
     private LocalDate date;
     // private int necessity; // TODO
 
+    // EFFECTS: create an item that contains name, amount, categories, and date
     public Item(String name, int amount, Categories categories, LocalDate date) {
         this.name = name;
         this.amount = amount;

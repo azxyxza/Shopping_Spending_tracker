@@ -10,9 +10,13 @@ import java.util.Scanner;
 
 import static model.Categories.*;
 
+// This MainPage references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+
 /**
- * This is the shopping list page of the shopping-spending tracker
+ * This is the shopping list Page of the shopping-spending tracker
  */
+
 
 public class ShoppingListApp {
     protected static ShoppingList shoppingList;
@@ -65,7 +69,7 @@ public class ShoppingListApp {
         System.out.println("Needs to buy: " + totalItem + " item(s)");
         if (totalItem != 0) {
             System.out.println("They are: ");
-            printToBuyNecessity();
+            printToBuy();
         }
 
         System.out.println("\nDo you want to:");
@@ -80,7 +84,7 @@ public class ShoppingListApp {
 
 
     // EFFECTS: print out the to-buy items
-    private void printToBuyNecessity() {
+    private void printToBuy() {
         int count = 1;
         for (Item i : shoppingList.getToBuy()) {
             System.out.println(count + ". " + i.getName() + " -> Requires amount : " + i.getAmount());
@@ -121,8 +125,8 @@ public class ShoppingListApp {
         Scanner input = new Scanner(System.in);
         int budget = 0;
         boolean isInt;
-        System.out.println("Before shopping, it's always useful to set a budget. "
-                + "With the to-buy things added on, you can change the budget at anytime!");
+        System.out.println("Before shopping, it's always useful to set a budget.");
+        System.out.println("With the to-buy things added on, you can change the budget at anytime!");
         do {
             System.out.println("(Enter An Integer) Your budget is:  ");
             if (input.hasNextInt()) {

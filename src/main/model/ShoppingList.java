@@ -13,8 +13,10 @@ public class ShoppingList extends CategoryList {
     private double budget;
     protected List<Item> toBuy;
     protected List<Item> bought;
-    private Spending spending;
+    private Spending spending; // TODO: final?
 
+    // EFFECTS: create a shopping list with initial budget set to 0.0,
+    //          with empty to-buy list, bought list
     public ShoppingList() {
         budget = 0.0;
         toBuy = new ArrayList<>();
@@ -39,11 +41,11 @@ public class ShoppingList extends CategoryList {
         return spending;
     }
 
+    // MODIFIES: this
     // EFFECTS: set the budget for this shopping
     public void setBudget(double budget) {
         this.budget = budget;
     }
-
 
     // EFFECTS: return the number of items needed to buy in the list
     public int totalItem() {
@@ -105,10 +107,23 @@ public class ShoppingList extends CategoryList {
     // MODIFIES:
     // EFFECTS: create a new transaction for each bought items
     public void addTransaction() {
-        for (Item i : bought) {
-            Transaction t = new Transaction(i, 0.0);
-            spending.getTransactions().add(t);
+        if (spending.getTransactions().isEmpty()) {
+            for (Item i : bought) {
+                Transaction transaction = new Transaction(i, 0.0);
+                spending.getTransactions().add(transaction);
+            }
+        } else {
+            spending.getTransactions().removeAll(spending.getTransactions());
+            for (Item i : bought) {
+                Transaction transaction = new Transaction(i, 0.0);
+                spending.getTransactions().add(transaction);
+            }
+
         }
+
     }
 }
+
+
+
 

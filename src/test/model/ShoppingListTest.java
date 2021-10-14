@@ -86,5 +86,9 @@ public class ShoppingListTest {
         testShoppingList.getBought().add(i);
         testShoppingList.addTransaction();
         assertEquals(2, testShoppingList.getSpending().transactions.size());
+
+        testShoppingList.getBought().add(i);
+        testShoppingList.addTransaction();
+        assertEquals(3, testShoppingList.getSpending().transactions.size());
     }
 }

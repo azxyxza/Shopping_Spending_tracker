@@ -6,6 +6,13 @@ import model.Spending;
 
 import java.util.Scanner;
 
+// This MainPage references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+
+/**
+ * This is the Main Page of the shopping-spending tracker
+ */
+
 public class MainPage {
     private Scanner input;
     private Home home;
@@ -51,7 +58,7 @@ public class MainPage {
                 new ShoppingListApp(shoppingList, home);
                 break;
             case "s":
-                new SpendingApp(spending);
+                new SpendingApp(spending, shoppingList);
                 break;
             default:
                 System.out.println("Not valid input...");

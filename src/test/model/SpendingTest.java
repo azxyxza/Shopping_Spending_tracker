@@ -59,7 +59,6 @@ public class SpendingTest {
     void testSetBalance() {
         spending.setIncome(1000.00);
         spending.trackExpense(ts);
-        spending.setBalance();
         assertEquals(980.00, spending.getBalance());
 
     }

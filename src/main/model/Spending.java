@@ -9,14 +9,16 @@ import java.util.LinkedList;
 public class Spending extends Home {
     private double income;
     private double expense;
-    private double balance;
+    private double balance; // TODO: why never assigned?
     protected LinkedList<Transaction> transactions;
 
+    // EFFECTS: create a spending object that have the transaction keeping track
     public Spending() {
         transactions = new LinkedList<>();
         trackExpense(transactions);
     }
 
+    // Getters
     public double getIncome() {
         return income;
     }
@@ -25,17 +27,18 @@ public class Spending extends Home {
         return expense;
     }
 
-    public double getBalance() {
-        return balance = income - expense;
-    }
-
     public LinkedList<Transaction> getTransactions() {
         return transactions;
     }
 
+    // EFFECTS: balance is calculated as income - expense (can be negative, positive, zero)
+    public double getBalance() {
+        return balance = income - expense;
+    }
+
 
     // MODIFIES: this
-    // EFFECTS: set the budget for this new month
+    // EFFECTS: record new income
     public void setIncome(Double income) {
         this.income += income;
     }
@@ -43,15 +46,10 @@ public class Spending extends Home {
 
     // MODIFIES: this
     // EFFECTS: store the expense for the transaction when new items bought
-    public void trackExpense(LinkedList<Transaction> transactions) throws NullPointerException {
+    public void trackExpense(LinkedList<Transaction> transactions) {
         for (Transaction t : transactions) {
             this.expense += t.getExpense();
         }
     }
-
-    public void setBalance() {
-        this.balance = income - expense;
-    }
-
 }
 

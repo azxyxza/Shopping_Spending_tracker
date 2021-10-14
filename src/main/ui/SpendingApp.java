@@ -1,6 +1,7 @@
 package ui;
 
 import model.Item;
+import model.ShoppingList;
 import model.Spending;
 import model.Transaction;
 
@@ -8,22 +9,26 @@ import java.util.Scanner;
 
 import static ui.ShoppingListApp.shoppingList;
 
+// This MainPage references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
+
 /**
- * This is the spending & transaction page of the shopping-spending tracker
+ * This is the spending Page of the shopping-spending tracker
  */
+
 
 public class SpendingApp {
     private static Spending spending;
     private Scanner input;
 
+
     // EFFECTS: runs the spending page
-    public SpendingApp(Spending spending) {
+    public SpendingApp(Spending spending, ShoppingList shoppingList) {
         try {
             SpendingApp.spending = shoppingList.getSpending();
         } catch (NullPointerException e) {
             SpendingApp.spending = spending;
         }
-
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runSpendingAndTraction();
@@ -124,7 +129,7 @@ public class SpendingApp {
         try {
             if (!shoppingList.getBought().isEmpty()) {
                 spending.trackExpense(spending.getTransactions());
-                spending.getTransactions().removeAll(spending.getTransactions());
+//                spending.getTransactions().removeAll(spending.getTransactions());
             }
             return spending.getExpense();
         } catch (NullPointerException e) {
@@ -206,6 +211,7 @@ public class SpendingApp {
         System.out.println("\t3 -> Back to main page");
     }
 
+
     // MODIFIES: this
     // EFFECTS: processes user transaction command
     private static void processTransactionCommand(int command) {
@@ -222,9 +228,14 @@ public class SpendingApp {
     }
 
     // EFFECTS: print the current transactions in spending list
-    private static void printTransaction() {
+    private static void printTransaction() { // TODO: print the bough items twice
+//        for (Item i : shoppingList.getBought()) {
+//            System.out.println(i.getName() + " is bought at " + i.getDate());
+//        }
+
         for (Transaction t : shoppingList.getSpending().getTransactions()) {
-            System.out.println(t.getItem().getName() + " is bought at " + t.getItem().getDate());
+            System.out.println(t.getItem().getName() + " is bought at " + t.getItem().getDate()
+                    + " with " + t.getExpense() + " dollars.");
         }
     }
 
