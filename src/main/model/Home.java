@@ -8,18 +8,23 @@ import java.util.List;
  * while the list "all" stores all the items, the items are also stored based on categories
  * (with each one of the food, fruitAndVegetables, drinks, necessities, others); for the items
  * that set to be favorite, they are also stored in favorite list.
+ * Home extends CategoryList used for categorize the items into proper category.
  */
 
 public class Home extends CategoryList {
     private List<Item> all;
     private List<Item> favorite;
 
+    // EFFECTS: create a home with empty all list and favorite list
+    //          add the items that marked favorite into favorite list
     public Home() {
         all = new ArrayList<>();
         favorite = new ArrayList<>();
         addToFavorite();
     }
 
+
+    // Getters
     public List<Item> getFood() {
         return food;
     }
@@ -96,6 +101,7 @@ public class Home extends CategoryList {
 
 
     // REQUIRES: the item is in one of the categories, or it is in favorite
+    // MODIFIES: this
     // EFFECTS: delete the item from previous categories and move an item to the new categories
     public void moveItem(Item item, Categories categories) {
         if (all.contains(item)) {

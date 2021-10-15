@@ -216,7 +216,7 @@ public class ShoppingListApp {
 
 
     // MODIFIES: this
-    // EFFECTS: check whether user's input is integer
+    // EFFECTS: helper function for doAddSameItem, check whether user's input is integer
     public void checkInt() {
         boolean isInt;
         amount = 0;
@@ -273,7 +273,7 @@ public class ShoppingListApp {
         }
     }
 
-
+    // EFFECTS: get the transaction item given the item's name
     private Item getTransactionItem(String name) {
         for (Transaction t : shoppingList.getSpending().getTransactions()) {
             if (t.getItem().getName().equals(name)) {

@@ -7,13 +7,14 @@ import java.util.List;
  * This is the shoppingList class. We can set the budget for this shopping. And the toBuy list stores
  * all the things that we added which needed to buy. When the items are bought (added to the cart), the
  * things are removed from the toBuy list and goes into the bought list.
+ * Shoppling list extends CategoryList used for categorize the items into proper category
  */
 
 public class ShoppingList extends CategoryList {
     private double budget;
     protected List<Item> toBuy;
     protected List<Item> bought;
-    private Spending spending; // TODO: final?
+    private Spending spending;
 
 
     // EFFECTS: create a shopping list with initial budget set to 0.0,
@@ -105,10 +106,9 @@ public class ShoppingList extends CategoryList {
         return false;
     }
 
-    // MODIFIES:
+    // MODIFIES: this
     // EFFECTS: create a new transaction for each bought items,
-    //          if the bought items is already in the transaction list, see if the items have entered a price
-    //          only added the transactions that haven't entered a price
+    //          After the transaction for item is tracked, remove the item from the bought list
     public void addTransaction() {
         for (Item i : bought) {
             Transaction t = new Transaction(i, 0.0);

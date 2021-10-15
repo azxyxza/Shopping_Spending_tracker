@@ -34,7 +34,7 @@ public class HomeApp {
 
 
     // MODIFIES: this
-    // EFFECTS: processes user input
+    // EFFECTS: processes user input for home main page
     public void runHome() {
         while (true) {
             displayMenu();
@@ -50,7 +50,7 @@ public class HomeApp {
 
 
     // MODIFIES: this
-    // EFFECTS: processes user command
+    // EFFECTS: processes user command for home main page
     private void processCommand(String command) {
         switch (command) {
             case "v":
@@ -80,8 +80,8 @@ public class HomeApp {
         System.out.println("You have " + totalItem + " items at home now!");
         System.out.println("\nDo you want to:");
         System.out.println("\tv -> VIEW what you have at home");
-        System.out.println("\ta -> ADD a new thing to home");
-        System.out.println("\tb -> add the things you BOUGHT to home");
+        System.out.println("\ta -> ADD a NEW thing to home");
+        System.out.println("\tb -> ADD things you BOUGHT to home");
         System.out.println("\td -> DELETE something from home");
         System.out.println("\tf -> mark something as your FAVORITE item");
         System.out.println("\tq -> BACK to main page");
@@ -93,8 +93,8 @@ public class HomeApp {
     private void runViewItems() {
         while (true) {
             if (home.getAll().isEmpty()) {
-                System.out.println("You have nothing at home now. "
-                        + "Go back to add things to home or plan for a shopping!");
+                System.out.println(">>> You have nothing at home now. ");
+                System.out.println("Go back to add things to home or plan for a shopping!");
                 return;
             }
             displayViewer();
@@ -180,10 +180,10 @@ public class HomeApp {
     private void categoryView(Categories categories) {
         int a = home.getTypeAmount(categories);
         if (a == 0) {
-            System.out.println("There is no item in this category right now!");
+            System.out.println(">>> There is no item in this category right now!");
 
         } else {
-            System.out.println("There are " + a + " in this category");
+            System.out.println(">>> There are " + a + " in this category!");
             System.out.println("They are ... ");
             printCategory(categories);
         }
@@ -234,7 +234,7 @@ public class HomeApp {
         Categories type = categorize(category);
         Item i = new Item(name, amount, type, LocalDate.now());
         home.addItem(i);
-        System.out.println("You have successfully added " + name + " to your home at " + LocalDate.now());
+        System.out.println(">>> You have successfully added " + name + " to your home at " + LocalDate.now());
     }
 
 
@@ -259,7 +259,7 @@ public class HomeApp {
     // EFFECTS: add item to be favorite
     private void doFavorite() {
         Scanner input = new Scanner(System.in);
-        System.out.println("What items at home do you want to add to favorite?");
+        System.out.println(">>> What items at home do you want to add to favorite?");
         String name = input.nextLine();
         if (home.isContained(name)) {
             Item i = home.getItem(name);
@@ -275,7 +275,7 @@ public class HomeApp {
     // EFFECTS: delete item from home
     public void doDeleteItem() {
         Scanner item = new Scanner(System.in);
-        System.out.println("What's the item's name that you want to delete?");
+        System.out.println(">>> What's the item's name that you want to delete?");
         String name = item.nextLine();
 
         if (home.isContained(name)) {
@@ -321,7 +321,7 @@ public class HomeApp {
                     runHome();
                 }
             } else {
-                System.out.println(">>>Please enter 1 or 0: ");
+                System.out.println(">>> Please enter 1 or 0: ");
                 isInt = false;
                 input.next();
             }
