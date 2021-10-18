@@ -1,5 +1,10 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
+import java.nio.file.Watchable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +16,7 @@ import java.util.List;
  * Home extends CategoryList used for categorize the items into proper category.
  */
 
-public class Home extends CategoryList {
+public class Home extends CategoryList implements Writable {
     private List<Item> all;
     private List<Item> favorite;
 
@@ -146,5 +151,29 @@ public class Home extends CategoryList {
             }
         }
         return null;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("all", addToJson(all));
+//        json.put("favorite", addToJson(favorite));
+//        json.put("food", addToJson(food));
+//        json.put("fruit and Vegetables", addToJson(fruitAndVeg));
+//        json.put("drinks", addToJson(drinks));
+//        json.put("necessities", addToJson(necessities));
+//        json.put("others", addToJson(others));
+        return json;
+    }
+
+    // EFFECTS: returns items in this home as a JSON array
+    private JSONArray addToJson(List<Item> list) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Item i : list) {
+            jsonArray.put(i.toJson());
+        }
+
+        return jsonArray;
     }
 }

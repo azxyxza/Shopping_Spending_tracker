@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
+import java.nio.file.Watchable;
 import java.time.LocalDate;
 
 /**
@@ -7,13 +11,12 @@ import java.time.LocalDate;
  * we can set the item to be favorite.
  */
 
-public class Item {
+public class Item implements Writable {
     private String name;
     private int amount;
     private Categories categories;
     private boolean isFavorite;
     private LocalDate date;
-    // private int necessity; // TODO
 
     // EFFECTS: create an item that contains name, amount, categories, and date
     public Item(String name, int amount, Categories categories, LocalDate date) {
@@ -21,7 +24,6 @@ public class Item {
         this.amount = amount;
         this.categories = categories;
         this.isFavorite = false;
-        // this.necessity = necessity;
         this.date = date;
     }
 
@@ -71,4 +73,15 @@ public class Item {
         this.date = LocalDate.now();
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name", name);
+        jsonObject.put("amount", amount);
+        jsonObject.put("categories", categories);
+        jsonObject.put("favorite", isFavorite);
+        jsonObject.put("date", date);
+
+        return jsonObject;
+    }
 }

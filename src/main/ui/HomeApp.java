@@ -4,7 +4,11 @@ import model.Categories;
 import model.Home;
 import model.Item;
 import model.Transaction;
+import persistence.JsonHomeReader;
+import persistence.JsonHomeWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -20,16 +24,21 @@ import static ui.ShoppingListApp.shoppingList;
 
 
 public class HomeApp {
+    private static final String JSON_STORE = "./data/homeHistory.json";
     protected Home home;
     private Scanner input;
+    private JsonHomeWriter jsonWriter;
+    private JsonHomeReader jsonReader;
+
 
     // EFFECTS: run the home page
     public HomeApp(Home home) {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         this.home = home;
+        jsonWriter = new JsonHomeWriter(JSON_STORE);
+        jsonReader = new JsonHomeReader(JSON_STORE);
         runHome();
-
     }
 
 
@@ -40,10 +49,18 @@ public class HomeApp {
             displayMenu();
             String command = input.next();
             command = command.toLowerCase();
-            if (command.equals("q")) {
-                return;
-            } else {
-                processCommand(command);
+            switch (command) {
+                case "q":
+                    return;
+                case "s":
+                    saveHome();
+                    break;
+                case "l":
+                    loadHome();
+                    break;
+                default:
+                    processCommand(command);
+                    break;
             }
         }
     }
@@ -84,6 +101,8 @@ public class HomeApp {
         System.out.println("\tb -> ADD things you BOUGHT to home");
         System.out.println("\td -> DELETE something from home");
         System.out.println("\tf -> mark something as your FAVORITE item");
+        System.out.println("\ts -> SAVE the home data");
+        System.out.println("\tl -> LOAD the home data");
         System.out.println("\tq -> BACK to main page");
     }
 
@@ -183,8 +202,8 @@ public class HomeApp {
             System.out.println(">>> There is no item in this category right now!");
 
         } else {
-            System.out.println(">>> There are " + a + " in this category!");
-            System.out.println("They are ... ");
+            System.out.println(">>> There are " + a + " in this category! ");
+            System.out.println("They are: ");
             printCategory(categories);
         }
     }
@@ -384,6 +403,31 @@ public class HomeApp {
             for (Item i : home.getFavorite()) {
                 System.out.println(i.getName());
             }
+        }
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: loads Home from file
+    private void loadHome() {
+        try {
+            home = jsonReader.read();
+            System.out.println("Loaded previous home data from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+
+    // EFFECTS: saves the Home to file
+    private void saveHome() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(home);
+            jsonWriter.close();
+            System.out.println("Saved current home data to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
         }
     }
 

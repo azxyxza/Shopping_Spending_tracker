@@ -27,7 +27,6 @@ public class MainPage {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runTracker();
-
     }
 
     // MODIFIES: this
