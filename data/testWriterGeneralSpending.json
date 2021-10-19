@@ -1,0 +1,27 @@
+{
+    "income": 100,
+    "balance": 20,
+    "expense": 80,
+    "transactions": [
+        {
+            "item": {
+                "date": "2021-10-19",
+                "amount": 3,
+                "name": "A",
+                "categories": "Food",
+                "favorite": false
+            },
+            "expense": 30
+        },
+        {
+            "item": {
+                "date": "2021-10-19",
+                "amount": 3,
+                "name": "B",
+                "categories": "Food",
+                "favorite": false
+            },
+            "expense": 50
+        }
+    ]
+}

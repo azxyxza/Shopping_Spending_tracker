@@ -7,7 +7,7 @@ import model.Transaction;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import static ui.ShoppingListApp.shoppingList;
+
 
 // This MainPage references code from this repo
 // Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp
@@ -18,17 +18,25 @@ import static ui.ShoppingListApp.shoppingList;
 
 
 public class SpendingApp {
-    private static Spending spending;
-    private Scanner input; // TODO: final?
+    //    private static Spending spending;
+//    private static ShoppingList shoppingList;
+    private Spending spending;
+    private ShoppingList shoppingList;
+    private Scanner input;
+
 
 
     // EFFECTS: runs the spending page
     public SpendingApp(Spending spending, ShoppingList shoppingList) {
-        try {
-            SpendingApp.spending = shoppingList.getSpending();
-        } catch (NullPointerException e) {
-            SpendingApp.spending = spending;
-        }
+//        SpendingApp.shoppingList = shoppingList;
+//        try {
+//            SpendingApp.spending = shoppingList.getSpending();
+//        } catch (NullPointerException e) {
+//            SpendingApp.spending = spending;
+//        }
+        this.shoppingList = shoppingList;
+        this.spending = spending;
+
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         runSpendingAndTraction();
@@ -128,19 +136,19 @@ public class SpendingApp {
     // EFFECTS: synchronize the expenses from shopping list
     private void doGetExpense() {
         Scanner input = new Scanner(System.in);
-        if (!spending.getTransactions().isEmpty()) {
-            for (Transaction t : spending.getTransactions()) {
+        if (!shoppingList.getSpending().getTransactions().isEmpty()) {
+            for (Transaction t : shoppingList.getSpending().getTransactions()) {
                 System.out.println("Do you want to track the expense for " + t.getItem().getName() + " ?");
                 System.out.println("\t 1 -> Yes, upload it to my expenses");
-                System.out.println("\t 0 -> Cancel uploading (I have already tracked it"
-                        + "// it didn't cost me anything!)");
+                System.out.println("\t 0 -> Cancel uploading");
                 String choice = input.next();
                 if (choice.equals("1")) {
                     LinkedList<Transaction> transactions = new LinkedList<>();
                     transactions.add(t);
-                    spending.trackExpense(transactions);
+                    shoppingList.getSpending().trackExpense(transactions);
                     System.out.println("Your expenses has been tracked!");
-                    System.out.println("You have spent: " + spending.getExpense());
+                    System.out.println("You have spent: " + shoppingList.getSpending().getExpense());
+                    updateExpense();
                 } else if (choice.equals("0")) {
                     return;
                 } else {
@@ -150,6 +158,10 @@ public class SpendingApp {
         } else {
             System.out.println("You don't have an expense at this point!");
         }
+    }
+
+    private void updateExpense() {
+        spending.setExpense(spending.getExpense() + shoppingList.getSpending().getExpense());
     }
 
     // MODIFIES: this
@@ -216,10 +228,10 @@ public class SpendingApp {
 
     // EFFECTS: displays transaction menu of options to user
     private static void displayTransactionMenu() {
-        if (shoppingList == null) {
+        if (ShoppingListApp.shoppingList == null) {
             System.out.println("\n>>>> There is no Transactions made.");
         } else {
-            if (shoppingList.getSpending().getTransactions().isEmpty()) {
+            if (ShoppingListApp.shoppingList.getSpending().getTransactions().isEmpty()) {
                 System.out.println("\n>>>> There is no Transactions made.");
             } else {
                 System.out.println(">>>> Here are the things you bought: ");
@@ -249,12 +261,8 @@ public class SpendingApp {
     }
 
     // EFFECTS: print the current transactions in spending list
-    private static void printTransaction() { // TODO: print the bough items twice
-//        for (Item i : shoppingList.getBought()) {
-//            System.out.println(i.getName() + " is bought at " + i.getDate());
-//        }
-
-        for (Transaction t : shoppingList.getSpending().getTransactions()) {
+    private static void printTransaction() {
+        for (Transaction t : ShoppingListApp.shoppingList.getSpending().getTransactions()) {
             System.out.println(t.getItem().getName() + " is bought at " + t.getItem().getDate()
                     + " with " + t.getExpense() + " dollars.");
         }
@@ -266,7 +274,7 @@ public class SpendingApp {
         Scanner input = new Scanner(System.in);
         boolean isDouble;
         double price = 0.0;
-        for (Transaction t : shoppingList.getSpending().getTransactions()) {
+        for (Transaction t : ShoppingListApp.shoppingList.getSpending().getTransactions()) {
             System.out.println("How much did you spend on " + t.getItem().getAmount() + " "
                     + t.getItem().getName() + ": ");
 
@@ -296,7 +304,7 @@ public class SpendingApp {
         System.out.println("What item do you want to record the price for: ");
         System.out.println("Enter the name of item: ");
         String name = input.nextLine();
-        for (Transaction t : shoppingList.getSpending().getTransactions()) {
+        for (Transaction t : ShoppingListApp.shoppingList.getSpending().getTransactions()) {
             if (t.getItem().getName().equals(name)) {
                 System.out.println("The price: ");
                 String price = input.nextLine();

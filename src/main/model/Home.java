@@ -157,12 +157,6 @@ public class Home extends CategoryList implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("all", addToJson(all));
-//        json.put("favorite", addToJson(favorite));
-//        json.put("food", addToJson(food));
-//        json.put("fruit and Vegetables", addToJson(fruitAndVeg));
-//        json.put("drinks", addToJson(drinks));
-//        json.put("necessities", addToJson(necessities));
-//        json.put("others", addToJson(others));
         return json;
     }
 

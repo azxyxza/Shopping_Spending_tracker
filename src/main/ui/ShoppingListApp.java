@@ -1,6 +1,8 @@
 package ui;
 
 import model.*;
+import persistence.JsonShoppingReader;
+import persistence.JsonShoppingWriter;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -114,6 +116,7 @@ public class ShoppingListApp {
                 System.out.println("Selection not valid...");
         }
     }
+
 
     // MODIFIES: this
     // EFFECTS: let user set the budget of this shopping
@@ -362,4 +365,5 @@ public class ShoppingListApp {
         }
         return null;
     }
+
 }

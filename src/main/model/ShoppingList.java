@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +14,7 @@ import java.util.List;
  * Shoppling list extends CategoryList used for categorize the items into proper category
  */
 
-public class ShoppingList extends CategoryList {
+public class ShoppingList extends CategoryList implements Writable {
     private double budget;
     protected List<Item> toBuy;
     protected List<Item> bought;
@@ -115,6 +119,39 @@ public class ShoppingList extends CategoryList {
             spending.getTransactions().add(t);
         }
         bought.removeAll(getBought());
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("budget", budget);
+        json.put("Needs to buy", addToJsonItem(toBuy));
+//      json.put("Have bought", addToJsonItem(bought));
+        json.put("Have bought", addToJsonTransaction(spending.transactions));
+//      json.put("Transactions", addToJson(spending.getTransactions()))
+        return json;
+    }
+
+    // EFFECTS: returns items in this shopping list as a JSON array
+    private JSONArray addToJsonItem(List<Item> list) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Item i : list) {
+            jsonArray.put(i.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns items in this shopping list as a JSON array
+    private JSONArray addToJsonTransaction(List<Transaction> list) {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Transaction t : list) {
+            jsonArray.put(t.toJsonTransaction());
+        }
+
+        return jsonArray;
     }
 }
 

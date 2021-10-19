@@ -1,0 +1,37 @@
+{"all": [
+    {
+        "date": "2021-10-19",
+        "amount": 2,
+        "name": "strawberry cake",
+        "categories": "Food",
+        "favorite": true
+    },
+    {
+        "date": "2021-10-19",
+        "amount": 1,
+        "name": "milk",
+        "categories": "Drinks",
+        "favorite": false
+    },
+    {
+        "date": "2021-10-19",
+        "amount": 2,
+        "name": "toilet paper",
+        "categories": "Necessities",
+        "favorite": false
+    },
+    {
+        "date": "2021-10-19",
+        "amount": 5,
+        "name": "apple",
+        "categories": "FruitAndVegetables",
+        "favorite": false
+    },
+    {
+        "date": "2021-10-19",
+        "amount": 2,
+        "name": "pencil",
+        "categories": "Others",
+        "favorite": false
+    }
+]}

@@ -54,10 +54,11 @@ public class JsonHomeReader {
     private void addHomes(Home home, JSONObject jsonObject) {
         JSONArray jsonAll = jsonObject.getJSONArray("all");
         for (Object json : jsonAll) {
-            JSONObject nextThingy = (JSONObject) json;
-            addHistoryItem(home, nextThingy);
+            JSONObject next = (JSONObject) json;
+            addHistoryItem(home, next);
         }
     }
+
 
     private void addHistoryItem(Home home, JSONObject jsonObject) {
         String name = jsonObject.getString("name");

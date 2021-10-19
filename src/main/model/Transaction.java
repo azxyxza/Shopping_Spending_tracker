@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 /**
  * This is the Transaction class. Transaction stores the bought item and
  * expenses (item's price) are required to be loaded in.
@@ -28,4 +32,11 @@ public class Transaction {
         this.expense = expense;
     }
 
+    public JSONObject toJsonTransaction() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("item", item.toJson());
+        jsonObject.put("expense", expense);
+
+        return jsonObject;
+    }
 }
