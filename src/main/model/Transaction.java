@@ -1,11 +1,14 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 /**
  * This is the Transaction class. Transaction stores the bought item and
  * expenses (item's price) are required to be loaded in.
  */
 
-public class Transaction {
+public class Transaction implements Writable {
     private final Item item;
     private double expense;
 
@@ -28,4 +31,12 @@ public class Transaction {
         this.expense = expense;
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("item", item);
+        jsonObject.put("expense", expense);
+
+        return jsonObject;
+    }
 }

@@ -1,6 +1,8 @@
 package ui;
 
 import model.*;
+import persistence.JsonShoppingReader;
+import persistence.JsonShoppingWriter;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -114,6 +116,7 @@ public class ShoppingListApp {
                 System.out.println("Selection not valid...");
         }
     }
+
 
     // MODIFIES: this
     // EFFECTS: let user set the budget of this shopping
@@ -362,4 +365,28 @@ public class ShoppingListApp {
         }
         return null;
     }
+
+//    // MODIFIES: this
+//    // EFFECTS: loads Shopping list data from file
+//    private void loadShoppingList() {
+//        try {
+//            shoppingList = jsonReader.read();
+//            System.out.println("Loaded previous shopping list data from " + JSON_STORE);
+//        } catch (IOException e) {
+//            System.out.println("Unable to read from file: " + JSON_STORE);
+//        }
+//    }
+//
+//
+//    // EFFECTS: saves the shopping list data to file
+//    private void saveShoppingList() {
+//        try {
+//            jsonWriter.open();
+//            jsonWriter.write(shoppingList);
+//            jsonWriter.close();
+//            System.out.println("Saved current shopping list data to " + JSON_STORE);
+//        } catch (FileNotFoundException e) {
+//            System.out.println("Unable to write to file: " + JSON_STORE);
+//        }
+//    }
 }

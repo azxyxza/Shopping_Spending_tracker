@@ -1,22 +1,19 @@
 package persistence;
 
-import model.Home;
+import model.ShoppingList;
 import org.json.JSONObject;
 
-
-// Represents a writer that writes JSON representation of Home to file
-public class JsonHomeWriter extends JsonWriter {
+public class JsonShoppingWriter extends JsonWriter {
 
     // EFFECTS: constructs writer to write to destination file
-    public JsonHomeWriter(String destination) {
+    public JsonShoppingWriter(String destination) {
         super(destination);
     }
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of Home to file
-    public void write(Home home) {
-        JSONObject json = home.toJson();
+    public void write(ShoppingList shoppingList) {
+        JSONObject json = shoppingList.toJson();
         saveToFile(json.toString(TAB));
     }
-
 }

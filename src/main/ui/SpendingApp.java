@@ -19,7 +19,7 @@ import static ui.ShoppingListApp.shoppingList;
 
 public class SpendingApp {
     private static Spending spending;
-    private Scanner input; // TODO: final?
+    private Scanner input;
 
 
     // EFFECTS: runs the spending page
@@ -249,11 +249,7 @@ public class SpendingApp {
     }
 
     // EFFECTS: print the current transactions in spending list
-    private static void printTransaction() { // TODO: print the bough items twice
-//        for (Item i : shoppingList.getBought()) {
-//            System.out.println(i.getName() + " is bought at " + i.getDate());
-//        }
-
+    private static void printTransaction() {
         for (Transaction t : shoppingList.getSpending().getTransactions()) {
             System.out.println(t.getItem().getName() + " is bought at " + t.getItem().getDate()
                     + " with " + t.getExpense() + " dollars.");
