@@ -148,7 +148,7 @@ public class ShoppingList extends CategoryList implements Writable {
         JSONArray jsonArray = new JSONArray();
 
         for (Transaction t : list) {
-            jsonArray.put(t.toJsonTransaction());
+            jsonArray.put(t.toJson());
         }
 
         return jsonArray;

@@ -1,6 +1,5 @@
 package model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -9,7 +8,7 @@ import persistence.Writable;
  * expenses (item's price) are required to be loaded in.
  */
 
-public class Transaction {
+public class Transaction implements Writable {
     private final Item item;
     private double expense;
 
@@ -32,11 +31,14 @@ public class Transaction {
         this.expense = expense;
     }
 
-    public JSONObject toJsonTransaction() {
+    @Override
+    public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("item", item.toJson());
         jsonObject.put("expense", expense);
 
         return jsonObject;
     }
+
+
 }

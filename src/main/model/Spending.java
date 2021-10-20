@@ -82,7 +82,7 @@ public class Spending extends Home implements Writable {
         JSONArray jsonArray = new JSONArray();
 
         for (Transaction t : transactions) {
-            jsonArray.put(t.toJsonTransaction());
+            jsonArray.put(t.toJson());
         }
 
         return jsonArray;
