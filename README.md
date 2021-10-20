@@ -68,6 +68,6 @@ own, have a more pleasant shopping experience, and better managing our relations
 - As a user, I want to be able to enter the price for specific bought item
 
 ### Data persistence:
-- As a user, when I quit the main page, I want the history to be saved to file. 
+- As a user, when I quit the main page, I want to have the option to save the data or not. 
 - As a user, when I start the application, 
-  I want to be given the option to load my previous home, spending, and shopping list from file.
+  I want to be given the option to load my previous home's, spending's, and shopping-list's data from file.
