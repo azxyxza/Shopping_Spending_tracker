@@ -48,6 +48,4 @@ public class JsonShoppingReaderTest {
             fail("Couldn't read from file");
         }
     }
-
-
 }

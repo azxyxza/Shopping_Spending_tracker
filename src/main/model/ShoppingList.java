@@ -143,7 +143,7 @@ public class ShoppingList extends CategoryList implements Writable {
         return jsonArray;
     }
 
-    // EFFECTS: returns items in this shopping list as a JSON array
+    // EFFECTS: returns transactions in this shopping list as a JSON array
     private JSONArray addToJsonTransaction(List<Transaction> list) {
         JSONArray jsonArray = new JSONArray();
 

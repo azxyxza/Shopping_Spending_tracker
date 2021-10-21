@@ -77,7 +77,7 @@ public class Spending extends Home implements Writable {
         return json;
     }
 
-    // EFFECTS: returns items in this home as a JSON array
+    // EFFECTS: returns transactions in this home as a JSON array
     private JSONArray addToJson(List<Transaction> transactions) {
         JSONArray jsonArray = new JSONArray();
 

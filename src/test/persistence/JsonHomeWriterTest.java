@@ -71,7 +71,6 @@ public class JsonHomeWriterTest {
             assertEquals("pencil", home.getOthers().get(0).getName());
             assertEquals("strawberry cake", home.getFavorite().get(0).getName());
 
-
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }

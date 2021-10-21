@@ -1,4 +1,4 @@
-# Shopping-Spending tracker (S-S)
+# Shopping-Spending tracker
 
 ## Shop smart, Spend wise!
 
@@ -37,10 +37,11 @@ and anything I needed for the following week. Without a list, I always feel diso
 shelves in the shopping market. Not only do I wasted a lot of time figuring out what I really need, but also wasted my 
 money to buy many kinds of stuffs that I actually don't need. Sometimes I even repurchased or over purchase something 
 that cause things to expire in my fridge later. Since my living expenses are limited, I realized the importance to have
-an organized shopping list and learn to manage my money by keeping track of my balance. I can't imagine how helpful it 
-would be for me and hopefully for many other people to have a tool that combines these two applications. Therefore, 
-I want to create an intelligent tool that could bring efficiency and happiness to life, recognize and appreciate what we 
-own, have a more pleasant shopping experience, and better managing our relationship with money.
+an organized shopping list and learn to manage my money by keeping track of my balance. As many of my friends also have
+this problem, I can't imagine how helpful it would be for me and hopefully for many other people to have a tool that 
+combines these two applications. Therefore, I want to create an intelligent tool that could bring efficiency and 
+happiness to life, recognize and appreciate what we own, have a more pleasant shopping experience, and better 
+managing our relationship with money.
 
 
 ## User Stories
@@ -68,6 +69,6 @@ own, have a more pleasant shopping experience, and better managing our relations
 - As a user, I want to be able to enter the price for specific bought item
 
 ### Data persistence:
-- As a user, when I quit the main page, I want to have the option to save the data or not. 
+- As a user, when I quit the main page, I want to have the option asking user to save the data or not. 
 - As a user, when I start the application, 
   I want to be given the option to load my previous home's, spending's, and shopping-list's data from file.

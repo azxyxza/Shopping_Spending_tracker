@@ -101,6 +101,7 @@ public class MainPage {
         System.out.println("\tq -> quit");
     }
 
+    // EFFECTS: when clicking quit, will give the option to neither save or just leave the file
     private void saveOrLeave() {
         Scanner input = new Scanner(System.in);
         System.out.println("\nBefore leaving, do you want to SAVE your data?");
@@ -115,6 +116,7 @@ public class MainPage {
         }
     }
 
+    // EFFECTS: save the spending into file
     private void saveSpending() {
         try {
             jsonSpendingWriter.open();
@@ -126,6 +128,7 @@ public class MainPage {
         }
     }
 
+    // EFFECTS: save the shopping into file
     private void saveShopping() {
         try {
             jsonShoppingWriter.open();
@@ -137,6 +140,7 @@ public class MainPage {
         }
     }
 
+    // EFFECTS: save the home into file
     private void saveHome() {
         try {
             jsonHomeWriter.open();
@@ -148,7 +152,7 @@ public class MainPage {
         }
     }
 
-
+    // EFFECTS: load the previous data to application
     private void loadPrevious() {
         try {
             home = jsonHomeReader.read();
