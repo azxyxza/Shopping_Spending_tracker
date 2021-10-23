@@ -15,6 +15,10 @@ import java.util.stream.Stream;
 
 import static java.time.LocalDate.parse;
 
+// This JsonShoppingReader references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
+
 // Represents a reader that reads Shopping list from JSON data stored in file
 public class JsonShoppingReader {
     private String source;

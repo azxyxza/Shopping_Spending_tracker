@@ -3,6 +3,10 @@ package persistence;
 import model.Spending;
 import org.json.JSONObject;
 
+// This JsonSpendingWriter references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
+
 public class JsonSpendingWriter extends JsonWriter {
 
     // EFFECTS: constructs writer to write to destination file

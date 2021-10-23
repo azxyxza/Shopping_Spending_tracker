@@ -12,6 +12,11 @@ import java.util.stream.Stream;
 
 import static java.time.LocalDate.parse;
 
+
+// This JsonSpendingReader references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
+
 public class JsonSpendingReader {
 
     private String source;

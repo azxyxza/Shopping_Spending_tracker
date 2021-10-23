@@ -14,6 +14,9 @@ import java.util.stream.Stream;
 
 import static java.time.LocalDate.parse;
 
+// This JsonHomeReader references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
 // Represents a reader that reads Home from JSON data stored in file
 public class JsonHomeReader {
     private String source;

@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+
+// This JsonWriter references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+
+
 public class JsonWriter {
     protected static final int TAB = 4;
     protected PrintWriter writer;

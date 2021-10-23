@@ -3,6 +3,8 @@ package persistence;
 import model.Home;
 import org.json.JSONObject;
 
+// This JsonHomeWriter references code from this repo
+// Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
 // Represents a writer that writes JSON representation of Home to file
 public class JsonHomeWriter extends JsonWriter {
