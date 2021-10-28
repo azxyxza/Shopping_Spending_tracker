@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import static model.Categories.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+// Test for JsonHomeWriter
 public class JsonHomeWriterTest {
     @Test
     void testWriterInvalidFile() {

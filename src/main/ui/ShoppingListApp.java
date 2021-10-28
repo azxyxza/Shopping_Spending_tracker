@@ -150,7 +150,8 @@ public class ShoppingListApp {
         String name = input.nextLine();
         if (!home.isContained(name)) {
             System.out.println("How many do you want to buy?");
-            checkInt();
+            int amount = checkInt();
+
             System.out.println("You categorize " + name + " as in: ");
             System.out.println("\nSelect from:");
             System.out.println("\tf -> Food");
@@ -220,9 +221,8 @@ public class ShoppingListApp {
 
     // MODIFIES: this
     // EFFECTS: helper function for doAddSameItem, check whether user's input is integer
-    public void checkInt() {
+    public int checkInt() {
         boolean isInt;
-        amount = 0;
         do {
             if (input.hasNextInt()) {
                 isInt = true;
@@ -233,6 +233,7 @@ public class ShoppingListApp {
                 input.next();
             }
         } while (!isInt);
+        return amount;
     }
 
     // MODIFIES: this

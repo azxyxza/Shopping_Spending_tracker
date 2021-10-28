@@ -161,7 +161,8 @@ public class SpendingApp {
     }
 
     private void updateExpense() {
-        spending.setExpense(spending.getExpense() + shoppingList.getSpending().getExpense());
+        //spending.setExpense(spending.getExpense() + shoppingList.getSpending().getExpense());
+        spending.setExpense(shoppingList.getSpending().getExpense());
     }
 
     // MODIFIES: this

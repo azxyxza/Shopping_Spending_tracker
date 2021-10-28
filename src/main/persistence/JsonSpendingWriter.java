@@ -6,7 +6,7 @@ import org.json.JSONObject;
 // This JsonSpendingWriter references code from this repo
 // Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
-
+// Represents a writer that writes JSON representation of Spending to file
 public class JsonSpendingWriter extends JsonWriter {
 
     // EFFECTS: constructs writer to write to destination file

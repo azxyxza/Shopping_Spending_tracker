@@ -4,8 +4,6 @@ import model.Categories;
 import model.Home;
 import model.Item;
 import model.Transaction;
-import persistence.JsonHomeReader;
-import persistence.JsonHomeWriter;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -21,18 +19,22 @@ import static ui.ShoppingListApp.shoppingList;
  */
 
 
-public class HomeApp {
+public class HomeApp extends CheckInput {
     protected Home home;
     private Scanner input;
 
     // EFFECTS: run the home page
     public HomeApp(Home home) {
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
+        init();
         this.home = home;
         runHome();
     }
 
+    // EFFECTS: initialize the input console
+    public void init() {
+        input = new Scanner(System.in);
+        input.useDelimiter("\n");
+    }
 
     // MODIFIES: this
     // EFFECTS: processes user input for home main page
@@ -92,6 +94,7 @@ public class HomeApp {
     // MODIFIES: this
     // EFFECTS: processes user input for v (view)
     private void runViewItems() {
+        init();
         while (true) {
             if (home.getAll().isEmpty()) {
                 System.out.println(">>> You have nothing at home now. ");
@@ -110,7 +113,7 @@ public class HomeApp {
     }
 
     // EFFECTS: helper function for runViewItems to check whether the input is integer
-    private int checkInput() {
+    public int checkInput() {
         boolean isInt;
         int command = 0;
         do {
@@ -118,7 +121,7 @@ public class HomeApp {
                 isInt = true;
                 command = input.nextInt();
             } else {
-                System.out.println(">>>Please enter a number from 0-6");
+                System.out.println(">>>Please enter an integer");
                 isInt = false;
                 input.next();
             }
@@ -215,12 +218,12 @@ public class HomeApp {
     // MODIFIES: this
     // EFFECTS: add new item to home
     private void doAddItem() {
-        Scanner item = new Scanner(System.in);
+        init();
         System.out.println("What is the item's name?");
-        String name = item.nextLine();
+        String name = input.nextLine();
 
         System.out.println("How many do you want to store?");
-        int amount = item.nextInt();
+        int amount = checkInput();
 
         System.out.println("In which categories do you want to store the " + name + "?");
         System.out.println("\nSelect from:");
@@ -229,7 +232,7 @@ public class HomeApp {
         System.out.println("\td -> Drinks");
         System.out.println("\tn -> Necessities");
         System.out.println("\to -> Others");
-        String category = item.next();
+        String category = input.next();
         category = category.toLowerCase();
 
         Categories type = categorize(category);
@@ -259,7 +262,7 @@ public class HomeApp {
     // MODIFIES: this
     // EFFECTS: add item to be favorite
     private void doFavorite() {
-        Scanner input = new Scanner(System.in);
+        init();
         System.out.println(">>> What items at home do you want to add to favorite?");
         String name = input.nextLine();
         if (home.isContained(name)) {

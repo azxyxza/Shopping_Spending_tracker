@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+// test for JsonShoppingWriter
 public class JsonShoppingWriterTest {
     @Test
     void testWriterInvalidFile() {

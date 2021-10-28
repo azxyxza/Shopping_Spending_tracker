@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 // This JsonWriter references code from this repo
 // Link: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 
-
+// Represents a general writer that can open, close, and save file
 public class JsonWriter {
     protected static final int TAB = 4;
     protected PrintWriter writer;

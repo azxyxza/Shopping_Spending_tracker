@@ -1,6 +1,6 @@
 {
     "Needs to buy": [{
-        "date": "2021-10-21",
+        "date": "2021-10-28",
         "amount": 3,
         "name": "B",
         "categories": "Food",
@@ -8,7 +8,7 @@
     }],
     "Have bought": [{
         "item": {
-            "date": "2021-10-21",
+            "date": "2021-10-28",
             "amount": 3,
             "name": "A",
             "categories": "Food",

@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// Test for JsonSpendingWriter
 public class JsonSpendingWriterTest {
     @Test
     void testWriterInvalidFile() {
