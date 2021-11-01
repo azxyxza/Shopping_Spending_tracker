@@ -1,8 +1,8 @@
 package ui;
 
 import model.*;
-import persistence.JsonShoppingReader;
-import persistence.JsonShoppingWriter;
+import model.exception.AvoidDuplicateException;
+import model.exception.NotInTheListException;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -151,23 +151,30 @@ public class ShoppingListApp {
         if (!home.isContained(name)) {
             System.out.println("How many do you want to buy?");
             int amount = checkInt();
-
             System.out.println("You categorize " + name + " as in: ");
-            System.out.println("\nSelect from:");
-            System.out.println("\tf -> Food");
-            System.out.println("\tv -> Fruits & Vegetables");
-            System.out.println("\td -> Drinks");
-            System.out.println("\tn -> Necessities");
-            System.out.println("\to -> Others");
+            printMenu();
             String category = input.next();
             category = category.toLowerCase();
             Categories type = categorize(category);
             Item i = new Item(name, amount, type, LocalDate.now());
-            shoppingList.addItem(i);
+            try {
+                shoppingList.addItem(i);
+            } catch (AvoidDuplicateException e) {
+                System.out.println(e.getMessage());
+            }
             System.out.println("You have successfully added " + name + " to the list!");
         } else {
             confirmBuyingMultiple(name);
         }
+    }
+
+    private void printMenu() {
+        System.out.println("\nSelect from:");
+        System.out.println("\tf -> Food");
+        System.out.println("\tv -> Fruits & Vegetables");
+        System.out.println("\td -> Drinks");
+        System.out.println("\tn -> Necessities");
+        System.out.println("\to -> Others");
     }
 
     // EFFECTS: ask the user whether they want to buy the same item's again
@@ -201,20 +208,14 @@ public class ShoppingListApp {
     private void doAddSameItem(Item item) {
         System.out.println("There are " + item.getAmount() + " " + item.getName() + " now.");
         System.out.println("How many more do you want to buy?");
-        boolean isInt;
-        int amount = 0;
-        do {
-            if (input.hasNextInt()) {
-                isInt = true;
-                amount = input.nextInt();
-            } else {
-                System.out.println(">>>Please enter an Integer: ");
-                isInt = false;
-                input.next();
-            }
-        } while (!isInt);
+        int amount = checkInt();
+
         Item i = new Item(item.getName(), amount, item.getCategories(), LocalDate.now());
-        shoppingList.addItem(i);
+        try {
+            shoppingList.addItem(i);
+        } catch (AvoidDuplicateException e) {
+            System.out.println(e.getMessage());
+        }
         System.out.println("You have successfully added " + i.getName() + " to the list!");
     }
 
@@ -243,10 +244,10 @@ public class ShoppingListApp {
         System.out.println("What's the item's name that you want to delete?");
         String name = input.nextLine();
 
-        if (shoppingList.isContained(name)) {
+        try {
             shoppingList.deleteItem(getToBuyItem(name));
             System.out.println("You have successfully deleted " + name + " from the list!");
-        } else {
+        } catch (NotInTheListException e) {
             System.out.println("Oops... You don't have this item in list! No need to delete :)");
         }
     }
@@ -269,10 +270,10 @@ public class ShoppingListApp {
             }
         } while (!isInt);
 
-        if (shoppingList.isContained(name)) {
+        try {
             shoppingList.markItem(getToBuyItem(name));
             System.out.println("You have bought " + name + " at " + getTransactionItem(name).getDate());
-        } else {
+        } catch (NotInTheListException e) {
             doMakeSure();
         }
     }

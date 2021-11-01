@@ -4,6 +4,7 @@ import model.Categories;
 import model.Item;
 import model.ShoppingList;
 import model.Transaction;
+import model.exception.AvoidDuplicateException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -30,7 +31,7 @@ public class JsonShoppingReader {
 
     // EFFECTS: reads shopping list from file and returns it;
     // throws IOException if an error occurs reading data from file
-    public ShoppingList read() throws IOException {
+    public ShoppingList read() throws IOException, AvoidDuplicateException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseShoppingList(jsonObject);
@@ -48,14 +49,14 @@ public class JsonShoppingReader {
     }
 
     // EFFECTS: parses Shopping list from JSON object and returns it
-    private ShoppingList parseShoppingList(JSONObject jsonObject) {
+    private ShoppingList parseShoppingList(JSONObject jsonObject) throws AvoidDuplicateException {
         ShoppingList shoppingList = new ShoppingList();
         addShoppingList(shoppingList, jsonObject);
         return shoppingList;
     }
 
     // EFFECTS: add the budget, tobuy, bought data from Json to current shopping list
-    private void addShoppingList(ShoppingList shoppingList, JSONObject jsonObject) {
+    private void addShoppingList(ShoppingList shoppingList, JSONObject jsonObject) throws AvoidDuplicateException {
         double jsonBudget = jsonObject.getDouble("budget");
         shoppingList.setBudget(jsonBudget);
 
@@ -83,7 +84,7 @@ public class JsonShoppingReader {
         shoppingList.getSpending().getTransactions().add(t);
     }
 
-    private void addHistoryItem(ShoppingList shoppingList, JSONObject jsonObject) {
+    private void addHistoryItem(ShoppingList shoppingList, JSONObject jsonObject) throws AvoidDuplicateException {
         String name = jsonObject.getString("name");
         int amount = jsonObject.getInt("amount");
         Categories categories = Categories.valueOf(jsonObject.getString("categories"));

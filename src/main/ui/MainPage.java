@@ -3,6 +3,7 @@ package ui;
 import model.Home;
 import model.ShoppingList;
 import model.Spending;
+import model.exception.AvoidDuplicateException;
 import persistence.*;
 
 import java.io.FileNotFoundException;
@@ -159,7 +160,7 @@ public class MainPage {
             shoppingList = jsonShoppingReader.read();
             spending = jsonSpendingReader.read();
             System.out.println("Loaded previous data successfully");
-        } catch (IOException e) {
+        } catch (IOException | AvoidDuplicateException e) {
             System.out.println("Unable to read from file.");
         }
     }

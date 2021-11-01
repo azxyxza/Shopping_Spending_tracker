@@ -1,5 +1,8 @@
 package model;
 
+import model.exception.AvoidDuplicateException;
+import model.exception.NotInTheListException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,10 +57,10 @@ public abstract class CategoryList {
     // REQUIRES: item != null
     // MODIFIES: this
     // EFFECTS: stores the given Item into the list
-    public abstract void addItem(Item item);
+    public abstract void addItem(Item item) throws AvoidDuplicateException;
 
     // REQUIRES: the item is in the list
     // MODIFIES: this
     // EFFECTS: remove the certain item from the list
-    public abstract void deleteItem(Item item);
+    public abstract void deleteItem(Item item) throws NotInTheListException;
 }

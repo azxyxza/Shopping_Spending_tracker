@@ -1,10 +1,10 @@
 package model;
 
+import model.exception.NotInTheListException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.nio.file.Watchable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,8 +76,11 @@ public class Home extends CategoryList implements Writable {
     // REQUIRES: the item is in the list
     // MODIFIES: this
     // EFFECTS: remove the certain item from the whole list and the given categories
-    public void deleteItem(Item it) {
-        if (isContained(it.getName())) {
+    //          throw NotInTheListException if the item is not at home
+    public void deleteItem(Item it) throws NotInTheListException {
+        if (!isContained(it.getName())) {
+            throw new NotInTheListException("This item is not at home!");
+        } else {
             all.remove(it);
             switch (it.getCategories()) {
                 case Food:
@@ -105,16 +108,16 @@ public class Home extends CategoryList implements Writable {
     }
 
 
-    // REQUIRES: the item is in one of the categories, or it is in favorite
-    // MODIFIES: this
-    // EFFECTS: delete the item from previous categories and move an item to the new categories
-    public void moveItem(Item item, Categories categories) {
-        if (all.contains(item)) {
-            deleteItem(item);
-            super.addToList(item, categories);
-            all.add(item);
-        }
-    }
+//    // REQUIRES: the item is in one of the categories, or it is in favorite
+//    // MODIFIES: this
+//    // EFFECTS: delete the item from previous categories and move an item to the new categories
+//    public void moveItem(Item item, Categories categories) {
+//        if (all.contains(item)) {
+//            deleteItem(item);
+//            super.addToList(item, categories);
+//            all.add(item);
+//        }
+//    }
 
 
     // EFFECTS: get amount of items in specific categories

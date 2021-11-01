@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.AvoidDuplicateException;
+import model.exception.NotInTheListException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -59,38 +61,44 @@ public class ShoppingList extends CategoryList implements Writable {
     }
 
 
-    // REQUIRES: item != null, item not contain in the shopping list already
     // MODIFIES: this
     // EFFECTS: add the given Item (item) into the toBuy list
-    public void addItem(Item item) {
-        if (!isContained(item.getName())) {
-            toBuy.add(item);
+    //          throw AvoidDuplicateException if the item already contained in the shopping list already
+    public void addItem(Item item) throws AvoidDuplicateException {
+        if (isContained(item.getName())) {
+            throw new AvoidDuplicateException("You already added the item to shopping list!");
         }
+        toBuy.add(item);
+
     }
 
-    // REQUIRES: item != null
+
     // MODIFIES: this
     // EFFECTS: delete the items from the toBuy list
-    public void deleteItem(Item item) {
+    public void deleteItem(Item item) throws NotInTheListException {
+        if (!isContained(item.getName())) {
+            throw new NotInTheListException("This item is not in the toBuy list!");
+        }
         toBuy.remove(item);
     }
 
 
-    // REQUIRES: items not null, item is in the toBuy list
     // MODIFIES: this
     // EFFECTS: for the already-added-to-cart items, stores the transaction to home
-    // create a new transaction for the item.
-    public void markItem(Item item) {
-        if (isContained(item.getName())) {
-            deleteItem(item);
-            bought.add(item);
-            addToHome(item);
-            addTransaction();
+    //          create a new transaction for the item.
+    //          throw NotInTheListException if item isn't in the toBuy list
+    public void markItem(Item item) throws NotInTheListException {
+        if (!isContained(item.getName())) {
+            throw new NotInTheListException("The item you mark is not in toBuy list!");
         }
+        deleteItem(item);
+        bought.add(item);
+        addToHome(item);
+        addTransaction();
+
     }
 
 
-    // REQUIRES: item != null
     // MODIFIES: this
     // EFFECTS: stores the given Item (it) into the appropriate categories within this class
     private void addToHome(Item item) {

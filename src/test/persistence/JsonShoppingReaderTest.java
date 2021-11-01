@@ -2,6 +2,7 @@ package persistence;
 
 import model.Home;
 import model.ShoppingList;
+import model.exception.AvoidDuplicateException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class JsonShoppingReaderTest {
         try {
             ShoppingList shoppingList = reader.read();
             fail("IOException expected");
-        } catch (IOException e) {
+        } catch (IOException | AvoidDuplicateException e) {
             // pass
         }
     }
@@ -30,7 +31,7 @@ public class JsonShoppingReaderTest {
             assertEquals(0.0, shoppingList.getBudget());
             assertEquals(0, shoppingList.getToBuy().size());
             assertEquals(0, shoppingList.getBought().size());
-        } catch (IOException e) {
+        } catch (IOException | AvoidDuplicateException e) {
             fail("Couldn't read from file");
         }
     }
@@ -45,7 +46,7 @@ public class JsonShoppingReaderTest {
             assertEquals("B", shoppingList.getToBuy().get(0).getName());
             assertEquals("A", shoppingList.getSpending().getTransactions().get(0).getItem().getName());
 
-        } catch (IOException e) {
+        } catch (IOException | AvoidDuplicateException e) {
             fail("Couldn't read from file");
         }
     }

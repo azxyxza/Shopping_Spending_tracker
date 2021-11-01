@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.AvoidDuplicateException;
+import model.exception.NotInTheListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,28 +35,60 @@ public class ShoppingListTest {
     @Test
     void addItemOne() {
         assertEquals(0, testShoppingList.totalItem());
-        testShoppingList.addItem(item);
+        try {
+            testShoppingList.addItem(item);
+        } catch (AvoidDuplicateException e) {
+            fail("AvoidDuplicateException thrown, not expected");
+        }
         assertEquals(1, testShoppingList.totalItem());
 
-        testShoppingList.addItem(item); // same object
+        try {
+            testShoppingList.addItem(item); // same object
+        } catch (AvoidDuplicateException e) {
+            // expected
+        }
         assertEquals(1, testShoppingList.totalItem());
 
         Item cake = new Item("strawberry cake", 2, Others, LocalDate.now());
-        testShoppingList.addItem(cake); // same name, different object
+
+        try {
+            testShoppingList.addItem(cake); // same name, different object
+        } catch (AvoidDuplicateException e) {
+            // expected
+        }
         assertEquals(1, testShoppingList.totalItem());
     }
 
+
+    @Test
+    void testAddItemMultipleAndRemoveWithException() {
+        try {
+            testShoppingList.deleteItem(item);
+        } catch (NotInTheListException e) {
+            // expected
+        }
+        assertEquals(0, testShoppingList.totalItem());
+    }
 
     @Test
     void testAddItemMultipleAndRemove() {
         Item juice = new Item("apple juice", 2, Drinks, LocalDate.now());
         Item nuts = new Item("nuts", 1, Food, LocalDate.now());
         Item peach = new Item("peach", 3, FruitAndVegetables, LocalDate.now());
-        testShoppingList.addItem(juice);
-        testShoppingList.addItem(nuts);
-        testShoppingList.addItem(peach);
+        try {
+            testShoppingList.addItem(juice);
+            testShoppingList.addItem(nuts);
+            testShoppingList.addItem(peach);
+        } catch (AvoidDuplicateException e) {
+            fail("AvoidDuplicateException thrown, not expected");
+        }
         assertEquals(3, testShoppingList.totalItem());
-        testShoppingList.deleteItem(juice);
+
+        try {
+            testShoppingList.deleteItem(juice);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(2, testShoppingList.totalItem());
         assertTrue(testShoppingList.isContained("nuts"));
         assertTrue(testShoppingList.isContained("peach"));
@@ -62,19 +96,37 @@ public class ShoppingListTest {
     }
 
     @Test
-    void testMarkItem() {
+    void testMarkItemWithException() {
+        assertEquals(0, testShoppingList.getBought().size());
+        try {
+            testShoppingList.markItem(item);
+        } catch (NotInTheListException e) {
+            // expected
+        }
+        assertEquals(0, testShoppingList.totalItem());
+        assertEquals(0, testShoppingList.getBought().size());
+    }
+
+    @Test
+    void testMarkItemNoException() {
         Item i = new Item("strawberry bread", 1, Food, LocalDate.now());
-        testShoppingList.markItem(item);
         assertEquals(0, testShoppingList.totalItem());
         assertEquals(0, testShoppingList.getBought().size());
 
-        testShoppingList.addItem(item);
-        testShoppingList.addItem(i);
+        try {
+            testShoppingList.addItem(item);
+            testShoppingList.addItem(i);
+        } catch (AvoidDuplicateException e) {
+            fail("AvoidDuplicateException thrown, not expected");
+        }
         assertEquals(2, testShoppingList.totalItem());
         assertEquals(0, testShoppingList.getBought().size());
 
-
-        testShoppingList.markItem(item);
+        try {
+            testShoppingList.markItem(item);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(1, testShoppingList.totalItem());
         assertEquals(0, testShoppingList.getBought().size());
         assertEquals(1, testShoppingList.getSpending().getTransactions().size());

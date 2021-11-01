@@ -1,5 +1,6 @@
 package model;
 
+import model.exception.NotInTheListException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,6 +71,7 @@ class HomeTest {
         assertEquals(4, testHome.getTypeAmount(Food));
         assertEquals(1, testHome.getTypeAmount(Necessities));
         assertEquals(0, testHome.getTypeAmount(FruitAndVegetables));
+        assertEquals(0, testHome.getTypeAmount(Drinks));
         assertEquals(0, testHome.getTypeAmount(Others));
     }
 
@@ -86,25 +88,6 @@ class HomeTest {
         testHome.addToFavorite();
         assertEquals(1, testHome.getFavorite().size());
         assertTrue(testHome.getFavorite().contains(food3));
-    }
-
-    @Test
-    void testMoveItem() {
-        testHome.addItem(drinks);
-        testHome.addItem(others);
-        assertEquals(2, testHome.getAll().size());
-        assertEquals(1, testHome.getTypeAmount(Others));
-        assertEquals(1, testHome.getTypeAmount(Drinks));
-
-        testHome.moveItem(drinks, Others);
-        assertEquals(2, testHome.getAll().size());
-        assertEquals(2, testHome.getTypeAmount(Others));
-        assertEquals(0, testHome.getTypeAmount(Drinks));
-
-        testHome.moveItem(food, Others);
-        assertEquals(2, testHome.getAll().size());
-        assertEquals(2, testHome.getTypeAmount(Others));
-        assertEquals(0, testHome.getTypeAmount(Drinks));
     }
 
     @Test
@@ -129,14 +112,17 @@ class HomeTest {
 
 
     @Test
-    void testDeleteFoodItem() {
+    void testDeleteFoodItemNoException() {
         testHome.addItem(food);
         testHome.addItem(fruitAndVeg);
         assertEquals(2, testHome.getAll().size());
         assertEquals(food, testHome.getFood().get(0));
         assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
-
-        testHome.deleteItem(food);
+        try {
+            testHome.deleteItem(food);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(1, testHome.getAll().size());
         assertFalse(testHome.getFood().contains(food));
         assertFalse(testHome.isContained("strawberry cake"));
@@ -150,22 +136,41 @@ class HomeTest {
         testHome.addItem(fruit2);
         assertEquals(2, testHome.getFruitAndVeg().size());
         assertEquals(fruitAndVeg, testHome.getFruitAndVeg().get(0));
-        testHome.deleteItem(fruitAndVeg);
+        try {
+            testHome.deleteItem(fruitAndVeg);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(1, testHome.getFruitAndVeg().size());
-        testHome.deleteItem(fruitAndVeg);
+
+        try {
+            testHome.deleteItem(fruitAndVeg);
+            fail("NotInTheListException should be thrown");
+        } catch (NotInTheListException e) {
+            // expected
+        }
         assertEquals(1, testHome.getFruitAndVeg().size());
     }
 
+
     @Test
-    void testDeleteNeceesityItem() {
+    void testDeleteNecessityItem() {
         Item necessities2 = new Item("A", 2, Necessities, LocalDate.now());
         testHome.addItem(necessities);
         testHome.addItem(necessities2);
         assertEquals(2, testHome.getNecessities().size());
         assertEquals(necessities, testHome.getNecessities().get(0));
-        testHome.deleteItem(necessities);
+        try {
+            testHome.deleteItem(necessities);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(1, testHome.getNecessities().size());
-        testHome.deleteItem(necessities);
+        try {
+            testHome.deleteItem(necessities);
+        } catch (NotInTheListException e) {
+            // expected
+        }
         assertEquals(1, testHome.getNecessities().size());
     }
 
@@ -176,9 +181,17 @@ class HomeTest {
         testHome.addItem(others2);
         assertEquals(2, testHome.getOthers().size());
         assertEquals(others, testHome.getOthers().get(0));
-        testHome.deleteItem(others);
+        try {
+            testHome.deleteItem(others);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(1, testHome.getOthers().size());
-        testHome.deleteItem(others);
+        try {
+            testHome.deleteItem(others);
+        } catch (NotInTheListException e) {
+            // expected
+        }
         assertEquals(1, testHome.getOthers().size());
     }
 
@@ -189,9 +202,17 @@ class HomeTest {
         testHome.addItem(drinks2);
         assertEquals(2, testHome.getDrinks().size());
         assertEquals(drinks, testHome.getDrinks().get(0));
-        testHome.deleteItem(drinks);
+        try {
+            testHome.deleteItem(drinks);
+        } catch (NotInTheListException e) {
+            fail("NotInTheListException thrown, not expected");
+        }
         assertEquals(1, testHome.getDrinks().size());
-        testHome.deleteItem(drinks);
+        try {
+            testHome.deleteItem(drinks);
+        } catch (NotInTheListException e) {
+            // expected
+        }
         assertEquals(1, testHome.getDrinks().size());
     }
 

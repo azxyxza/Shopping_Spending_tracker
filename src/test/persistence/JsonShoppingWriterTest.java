@@ -3,6 +3,8 @@ package persistence;
 import model.Categories;
 import model.Item;
 import model.ShoppingList;
+import model.exception.AvoidDuplicateException;
+import model.exception.NotInTheListException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -39,7 +41,7 @@ public class JsonShoppingWriterTest {
             assertEquals(0.0, sl.getBudget());
             assertEquals(0, sl.getToBuy().size());
             assertEquals(0, sl.getBought().size());
-        } catch (IOException e) {
+        } catch (IOException | AvoidDuplicateException e) {
             fail("Exception should not have been thrown");
         }
     }
@@ -66,7 +68,7 @@ public class JsonShoppingWriterTest {
             assertEquals(1, sl.getToBuy().size());
             assertEquals("B", sl.getToBuy().get(0).getName());
             assertEquals("A", sl.getSpending().getTransactions().get(0).getItem().getName());
-        } catch (IOException e) {
+        } catch (IOException | AvoidDuplicateException | NotInTheListException e) {
             fail("Exception should not have been thrown");
         }
     }

@@ -4,6 +4,7 @@ import model.Categories;
 import model.Home;
 import model.Item;
 import model.Transaction;
+import model.exception.NotInTheListException;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -282,10 +283,10 @@ public class HomeApp extends CheckInput {
         System.out.println(">>> What's the item's name that you want to delete?");
         String name = item.nextLine();
 
-        if (home.isContained(name)) {
+        try {
             home.deleteItem(home.getItem(name));
             System.out.println(name + " is gone now!");
-        } else {
+        } catch (NotInTheListException e) {
             System.out.println("Oops... You don't have this item at home! No need to delete :)");
         }
     }
