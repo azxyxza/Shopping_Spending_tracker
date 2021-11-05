@@ -1,4 +1,4 @@
-package ui;
+package ui.console;
 
 import model.Home;
 import model.ShoppingList;
@@ -40,18 +40,20 @@ public class MainPage {
         spending = new Spending();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+
         jsonHomeWriter = new JsonHomeWriter(JSON_STORE_HOME);
         jsonShoppingWriter = new JsonShoppingWriter(JSON_STORE_SHOPPING);
         jsonSpendingWriter = new JsonSpendingWriter(JSON_STORE_SPENDING);
         jsonHomeReader = new JsonHomeReader(JSON_STORE_HOME);
         jsonShoppingReader = new JsonShoppingReader(JSON_STORE_SHOPPING);
         jsonSpendingReader = new JsonSpendingReader(JSON_STORE_SPENDING);
-        runTracker();
+
+        runMain();
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void runTracker() {
+    private void runMain() {
         boolean running = true;
         while (running) {
             displayMenu();
@@ -154,7 +156,7 @@ public class MainPage {
     }
 
     // EFFECTS: load the previous data to application
-    private void loadPrevious() {
+    public void loadPrevious() {
         try {
             home = jsonHomeReader.read();
             shoppingList = jsonShoppingReader.read();

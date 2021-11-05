@@ -129,6 +129,17 @@ public class ShoppingList extends CategoryList implements Writable {
         bought.removeAll(getBought());
     }
 
+    // TODO
+    // helper that return the item given name
+    public Item getToBuyItem(String name) {
+        for (Item i : getToBuy()) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

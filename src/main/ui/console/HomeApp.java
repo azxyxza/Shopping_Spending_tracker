@@ -1,4 +1,4 @@
-package ui;
+package ui.console;
 
 import model.Categories;
 import model.Home;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 import static model.Categories.*;
-import static ui.ShoppingListApp.shoppingList;
+import static ui.console.ShoppingListApp.shoppingList;
 
 // This HomePage references code from this repo
 // Link: https://github.students.cs.ubc.ca/CPSC210/TellerApp

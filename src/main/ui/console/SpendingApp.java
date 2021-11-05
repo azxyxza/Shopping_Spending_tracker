@@ -1,8 +1,9 @@
-package ui;
+package ui.console;
 
 import model.ShoppingList;
 import model.Spending;
 import model.Transaction;
+import ui.console.ShoppingListApp;
 
 import java.util.LinkedList;
 import java.util.Scanner;
