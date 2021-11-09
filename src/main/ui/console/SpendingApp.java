@@ -3,7 +3,6 @@ package ui.console;
 import model.ShoppingList;
 import model.Spending;
 import model.Transaction;
-import ui.console.ShoppingListApp;
 
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -29,12 +28,6 @@ public class SpendingApp {
 
     // EFFECTS: runs the spending page
     public SpendingApp(Spending spending, ShoppingList shoppingList) {
-//        SpendingApp.shoppingList = shoppingList;
-//        try {
-//            SpendingApp.spending = shoppingList.getSpending();
-//        } catch (NullPointerException e) {
-//            SpendingApp.spending = spending;
-//        }
         this.shoppingList = shoppingList;
         this.spending = spending;
 

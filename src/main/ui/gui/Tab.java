@@ -19,9 +19,4 @@ public abstract class Tab extends JPanel {
 
         return p;
     }
-
-    //EFFECTS: returns the SmartHomeUI controller for this tab
-    public Main getController() {
-        return controller;
-    }
 }

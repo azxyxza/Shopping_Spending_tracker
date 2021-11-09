@@ -69,7 +69,6 @@ public class ShoppingList extends CategoryList implements Writable {
             throw new AvoidDuplicateException("You already added the item to shopping list!");
         }
         toBuy.add(item);
-
     }
 
 
@@ -127,17 +126,6 @@ public class ShoppingList extends CategoryList implements Writable {
             spending.getTransactions().add(t);
         }
         bought.removeAll(getBought());
-    }
-
-    // TODO
-    // helper that return the item given name
-    public Item getToBuyItem(String name) {
-        for (Item i : getToBuy()) {
-            if (i.getName().equals(name)) {
-                return i;
-            }
-        }
-        return null;
     }
 
     @Override

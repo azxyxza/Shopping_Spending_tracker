@@ -108,18 +108,6 @@ public class Home extends CategoryList implements Writable {
     }
 
 
-//    // REQUIRES: the item is in one of the categories, or it is in favorite
-//    // MODIFIES: this
-//    // EFFECTS: delete the item from previous categories and move an item to the new categories
-//    public void moveItem(Item item, Categories categories) {
-//        if (all.contains(item)) {
-//            deleteItem(item);
-//            super.addToList(item, categories);
-//            all.add(item);
-//        }
-//    }
-
-
     // EFFECTS: get amount of items in specific categories
     public int getTypeAmount(Categories categories) {
         switch (categories) {
