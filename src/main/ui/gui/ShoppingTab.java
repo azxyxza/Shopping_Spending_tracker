@@ -6,35 +6,39 @@ import model.ShoppingList;
 import model.exception.AvoidDuplicateException;
 import model.exception.NotInTheListException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 
-public class ShoppingTab extends Tab implements PropertyChangeListener {
-    //    private JSplitPane splitPane;
+public class ShoppingTab extends Tab implements PropertyChangeListener, ListSelectionListener {
     private ShoppingList shoppingList;
     private JPanel topPanel;
-    private JPanel centerPanel;
-
     private JLabel budgetLabel;
     private static String budgetString = "Set the budget: ";
     private JFormattedTextField budgetField;
     private NumberFormat budgetFormat;
+
+    private JPanel centerPanel;
+    private DefaultListModel listModel;
+    private JList list;
+
     private JButton addButton;
+    private JButton deleteButton;
     private JButton refreshButton; // TODO: reset the shopping list
+    private JButton boughtButton;
 
-    ImageIcon icon = createImageIcon("images/middle.gif");
     String[] categories = {"Food", "Fruit And Vegetables", "Drinks", "Necessities", "Others"};
-    private NumberFormat amountFormat;
-    private JFormattedTextField itemAmount;
 
 
+    // EFFECTS: create a new tab with the shoppinglist displayed
     public ShoppingTab(Main controller, ShoppingList shoppingList) {
         super(controller);
         this.shoppingList = shoppingList;
@@ -56,8 +60,16 @@ public class ShoppingTab extends Tab implements PropertyChangeListener {
         add(addButton, BorderLayout.SOUTH);
     }
 
-    private void createReset() {
+    private void createReset() { // TODO
         refreshButton = new JButton("Refresh");
+        try {
+            Image img = ImageIO.read(getClass().getResource("images/refreshIcon.png"));
+            Image newImage = img.getScaledInstance(20,
+                    20, Image.SCALE_DEFAULT);
+            refreshButton.setIcon(new ImageIcon(newImage));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
         refreshButton.addActionListener(e -> {
             if (e.getSource() == refreshButton) {
                 createPaneList();
@@ -105,19 +117,39 @@ public class ShoppingTab extends Tab implements PropertyChangeListener {
                 try {
                     shoppingList.addItem(newItem);
                 } catch (AvoidDuplicateException avoidDuplicateException) {
-                    if (name.equals("")) {
-                        JOptionPane.showMessageDialog(null,
-                                "You haven't enter the name for the item!",
-                                "Oops...",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "You already added the item to shopping list!",
-                                "Oops...",
-                                JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    checkException(name);
                 }
             }
+            addInputToList(itemName, itemAmount);
+            deleteButton.setEnabled(true);
+            boughtButton.setEnabled(true);
+        }
+    }
+
+
+    // EFFECTS: add the input new item to the list
+    private void addInputToList(JTextField itemName, JTextField itemAmount) {
+        int index = list.getSelectedIndex(); //get selected index
+        if (index == -1) { //no selection, so insert at beginning
+            index = 0;
+        } else {           //add after the selected item
+            index++;
+        }
+        listModel.insertElementAt(itemName.getText() + "||" + itemAmount.getText(), index);
+    }
+
+    // EFFECTS: check the exception for adding items to shopping list
+    private void checkException(String name) {
+        if (name == null) {
+            JOptionPane.showMessageDialog(null,
+                    "You haven't enter the name for the item!",
+                    "Oops...",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null,
+                    "You already added the item to shopping list!",
+                    "Oops...",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -125,57 +157,128 @@ public class ShoppingTab extends Tab implements PropertyChangeListener {
     // have multiple panel as list displayed as the To buy list
     private void createPaneList() {
         centerPanel = new JPanel(new BorderLayout());
-        JPanel example = new JPanel(new GridLayout(1, 8));
+        JPanel example = createExampleBar();
+        JScrollPane toBuyPanel = createToBuyList();
 
-        // index 0
-        JCheckBox check = new JCheckBox();
-        // index 1
-        JLabel item = new JLabel("Item's name");
-        // index 4
-        JLabel amount = new JLabel("Quantity");
-        // index 5
-        JButton deleteButton = new JButton("Delete");
-        example.add(check, 0); // 0
+        centerPanel.add(example, BorderLayout.PAGE_START);
+        centerPanel.add(toBuyPanel, BorderLayout.CENTER);
+
+    }
+
+    // EFFECTS: create list of items that needed to buy in the shopping list
+    private JScrollPane createToBuyList() {
+        listModel = new DefaultListModel();
+        list = new JList(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setSelectedIndex(0);
+        list.addListSelectionListener(this);
+        list.setVisibleRowCount(5);
+        JScrollPane toBuyPanel = new JScrollPane(list);
+
+        toBuyPanel.setBackground(new Color(248, 255, 194, 210));
+
+        if (!shoppingList.getToBuy().isEmpty()) {
+            int index = list.getSelectedIndex(); //get selected index
+            if (index == -1) { //no selection, so insert at beginning
+                index = 0;
+            } else {           //add after the selected item
+                index++;
+            }
+            for (Item i : shoppingList.getToBuy()) {
+                listModel.insertElementAt(i.getName(), index);
+            }
+        }
+        return toBuyPanel;
+    }
+
+    // EFFECTS: create the example bar that display the basic element of list
+    private JPanel createExampleBar() {
+        JPanel example = new JPanel(new GridLayout(1, 4));
+        createBoughtButton();
+        JLabel item = new JLabel("      Item's name");
+        JLabel amount = new JLabel("    Quantity");
+        createDeleteButton();
+        example.add(boughtButton, 0); // 0
         example.add(item, 1); // 1
         example.add(amount, 2); // 2
         example.add(deleteButton);
-        centerPanel.add(example, BorderLayout.NORTH);
+        centerPanel.add(example, BorderLayout.PAGE_START);
+        return example;
+    }
 
-        JPanel toBuyPanel = new JPanel(new GridLayout(shoppingList.getToBuy().size(), 1));
-        toBuyPanel.setBackground(new Color(248, 255, 194, 210));
-        for (Item i : shoppingList.getToBuy()) {
-            // TODO: tobuy item's is not displayed because it's not running for the first time
-            toBuyPanel.add(createSinglePanel(i));
+    // EFFECTS: do the delete from the shopping list
+    private void createDeleteButton() {
+        deleteButton = new JButton("Delete");
+        if (shoppingList.getToBuy().isEmpty()) {
+            deleteButton.setEnabled(false);
         }
-        centerPanel.add(toBuyPanel, BorderLayout.CENTER);
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = list.getSelectedIndex();
+                listModel.remove(index);
+//
+//                if (index == listModel.getSize()) {
+//                    //removed item in last position
+//                    index--;
+//                }
+
+                String itemName = (String) list.getSelectedValue();
+                Item i = getToBuyFromName(itemName);
+                try {
+                    shoppingList.deleteItem(i);
+                } catch (NotInTheListException notInTheListException) {
+                    notInTheListException.printStackTrace();
+                }
+
+                list.setSelectedIndex(index);
+                list.ensureIndexIsVisible(index);
+
+                if (shoppingList.getToBuy().isEmpty()) {
+                    deleteButton.setEnabled(false);
+
+                }
+            }
+        });
+    }
+
+    // EFFECTS: create a bought button that delete items from shopping list
+    private void createBoughtButton() {
+        boughtButton = new JButton("Bought");
+        if (shoppingList.getToBuy().isEmpty()) {
+            boughtButton.setEnabled(false);
+        }
+        boughtButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = (String) list.getSelectedValue();
+                Item i = getToBuyFromName(name);
+                if (e.getSource() == boughtButton) {
+                    try {
+                        shoppingList.markItem(i);
+                    } catch (NotInTheListException notInTheListException) {
+                        notInTheListException.printStackTrace();
+                    }
+                }
+                listModel.remove(list.getSelectedIndex());
+                if (shoppingList.getToBuy().isEmpty()) {
+                    boughtButton.setEnabled(false);
+                }
+            }
+        });
     }
 
 
-    private JPanel createSinglePanel(Item i) {
-        JPanel panel = new JPanel(new GridLayout(1, 8));
-        // 0: check whether bought
-        JCheckBox checkBox = new JCheckBox();
-        checkBox.setMnemonic(KeyEvent.VK_C);
-        checkBox.setSelected(false);
-        doCheckItemToBought(checkBox, i);
-
-        // 1: item name;
-        JLabel item = new JLabel(i.getName());
-
-        // 2: editable text field for amount
-        JFormattedTextField amount = new JFormattedTextField(i.getAmount());
-
-        // 9: delete button
-        JButton deleteButton = new JButton("Delete");
-        doDelete(deleteButton, i);
-
-        panel.add(checkBox, 0);
-        panel.add(item, 1);
-        panel.add(amount, 2);
-        panel.add(deleteButton, 3);
-
-        return panel;
+    // EFFECTS: input item's name will return the item with that name in tobuy list
+    private Item getToBuyFromName(String s) {
+        for (Item i : shoppingList.getToBuy()) {
+            if (i.getName().equals(s)) {
+                return i;
+            }
+        }
+        return null;
     }
+
 
     // EFFECTS: when the check box is selected, add the items to the bought list
     private void doCheckItemToBought(JCheckBox checkBox, Item i) {
@@ -183,19 +286,6 @@ public class ShoppingTab extends Tab implements PropertyChangeListener {
             if (e.getSource() == checkBox) {
                 try {
                     shoppingList.markItem(i);
-                } catch (NotInTheListException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-    }
-
-    // EFFECTS: when clicking delete button, remove the items from tobuy list
-    private void doDelete(JButton deleteButton, Item i) {
-        deleteButton.addActionListener(e -> {
-            if (e.getSource() == deleteButton) {
-                try {
-                    shoppingList.deleteItem(i);
                 } catch (NotInTheListException ex) {
                     ex.printStackTrace();
                 }
@@ -240,19 +330,42 @@ public class ShoppingTab extends Tab implements PropertyChangeListener {
     }
 
 
-    /**
-     * Returns an ImageIcon, or null if the path was invalid.
-     */
-    protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = ShoppingTab.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+
     }
+
+
 }
+
+
+//
+//    private JPanel createSinglePanel(Item i) {
+//        JPanel panel = new JPanel(new GridLayout(1, 8));
+//        // 0: check whether bought
+//        JCheckBox checkBox = new JCheckBox();
+//        checkBox.setMnemonic(KeyEvent.VK_C);
+//        checkBox.setSelected(false);
+//        doCheckItemToBought(checkBox, i);
+//
+//        // 1: item name;
+//        JLabel item = new JLabel(i.getName());
+//
+//        // 2: editable text field for amount
+//        JFormattedTextField amount = new JFormattedTextField(i.getAmount());
+//
+//        // 9: delete button
+//        JButton deleteButton = new JButton("Delete");
+//        doDelete(deleteButton, i);
+//
+//        panel.add(checkBox, 0);
+//        panel.add(item, 1);
+//        panel.add(amount, 2);
+//        panel.add(deleteButton, 3);
+//
+//        return panel;
+//    }
+
 
 /**
  * private void initLeftSplit() {

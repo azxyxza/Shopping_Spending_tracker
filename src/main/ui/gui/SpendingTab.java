@@ -12,6 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 
+/**This is the spending panel that display the spending summary and transaction list*/
 public class SpendingTab extends Tab implements PropertyChangeListener {
     private Spending spending;
     private ShoppingList shoppingList;
@@ -46,6 +47,8 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
     private NumberFormat expenseFormat;
     private NumberFormat balanceFormat;
 
+    // EFFECTS: construct a spending tab with a split pane
+    //          with top being the summary and bottom being the transaction
     public SpendingTab(Main controller, ShoppingList shoppingList, Spending spending) {
         super(controller);
         setUpFormats();
@@ -93,13 +96,17 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         title.add(amount, 1); // 1
         title.add(expense, 2);
         title.add(deleteButton, 3); // 8
-        transactionPanel.add(title, BorderLayout.NORTH);
+
+        JPanel transactionHolder = new JPanel();
         for (Transaction t : spending.getTransactions()) {
-            createSingleTransaction(t);
+            transactionHolder = createSingleTransaction(t);
         }
+
+        transactionPanel.add(title, BorderLayout.NORTH);
+        transactionPanel.add(transactionHolder, BorderLayout.CENTER);
     }
 
-    private void createSingleTransaction(Transaction t) {
+    private JPanel createSingleTransaction(Transaction t) {
         JPanel panel = new JPanel(new GridLayout(1, 8));
         Item i  = t.getItem();
         // 0: item name;
@@ -108,10 +115,10 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         // 1: editable text field for amount
         JFormattedTextField amount = new JFormattedTextField(i.getAmount());
 
-        // 8
+        // 2
         JFormattedTextField expense = new JFormattedTextField("Cost");
 
-        // 9: delete button
+        // 3: delete button
         JButton deleteButton = new JButton("Delete");
         //doDelete(deleteButton, i);
 
@@ -119,6 +126,7 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         panel.add(amount, 1); // 1
         panel.add(expense);
         panel.add(deleteButton); // 8
+        return panel;
     }
 
     // EFFECTS: set the three textField's layout
