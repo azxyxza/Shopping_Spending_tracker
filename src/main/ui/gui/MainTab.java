@@ -76,7 +76,7 @@ public class MainTab extends Tab {
 
     /**Middle panel*/
     // EFFECTS: create a logo panel that display the app's image logo
-    private void logoPanel() { //TODO
+    private void logoPanel() {
         try {
             BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/logo.png"));
             Image newImage = myPicture.getScaledInstance(100,
@@ -87,7 +87,6 @@ public class MainTab extends Tab {
             e.printStackTrace();
         }
     }
-
 
 
     /**Bottom panel*/

@@ -114,12 +114,7 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
                                 JTextField itemAmount, JComboBox categoryList) {
         if (e.getSource() == addButton) {
             try {
-                BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/groceryIcon.png"));
-                Image newImage = myPicture.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
-                ImageIcon img = new ImageIcon(newImage);
-                int result = JOptionPane.showConfirmDialog(null, panel,
-                        "Adding a new items to buy...", JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE, img);
+                int result = createImageIcon(panel);
                 if (result == JOptionPane.OK_OPTION) {
                     String name = itemName.getText();
                     int amount = Integer.parseInt(itemAmount.getText());
@@ -141,6 +136,16 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
             boughtButton.setEnabled(true);
 
         }
+    }
+
+    private int createImageIcon(JPanel panel) throws IOException {
+        BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/groceryIcon.png"));
+        Image newImage = myPicture.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+        ImageIcon img = new ImageIcon(newImage);
+        int result = JOptionPane.showConfirmDialog(null, panel,
+                "Adding a new items to buy...", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE, img);
+        return result;
     }
 
 
