@@ -8,21 +8,17 @@ import persistence.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-/**This is the main tab that display the welcome message, save and load, and also the logo*/
+/**This is the main tab that display the welcome message,save and load, and also the logo*/
 public class MainTab extends Tab {
     private static final String JSON_STORE_HOME = "./data/HomeHistory.json";
     private static final String JSON_STORE_SHOPPING = "./data/ShoppingHistory.json";
     private static final String JSON_STORE_SPENDING = "./data/SpendingHistory.json";
-    private Home home;
-    private ShoppingList shoppingList;
-    private Spending spending;
     private JsonHomeWriter jsonHomeWriter;
     private JsonShoppingWriter jsonShoppingWriter;
     private JsonSpendingWriter jsonSpendingWriter;
@@ -30,13 +26,11 @@ public class MainTab extends Tab {
     private JsonShoppingReader jsonShoppingReader;
     private JsonSpendingReader jsonSpendingReader;
 
+
     // EFFECTS: the tab divide the panel into three parts, top is welcome text,
     //          middle is the app's logo, bottom is the two buttons
-    public MainTab(Main controller, Home home, ShoppingList shoppingList, Spending spending) {
+    public MainTab(Main controller) {
         super(controller);
-        this.home = home;
-        this.shoppingList = shoppingList;
-        this.spending = spending;
         jsonHomeWriter = new JsonHomeWriter(JSON_STORE_HOME);
         jsonShoppingWriter = new JsonShoppingWriter(JSON_STORE_SHOPPING);
         jsonSpendingWriter = new JsonSpendingWriter(JSON_STORE_SPENDING);
@@ -49,7 +43,6 @@ public class MainTab extends Tab {
         welcomeText();
         logoPanel();
         saveAndLoad();
-
     }
 
     /**Top panel*/
@@ -119,15 +112,26 @@ public class MainTab extends Tab {
     /**
      * do the load action
      */
-    private void loadActionListener(JButton loadButton, JLabel loadLabel) {
+    private void loadActionListener(JButton loadButton, JLabel loadLabel) { // TODO: can't load info successfully
         loadButton.addActionListener(e -> {
             if (e.getSource() == loadButton) {
                 try {
-                    home = jsonHomeReader.read();
-                    shoppingList = jsonShoppingReader.read();
-                    spending = jsonSpendingReader.read();
+                    controller.home = jsonHomeReader.read();
+                    controller.shoppingList = jsonShoppingReader.read();
+                    controller.spending = jsonSpendingReader.read();
+
+//                    this.controller.home = home;
+//                    this.controller.shoppingList = shoppingList;
+//                    this.controller.spending = spending;
+
+                    // call "updateTabs" method in controller, which calls spendingTab.refresh()..., etc.
+//                    this.controller.loadTabs();
+                    this.controller.loadNewShopping();
+                    this.controller.loadNewSpending();
+                    this.controller.loadNewTransaction();
                     loadLabel.setVisible(true);
                     System.out.println("Loaded previous data successfully");
+
                 } catch (IOException | AvoidDuplicateException exp) {
                     System.out.println("Unable to read from file.");
                 }
@@ -154,7 +158,7 @@ public class MainTab extends Tab {
     private void saveSpending() {
         try {
             jsonSpendingWriter.open();
-            jsonSpendingWriter.write(spending);
+            jsonSpendingWriter.write(controller.spending);
             jsonSpendingWriter.close();
             System.out.println("Saved current data to " + JSON_STORE_SPENDING);
         } catch (FileNotFoundException e) {
@@ -166,7 +170,7 @@ public class MainTab extends Tab {
     private void saveShopping() {
         try {
             jsonShoppingWriter.open();
-            jsonShoppingWriter.write(shoppingList);
+            jsonShoppingWriter.write(controller.shoppingList);
             jsonShoppingWriter.close();
             System.out.println("Saved current data to " + JSON_STORE_SHOPPING);
         } catch (FileNotFoundException e) {
@@ -178,7 +182,7 @@ public class MainTab extends Tab {
     private void saveHome() {
         try {
             jsonHomeWriter.open();
-            jsonHomeWriter.write(home);
+            jsonHomeWriter.write(controller.home);
             jsonHomeWriter.close();
             System.out.println("Saved current data to " + JSON_STORE_HOME);
         } catch (FileNotFoundException e) {

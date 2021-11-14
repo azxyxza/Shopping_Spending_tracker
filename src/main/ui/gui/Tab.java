@@ -1,22 +1,20 @@
 package ui.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import model.Home;
+import model.ShoppingList;
+import model.Spending;
 
+import javax.swing.*;
+
+/**
+ * This is the abstract class for the top tab bar displayed on frame,
+ * can be selected between main, shopping, spending, and transaction
+ */
 public abstract class Tab extends JPanel {
-    private final Main controller;
+    protected Main controller;
 
     //REQUIRES: SmartHomeUI controller that holds this tab
     public Tab(Main controller) {
         this.controller = controller;
-    }
-
-    //EFFECTS: creates and returns row with button included
-    public JPanel formatButtonRow(JButton b) {
-        JPanel p = new JPanel();
-        p.setLayout(new FlowLayout());
-        p.add(b);
-
-        return p;
     }
 }

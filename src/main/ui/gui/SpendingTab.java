@@ -1,26 +1,27 @@
 package ui.gui;
 
 
-import model.Item;
 import model.ShoppingList;
 import model.Spending;
-import model.Transaction;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
 
-/**This is the spending panel that display the spending summary and transaction list*/
+/**
+ * This is the spending panel that display the spending summary and transaction list
+ */
 public class SpendingTab extends Tab implements PropertyChangeListener {
     private Spending spending;
     private ShoppingList shoppingList;
-    //create two panel and whole is a split pane
+    private JPanel panel;
     private JPanel summary;
-    private JPanel transactionPanel;
-    private JScrollPane transaction;
-    private JSplitPane splitPane;
 
     //Values for the fields
     private double income;
@@ -49,19 +50,17 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
 
     // EFFECTS: construct a spending tab with a split pane
     //          with top being the summary and bottom being the transaction
-    public SpendingTab(Main controller, ShoppingList shoppingList, Spending spending) {
+    public SpendingTab(Main controller) {
         super(controller);
         setUpFormats();
+        panel = new JPanel(new GridLayout(2, 1));
         summary = new JPanel();
-        summary.setBackground(Color.PINK);
-        transactionPanel = new JPanel();
-        transactionPanel.setBackground(Color.CYAN);
 
-        this.shoppingList = shoppingList;
-        this.spending = spending;
+        this.shoppingList = controller.shoppingList;
+        this.spending = controller.spending;
 
         // top summary panel
-        spending.trackExpense(spending.getTransactions());
+        spending.trackExpense(shoppingList.getSpending().getTransactions());
         income = spending.getIncome();
         expense = spending.getExpense();
         balance = spending.getBalance();
@@ -70,88 +69,54 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         createTextField();
         setLabelTextLayout();
 
-        // bottom transaction panel
-        createTransactions();
-
-        transaction = new JScrollPane(transactionPanel);
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-                summary, transaction);
-        splitPane.setOneTouchExpandable(true);
-        splitPane.setPreferredSize(new Dimension(Main.WIDTH - 50, Main.HEIGHT - 150));
-        add(splitPane);
+        panel.add(summary);
+        logoPanel();
+        add(panel);
     }
 
-    private void createTransactions() { // TODO: panel not displayed
-        transactionPanel = new JPanel(new BorderLayout());
-        JPanel title = new JPanel(new GridLayout(1, 8));
-        // index 0
-        JLabel item = new JLabel("Item's name");
-        // index 1
-        JLabel amount = new JLabel("Quantity");
-        // index 8
-        JFormattedTextField expense = new JFormattedTextField("Cost");
-        // index 9
-        JButton deleteButton = new JButton("Delete");
-        title.add(item, 0); // 0
-        title.add(amount, 1); // 1
-        title.add(expense, 2);
-        title.add(deleteButton, 3); // 8
-
-        JPanel transactionHolder = new JPanel();
-        for (Transaction t : spending.getTransactions()) {
-            transactionHolder = createSingleTransaction(t);
+    /**
+     * Bottom panel
+     */
+    // EFFECTS: create a logo panel that display the app's image logo
+    private void logoPanel() {
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/moneyIcon.png"));
+            Image newImage = myPicture.getScaledInstance(150,
+                    150, Image.SCALE_DEFAULT);
+            JLabel picLabel = new JLabel(new ImageIcon(newImage));
+            panel.add(picLabel);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        transactionPanel.add(title, BorderLayout.NORTH);
-        transactionPanel.add(transactionHolder, BorderLayout.CENTER);
-    }
-
-    private JPanel createSingleTransaction(Transaction t) {
-        JPanel panel = new JPanel(new GridLayout(1, 8));
-        Item i  = t.getItem();
-        // 0: item name;
-        JLabel item = new JLabel(i.getName());
-
-        // 1: editable text field for amount
-        JFormattedTextField amount = new JFormattedTextField(i.getAmount());
-
-        // 2
-        JFormattedTextField expense = new JFormattedTextField("Cost");
-
-        // 3: delete button
-        JButton deleteButton = new JButton("Delete");
-        //doDelete(deleteButton, i);
-
-        panel.add(item, 0); // 0
-        panel.add(amount, 1); // 1
-        panel.add(expense);
-        panel.add(deleteButton); // 8
-        return panel;
     }
 
     // EFFECTS: set the three textField's layout
     private void setLabelTextLayout() {
+        summary.setLayout(new GridLayout(5, 1));
+
         incomeLabel.setLabelFor(incomeField);
         expenseLabel.setLabelFor(expenseField);
         balanceLabel.setLabelFor(balanceField);
 
         //Lay out the labels in a panel.
-        JPanel labelPane = new JPanel(new GridLayout(0, 1));
-        labelPane.add(incomeLabel);
-        labelPane.add(expenseLabel);
-        labelPane.add(balanceLabel);
+        JPanel incomePanel = new JPanel(new GridLayout(0, 2));
+        incomePanel.add(incomeLabel);
+        incomePanel.add(incomeField);
 
-        //Layout the text fields in a panel.
-        JPanel fieldPane = new JPanel(new GridLayout(0, 1));
-        fieldPane.add(incomeField);
-        fieldPane.add(expenseField);
-        fieldPane.add(balanceField);
+        JPanel expensePanel = new JPanel(new GridLayout(0, 2));
+        expensePanel.add(expenseLabel);
+        expensePanel.add(expenseField);
+
+        JPanel balancePanel = new JPanel(new GridLayout(0, 2));
+        balancePanel.add(balanceLabel);
+        balancePanel.add(balanceField);
 
         //Put the panels in this panel, labels on left,
         //text fields on right.
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        summary.add(labelPane, BorderLayout.CENTER);
-        summary.add(fieldPane, BorderLayout.LINE_END);
+        setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        summary.add(incomePanel);
+        summary.add(expensePanel);
+        summary.add(balancePanel);
     }
 
     // EFFECTS: create the text field for the
@@ -174,12 +139,14 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         balanceField.setForeground(Color.red);
     }
 
+    // EFFECTS: create the labels for three textFields
     private void createLabels() {
         incomeLabel = new JLabel(incomeString);
         expenseLabel = new JLabel(expenseString);
         balanceLabel = new JLabel(balanceString);
     }
 
+    // EFFECTS: compute the balance
     private double computeBalance() {
         return spending.getBalance();
     }
@@ -208,5 +175,11 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
 
         double balance = spending.getBalance();
         balanceField.setValue(new Double(balance));
+    }
+
+
+    // TODO: refreshTab() method
+    public void refreshTab() {
+        controller.loadNewSpending();
     }
 }

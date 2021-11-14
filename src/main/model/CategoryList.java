@@ -64,7 +64,6 @@ public abstract class CategoryList {
     // EFFECTS: remove the certain item from the list
     public abstract void deleteItem(Item item) throws NotInTheListException;
 
-    // TODO: need tests
     // EFFECTS: convert the given string to one of the category type
     public Categories convertToCategory(String s) {
         switch (s) {

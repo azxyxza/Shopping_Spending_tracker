@@ -224,4 +224,13 @@ class HomeTest {
         assertNull(testHome.getItem("apple"));
         assertEquals(food, testHome.getItem("strawberry cake"));
     }
+
+    @Test
+    void testConvertToCategory(){
+        assertEquals(Food, testHome.convertToCategory("Food"));
+        assertEquals(FruitAndVegetables, testHome.convertToCategory("Fruit And Vegetables"));
+        assertEquals(Drinks, testHome.convertToCategory("Drinks"));
+        assertEquals(Necessities, testHome.convertToCategory("Necessities"));
+        assertEquals(Others, testHome.convertToCategory("Others"));
+    }
 }

@@ -147,4 +147,13 @@ public class ShoppingListTest {
         assertEquals(3, testShoppingList.getSpending().transactions.size());
         assertEquals(0, testShoppingList.getBought().size());
     }
+
+    @Test
+    void testConvertToCategory(){
+        assertEquals(Food, testShoppingList.convertToCategory("Food"));
+        assertEquals(FruitAndVegetables, testShoppingList.convertToCategory("Fruit And Vegetables"));
+        assertEquals(Drinks, testShoppingList.convertToCategory("Drinks"));
+        assertEquals(Necessities, testShoppingList.convertToCategory("Necessities"));
+        assertEquals(Others, testShoppingList.convertToCategory("Others"));
+    }
 }
