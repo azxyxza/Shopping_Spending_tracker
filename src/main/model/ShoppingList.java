@@ -133,9 +133,7 @@ public class ShoppingList extends CategoryList implements Writable {
         JSONObject json = new JSONObject();
         json.put("budget", budget);
         json.put("Needs to buy", addToJsonItem(toBuy));
-//      json.put("Have bought", addToJsonItem(bought));
         json.put("Have bought", addToJsonTransaction(spending.transactions));
-//      json.put("Transactions", addToJson(spending.getTransactions()))
         return json;
     }
 

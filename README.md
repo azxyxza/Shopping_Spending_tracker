@@ -68,7 +68,6 @@ managing our relationship with money.
 - As a user, I want to be able to enter the price of bought item in order
 - As a user, I want to be able to enter the price for specific bought item
 
-### Data persistence:
-- As a user, when I quit the main page, I want to have the option asking user to save the data or not. 
-- As a user, when I start the application, 
-  I want to be given the option to load my previous home's, spending's, and shopping-list's data from file.
+### Data persistence: 
+- As a user, I want to be given the option to save and 
+load my previous home's, spending's, and shopping-list's data from file.

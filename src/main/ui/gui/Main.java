@@ -7,10 +7,12 @@ import model.Spending;
 import javax.swing.*;
 import java.awt.*;
 
+/**This is the Main page*/
 public class Main extends JFrame {
     public static final int MAIN_TAB_INDEX = 0;
     public static final int SHOPPING_TAB_INDEX = 1;
-    public static final int SPENDING_TAB_INDEX = 2;
+    public static final int TRANSACTION_TAB_INDEX = 2;
+    public static final int SPENDING_TAB_INDEX = 3;
 
     public static final int WIDTH = 600;
     public static final int HEIGHT = 630;
@@ -54,6 +56,7 @@ public class Main extends JFrame {
     private void loadTabs() {
         JPanel mainTab = new MainTab(this, home, shoppingList, spending);
         JPanel shoppingTab = new ShoppingTab(this, shoppingList);
+        JPanel transactionTab = new TransactionTab(this, shoppingList, home);
         JPanel spendingTab = new SpendingTab(this, shoppingList, spending);
 
         topBar.add(mainTab, MAIN_TAB_INDEX);
@@ -61,6 +64,9 @@ public class Main extends JFrame {
 
         topBar.add(shoppingTab, SHOPPING_TAB_INDEX);
         topBar.setTitleAt(SHOPPING_TAB_INDEX, "Shopping");
+
+        topBar.add(transactionTab, TRANSACTION_TAB_INDEX);
+        topBar.setTitleAt(TRANSACTION_TAB_INDEX, "Transaction");
 
         topBar.add(spendingTab, SPENDING_TAB_INDEX);
         topBar.setTitleAt(SPENDING_TAB_INDEX, "Spending");

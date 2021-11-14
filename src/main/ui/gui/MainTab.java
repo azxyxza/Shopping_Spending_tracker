@@ -8,7 +8,6 @@ import persistence.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -49,7 +48,6 @@ public class MainTab extends Tab {
         welcomeText();
         logoPanel();
         saveAndLoad();
-
     }
 
     /**Top panel*/
@@ -119,7 +117,7 @@ public class MainTab extends Tab {
     /**
      * do the load action
      */
-    private void loadActionListener(JButton loadButton, JLabel loadLabel) {
+    private void loadActionListener(JButton loadButton, JLabel loadLabel) { // TODO
         loadButton.addActionListener(e -> {
             if (e.getSource() == loadButton) {
                 try {

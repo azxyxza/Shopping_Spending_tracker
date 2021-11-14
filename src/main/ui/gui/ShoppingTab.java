@@ -11,8 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,7 +20,12 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 
-public class ShoppingTab extends Tab implements PropertyChangeListener, ListSelectionListener {
+/**
+ * This is the shopping tab that display the shopping list
+ * Users can add new items, delete items, mark items as bought in this tab
+ */
+public class ShoppingTab extends Tab
+        implements PropertyChangeListener, ListSelectionListener {
     private ShoppingList shoppingList;
     private JPanel topPanel;
     private JFormattedTextField budgetField;
@@ -33,10 +37,10 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
 
     private JButton addButton;
     private JButton deleteButton;
-    private JButton refreshButton;
     private JButton boughtButton;
 
     String[] categories = {"Food", "Fruit And Vegetables", "Drinks", "Necessities", "Others"};
+
 
 
     // EFFECTS: create a new tab with the shoppinglist displayed
@@ -48,7 +52,6 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
         topPanel = new JPanel(new GridLayout(1, 2));
         topPanel.setBackground(new Color(122, 189, 194));
         createBudget();
-        createReset();
 
         createPaneList();
         JScrollPane scrollPane = new JScrollPane(centerPanel);
@@ -61,23 +64,41 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
         add(addButton, BorderLayout.SOUTH);
     }
 
-    private void createReset() { // TODO
-        refreshButton = new JButton("Refresh");
-        try {
-            Image img = ImageIO.read(getClass().getResource("images/refreshIcon.png"));
-            Image newImage = img.getScaledInstance(20,
-                    20, Image.SCALE_DEFAULT);
-            refreshButton.setIcon(new ImageIcon(newImage));
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        refreshButton.addActionListener(e -> {
-            if (e.getSource() == refreshButton) {
-                createPaneList();
-            }
-        });
-        topPanel.add(refreshButton);
-    }
+//    private void createSortMenu() {
+//        JButton sortButton = new JButton("View by Categories");
+//        JPopupMenu menu = new JPopupMenu();
+//
+//        food = new JMenuItem("Food");
+//        food.setMnemonic(KeyEvent.VK_F);
+//        food.addActionListener(this);
+//
+//        fruitAndVegetables = new JMenuItem("Fruit And Vegetables");
+//        fruitAndVegetables.setMnemonic(KeyEvent.VK_V);
+//
+//        drinks = new JMenuItem("Drinks");
+//        drinks.setMnemonic(KeyEvent.VK_D);
+//
+//        necessities = new JMenuItem("Necessities");
+//        necessities.setMnemonic(KeyEvent.VK_N);
+//
+//        others = new JMenuItem("Others");
+//        others.setMnemonic(KeyEvent.VK_O);
+//
+//        menu.add(food);
+//        menu.add(fruitAndVegetables);
+//        menu.add(drinks);
+//        menu.add(necessities);
+//        menu.add(others);
+//
+//        sortButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent ae) {
+//                menu.show(sortButton, sortButton.getWidth() / 2, sortButton.getHeight() / 2);
+//            }
+//        });
+//
+//        topPanel.add(sortButton);
+//    }
+
 
     // EFFECTS: when click on the add button, show a new dialogue window to allow inputs
     private void createAddButton() {
@@ -113,33 +134,35 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
     private void processCommand(ActionEvent e, JPanel panel, JTextField itemName,
                                 JTextField itemAmount, JComboBox categoryList) {
         if (e.getSource() == addButton) {
-            try {
-                int result = createImageIcon(panel);
-                if (result == JOptionPane.OK_OPTION) {
-                    String name = itemName.getText();
-                    int amount = Integer.parseInt(itemAmount.getText());
-                    String category = (String) categoryList.getSelectedItem();
-                    Categories type = shoppingList.convertToCategory(category);
-                    Item newItem = new Item(name, amount, type, LocalDate.now());
-                    try {
-                        shoppingList.addItem(newItem);
-                    } catch (AvoidDuplicateException avoidDuplicateException) {
-                        checkException(name);
-                    }
+            int result = createImageIcon(panel);
+            if (result == JOptionPane.OK_OPTION) {
+                String name = itemName.getText();
+                int amount = Integer.parseInt(itemAmount.getText());
+                String category = (String) categoryList.getSelectedItem();
+                Categories type = shoppingList.convertToCategory(category);
+                Item newItem = new Item(name, amount, type, LocalDate.now());
+                try {
+                    shoppingList.addItem(newItem);
+                } catch (AvoidDuplicateException avoidDuplicateException) {
+                    checkException(name);
                 }
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
 
-            addInputToList(itemName, itemAmount);
+            listModel.addElement(itemAmount.getText() + "  " + itemName.getText());
             deleteButton.setEnabled(true);
             boughtButton.setEnabled(true);
-
         }
     }
 
-    private int createImageIcon(JPanel panel) throws IOException {
-        BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/groceryIcon.png"));
+
+    // EFFECTS: create an image icon displayed in the left of the popup dialog
+    private int createImageIcon(JPanel panel)  {
+        BufferedImage myPicture = null;
+        try {
+            myPicture = ImageIO.read(new File("src/main/ui/gui/images/groceryIcon.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Image newImage = myPicture.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         ImageIcon img = new ImageIcon(newImage);
         int result = JOptionPane.showConfirmDialog(null, panel,
@@ -148,17 +171,6 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
         return result;
     }
 
-
-    // EFFECTS: add the input new item to the list
-    private void addInputToList(JTextField itemName, JTextField itemAmount) {
-        int index = list.getSelectedIndex(); //get selected index
-        if (index == -1) { //no selection, so insert at beginning
-            index = 0;
-        } else {           //add after the selected item
-            index++;
-        }
-        listModel.insertElementAt(itemAmount.getText() + "  " + itemName.getText(), index);
-    }
 
     // EFFECTS: check the exception for adding items to shopping list
     private void checkException(String name) {
@@ -176,7 +188,7 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
     }
 
 
-    // have multiple panel as list displayed as the To buy list
+    // EFFECTS: have multiple panel as list displayed as the To buy list
     private void createPaneList() {
         centerPanel = new JPanel(new BorderLayout());
         JPanel selection = createSelectionBar();
@@ -223,7 +235,6 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
             public void actionPerformed(ActionEvent e) {
                 int index = list.getSelectedIndex();
                 listModel.remove(index);
-//                String itemName = (String) list.getSelectedValue();
                 Item i = shoppingList.getToBuy().get(index);
                 try {
                     shoppingList.deleteItem(i);
@@ -266,7 +277,6 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
             }
         });
     }
-
 
 
     /**
@@ -323,6 +333,25 @@ public class ShoppingTab extends Tab implements PropertyChangeListener, ListSele
     }
 
 
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        JMenuItem source = (JMenuItem) (e.getSource());
+//        switch (source) {
+//            case food:
+//                list = new JList(listModel);
+//                for (Item i : shoppingList.get)
+//                return;
+//            case fruitAndVegetables:
+//            case drinks:
+//            case necessities:
+//            case others:
+//        }
+//    }
+//
+//    @Override
+//    public void itemStateChanged(ItemEvent e) {
+//
+//    }
 }
 
 

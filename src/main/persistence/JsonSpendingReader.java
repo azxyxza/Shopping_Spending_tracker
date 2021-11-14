@@ -77,6 +77,4 @@ public class JsonSpendingReader {
         Transaction t = new Transaction(i, expense);
         spending.getTransactions().add(t);
     }
-
-
 }
