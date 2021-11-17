@@ -1,9 +1,5 @@
 package ui.gui;
 
-import model.Home;
-import model.ShoppingList;
-import model.Spending;
-
 import javax.swing.*;
 
 /**

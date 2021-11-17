@@ -177,9 +177,4 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         balanceField.setValue(new Double(balance));
     }
 
-
-    // TODO: refreshTab() method
-    public void refreshTab() {
-        controller.loadNewSpending();
-    }
 }

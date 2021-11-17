@@ -72,8 +72,8 @@ public class MainTab extends Tab {
     private void logoPanel() {
         try {
             BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/logo.png"));
-            Image newImage = myPicture.getScaledInstance(100,
-                    100, Image.SCALE_DEFAULT);
+            Image newImage = myPicture.getScaledInstance(130,
+                    130, Image.SCALE_DEFAULT);
             JLabel picLabel = new JLabel(new ImageIcon(newImage));
             add(picLabel);
         } catch (IOException e) {

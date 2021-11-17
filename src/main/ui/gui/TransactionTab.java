@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,12 +42,9 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
     // EFFECTS: construct a transaction tab
     public TransactionTab(Main controller) {
         super(controller);
-//        this.shoppingList = controller.shoppingList;
-//        this.home = controller.home;
-
         setLayout(new BorderLayout());
         createTopBar();
-        createCentralPanel();
+        createCentralPanel(controller.shoppingList.getSpending().getTransactions());
         refresh();
         createBottomPanel();
 
@@ -55,15 +53,15 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
         add(addCostButton, BorderLayout.PAGE_END);
     }
 
-
+    // MODIFIES: this
     // EFFECTS: create a bottom panel that can edit the costs of each item
     private void createBottomPanel() {
-        addCostButton = new JButton("Add");
+        addCostButton = new JButton("Edit");
         if (controller.shoppingList.getSpending().getTransactions().isEmpty()) {
             addCostButton.setEnabled(false);
         }
         try {
-            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/addCost.png"));
+            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/moneyAddIcon.png"));
             Image newImage = myPicture.getScaledInstance(30,
                     30, Image.SCALE_DEFAULT);
             addCostButton.setIcon(new ImageIcon(newImage));
@@ -86,7 +84,8 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
 
     }
 
-    //TODO
+    //MODIFIES: this
+    //EFFECTS: edit the item's cost in the transaction list
     private void processCommand(ActionEvent e, JPanel panel, JTextField itemCost) {
         if (e.getSource() == addCostButton) {
             int result = createImageIcon(panel);
@@ -99,35 +98,43 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
 
                 controller.shoppingList.getSpending().getTransactions().remove(index);
                 controller.shoppingList.getSpending().getTransactions().add(newTransaction);
-
             }
         }
     }
 
 
     // EFFECTS: create a central panel that display the transaction list
-    private void createCentralPanel() {
+    private void createCentralPanel(List<Transaction> transactions) {
         listModel = new DefaultListModel();
-
+        scrollPanel = new JScrollPane();
         JLabel notice = new JLabel("You haven't made any transactions yet ~", JLabel.CENTER);
-        if (controller.shoppingList.getSpending().getTransactions().isEmpty()) {
+        notice.setFont(new Font("Verdana", Font.BOLD, 16));
+        if (transactions.isEmpty()) {
             notice.setForeground(new Color(108, 80, 241, 255));
-            scrollPanel = new JScrollPane(notice);
+            scrollPanel.setViewportView(notice);
+
         } else {
             notice.setVisible(false);
-            for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
+            for (Transaction t : transactions) {
                 Item i = t.getItem();
                 listModel.addElement(i.getAmount() + " " + i.getName() + " bought at " + i.getDate()
                         + " -- Cost : " + t.getExpense());
             }
-        }
-        list = new JList(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setSelectedIndex(0);
-        list.addListSelectionListener(this);
-        list.setVisibleRowCount(5);
-        scrollPanel = new JScrollPane(list);
+//            for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
+//                Item i = t.getItem();
+//                listModel.addElement(i.getAmount() + " " + i.getName() + " bought at " + i.getDate()
+//                        + " -- Cost : " + t.getExpense());
+//            }
 
+            list = new JList(listModel);
+            list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            list.setSelectedIndex(0);
+            list.addListSelectionListener(this);
+            list.setVisibleRowCount(5);
+            scrollPanel.setViewportView(list);
+        }
+        scrollPanel.revalidate();
+        scrollPanel.repaint();
     }
 
 
@@ -159,7 +166,6 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
 
         topBar.add(dateButton);
         topBar.add(sortButton);
-
     }
 
 
@@ -206,9 +212,7 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
                 controller.loadNewTransaction();
             }
         });
-
         topBar.add(refreshButton);
-
     }
 
 
@@ -217,45 +221,47 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
 
     }
 
-    // EFFECTS: choosing certain menu will display certain list in central panel
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        JMenuItem source = (JMenuItem) (e.getSource());
-        if (source == food) {
-            listDisplay(controller.home.getFood());
-        } else if (source == fruitAndVegetables) {
-            listDisplay(controller.home.getFruitAndVeg());
-        } else if (source == drinks) {
-            listDisplay(controller.home.getDrinks());
-        } else if (source == necessities) {
-            listDisplay(controller.home.getNecessities());
-        } else if (source == others) {
-            listDisplay(controller.home.getOthers());
-        }
-        list = new JList(listModel);
-        scrollPanel = new JScrollPane(list);
-    }
-
-    // EFFECTS: display the transaction list with the item's name and cost
-    private void listDisplay(List<Item> itemList) {
-        for (Item i : itemList) {
-            double cost = 0;
-            for (Transaction t : controller.spending.getTransactions()) {
-                if (t.getItem().equals(i)) {
-                    cost = t.getExpense();
-                }
-            }
-            listModel.addElement(i.getAmount() + "   " + i.getName() + "   bought at   " + i.getDate()
-                    + " --- Cost : \n" + cost);
-        }
-    }
+//    // EFFECTS: choosing certain menu will display certain list in central panel
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        JMenuItem source = (JMenuItem) (e.getSource());
+//        if (source == food) {
+//            listDisplay(controller.shoppingList.getFood());
+//        } else if (source == fruitAndVegetables) {
+//            listDisplay(controller.shoppingList.getFruitAndVeg());
+//        } else if (source == drinks) {
+//            listDisplay(controller.shoppingList.getDrinks());
+//        } else if (source == necessities) {
+//            listDisplay(controller.shoppingList.getNecessities());
+//        } else if (source == others) {
+//            listDisplay(controller.shoppingList.getOthers());
+//        }
+//    }
+//
+//    // EFFECTS: display the transaction list with the item's name and cost
+//    private void listDisplay(List<Item> itemList) {
+//        List<Transaction> transactions = new ArrayList<>();
+//        for (Item i : itemList) {
+//            double cost = 0;
+//            for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
+//                if (t.getItem().equals(i)) {
+////                    cost = t.getExpense();
+//                    transactions.add(t);
+//                }
+//            }
+////            DefaultListModel listModel = new DefaultListModel();
+////            listModel.addElement(i.getAmount() + "   " + i.getName() + "   bought at   " + i.getDate()
+////                    + " --- Cost : \n" + cost);
+//        }
+//        createCentralPanel(transactions);
+//    }
 
 
     // EFFECT: create the popup dialogue panel that asks to add costs for item
     private int createImageIcon(JPanel panel) {
         BufferedImage myPicture = null;
         try {
-            myPicture = ImageIO.read(new File("src/main/ui/gui/images/groceryIcon.png"));
+            myPicture = ImageIO.read(new File("src/main/ui/gui/images/moneyDisplay.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -265,6 +271,11 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
                 "Adding this item's cost...", JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE, img);
         return result;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }
 

@@ -1,5 +1,6 @@
 package ui.gui;
 
+import model.CategoryList;
 import model.Home;
 import model.ShoppingList;
 import model.Spending;
@@ -23,11 +24,13 @@ public class Main extends JFrame {
     protected Home home;
     protected ShoppingList shoppingList;
     protected Spending spending;
+    protected CategoryList categoryList;
 
     protected JPanel mainTab;
     protected JPanel shoppingTab;
     protected JPanel transactionTab;
     protected JPanel spendingTab;
+
 
 
     // EFFECTS: init
@@ -42,7 +45,7 @@ public class Main extends JFrame {
         home = new Home();
         shoppingList = new ShoppingList();
         spending = new Spending();
-
+        categoryList = new ShoppingList();
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,7 +63,7 @@ public class Main extends JFrame {
         getContentPane().setBackground(new Color(218, 185, 255, 255));
     }
 
-    // load the top three tabs for choices (switching between panel)
+    // EFFECTS: load the top three tabs for choices (switching between panel)
     public void loadTabs() {
         mainTab = new MainTab(this);
         shoppingTab = new ShoppingTab(this);
@@ -80,13 +83,8 @@ public class Main extends JFrame {
         topBar.setTitleAt(SPENDING_TAB_INDEX, "Spending");
     }
 
-//    // TODO: refreshTabs method
-//    public void loadNewMain() {
-//        mainTab = new MainTab(this);
-//        topBar.add(mainTab, MAIN_TAB_INDEX);
-//        topBar.setTitleAt(MAIN_TAB_INDEX, "Main");
-//    }
 
+    // EFFECTS: load the shopping tab
     public void loadNewShopping() {
         if (shoppingTab != null) {
             topBar.remove(shoppingTab);
@@ -96,6 +94,7 @@ public class Main extends JFrame {
         topBar.setTitleAt(SHOPPING_TAB_INDEX, "Shopping");
     }
 
+    // EFFECTS: load the new transaction tab
     public void loadNewTransaction() {
         if (transactionTab != null) {
             topBar.remove(transactionTab);
@@ -106,6 +105,7 @@ public class Main extends JFrame {
 
     }
 
+    // EFFECTS: load the new spending tab
     public void loadNewSpending() {
         if (spendingTab != null) {
             topBar.remove(spendingTab);

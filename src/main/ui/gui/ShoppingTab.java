@@ -44,10 +44,9 @@ public class ShoppingTab extends Tab
     String[] categories = {"Food", "Fruit And Vegetables", "Drinks", "Necessities", "Others"};
 
 
-    // EFFECTS: create a new tab with the shoppinglist displayed
+    // EFFECTS: create a new shopping tab with the top panel, center panel and bottom panel initiate
     public ShoppingTab(Main controller) {
         super(controller);
-//        this.shoppingList = shoppingList;
         setLayout(new BorderLayout());
 
         topPanel = new JPanel(new GridLayout(1, 2));
@@ -66,7 +65,7 @@ public class ShoppingTab extends Tab
         add(addButton, BorderLayout.SOUTH);
     }
 
-
+    // MODIFIES: this
     // EFFECTS: create a button to redisplay the shopping list
     private void createRefreshButton() {
         refreshButton = new JButton("Refresh");
@@ -298,6 +297,7 @@ public class ShoppingTab extends Tab
 
 
     @Override
+    // EFFECTS: when enter new text into budgetField, change the budget to new value
     public void propertyChange(PropertyChangeEvent evt) {
         Object source = evt.getSource();
         double newBudget;
@@ -309,6 +309,7 @@ public class ShoppingTab extends Tab
 
 
     @Override
+    // EFFECTS: if there is no item selected, disable the button
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
             return;
