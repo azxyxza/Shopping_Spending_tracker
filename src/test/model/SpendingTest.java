@@ -52,6 +52,8 @@ public class SpendingTest {
     void testTrackExpense() {
         spending.trackExpense(ts);
         assertEquals(20.00, spending.getExpense());
+        spending.trackExpense(ts);
+        assertEquals(20.00, spending.getExpense());
     }
 
     @Test

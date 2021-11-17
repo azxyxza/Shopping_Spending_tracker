@@ -120,9 +120,6 @@ public class MainTab extends Tab {
                     controller.shoppingList = jsonShoppingReader.read();
                     controller.spending = jsonSpendingReader.read();
 
-//                    this.controller.home = home;
-//                    this.controller.shoppingList = shoppingList;
-//                    this.controller.spending = spending;
 
                     // call "updateTabs" method in controller, which calls spendingTab.refresh()..., etc.
 //                    this.controller.loadTabs();
