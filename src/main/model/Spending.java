@@ -63,7 +63,7 @@ public class Spending extends Home implements Writable {
     // MODIFIES: this
     // EFFECTS: store the expense for the transaction when new items bought
     public void trackExpense(LinkedList<Transaction> transactions) {
-        if (expense != 0){
+        if (expense != 0) {
             expense = 0;
         }
         for (Transaction t : transactions) {
