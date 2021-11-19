@@ -32,7 +32,6 @@ public class Main extends JFrame {
     protected JPanel spendingTab;
 
 
-
     // EFFECTS: init
     public static void main(String[] args) {
         new Main();

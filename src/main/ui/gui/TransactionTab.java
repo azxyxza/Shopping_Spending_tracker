@@ -1,5 +1,6 @@
 package ui.gui;
 
+import model.Categories;
 import model.Item;
 import model.Transaction;
 
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -133,8 +135,6 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
             list.setVisibleRowCount(5);
             scrollPanel.setViewportView(list);
         }
-        scrollPanel.revalidate();
-        scrollPanel.repaint();
     }
 
 
@@ -210,6 +210,7 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
         refreshButton.addActionListener(e -> {
             if (e.getSource() == refreshButton) {
                 controller.loadNewTransaction();
+                controller.loadNewSpending();
             }
         });
         topBar.add(refreshButton);
@@ -221,40 +222,58 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
 
     }
 
-//    // EFFECTS: choosing certain menu will display certain list in central panel
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        JMenuItem source = (JMenuItem) (e.getSource());
-//        if (source == food) {
-//            listDisplay(controller.shoppingList.getFood());
-//        } else if (source == fruitAndVegetables) {
-//            listDisplay(controller.shoppingList.getFruitAndVeg());
-//        } else if (source == drinks) {
-//            listDisplay(controller.shoppingList.getDrinks());
-//        } else if (source == necessities) {
-//            listDisplay(controller.shoppingList.getNecessities());
-//        } else if (source == others) {
-//            listDisplay(controller.shoppingList.getOthers());
-//        }
-//    }
-//
-//    // EFFECTS: display the transaction list with the item's name and cost
-//    private void listDisplay(List<Item> itemList) {
+    // EFFECTS: choosing certain menu will display certain list in central panel
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JMenuItem source = (JMenuItem) (e.getSource());
+        if (source == food) {
+            listDisplay(transactionItemConverter(controller.shoppingList.getSpending().getTransactions(),
+                    Categories.Food));
+        } else if (source == fruitAndVegetables) {
+            listDisplay(transactionItemConverter(controller.shoppingList.getSpending().getTransactions(),
+                    Categories.FruitAndVegetables));
+        } else if (source == drinks) {
+            listDisplay(transactionItemConverter(controller.shoppingList.getSpending().getTransactions(),
+                    Categories.Drinks));
+        } else if (source == necessities) {
+            listDisplay(transactionItemConverter(controller.shoppingList.getSpending().getTransactions(),
+                    Categories.Necessities));
+        } else if (source == others) {
+            listDisplay(transactionItemConverter(controller.shoppingList.getSpending().getTransactions(),
+                    Categories.Others));
+        }
+    }
+
+    // EFFECTS: helper method for convert transaction list to item list
+    private List<Item> transactionItemConverter(List<Transaction> transactions, Categories categories) {
+        List<Item> itemList = new ArrayList<>();
+        for (Transaction t : transactions) {
+            Item i = t.getItem();
+            if (i.getCategories() == categories) {
+                itemList.add(i);
+            }
+        }
+        return itemList;
+    }
+
+    // EFFECTS: display the transaction list with the item's name and cost
+    private void listDisplay(List<Item> itemList) {
+        listModel.removeAllElements();
 //        List<Transaction> transactions = new ArrayList<>();
-//        for (Item i : itemList) {
-//            double cost = 0;
-//            for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
-//                if (t.getItem().equals(i)) {
-////                    cost = t.getExpense();
+        for (Item i : itemList) {
+            double cost = 0;
+            for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
+                if (t.getItem().equals(i)) {
+                    cost = t.getExpense();
 //                    transactions.add(t);
-//                }
-//            }
-////            DefaultListModel listModel = new DefaultListModel();
-////            listModel.addElement(i.getAmount() + "   " + i.getName() + "   bought at   " + i.getDate()
-////                    + " --- Cost : \n" + cost);
-//        }
+                }
+            }
+//            DefaultListModel listModel = new DefaultListModel();
+            listModel.addElement(i.getAmount() + "   " + i.getName() + "   bought at   " + i.getDate()
+                    + " --- Cost : \n" + cost);
+        }
 //        createCentralPanel(transactions);
-//    }
+    }
 
 
     // EFFECT: create the popup dialogue panel that asks to add costs for item
@@ -273,10 +292,6 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
         return result;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 }
 
 

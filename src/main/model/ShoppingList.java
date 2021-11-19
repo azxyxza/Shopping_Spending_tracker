@@ -22,31 +22,6 @@ public class ShoppingList extends CategoryList implements Writable {
     protected List<Item> bought;
     private Spending spending;
 
-//    // Getters
-//    public List<Item> getFood() {
-//        return food;
-//    }
-//
-//    public List<Item> getFruitAndVeg() {
-//        return fruitAndVeg;
-//    }
-//
-//    public List<Item> getDrinks() {
-//        return drinks;
-//    }
-//
-//    public List<Item> getNecessities() {
-//        return necessities;
-//    }
-//
-//    public List<Item> getOthers() {
-//        return others;
-//    }
-//
-//    public List<Item> getAll() {
-//        return all;
-//    }
-
     // EFFECTS: create a shopping list with initial budget set to 0.0,
     //          with empty to-buy list, bought list
     public ShoppingList() {

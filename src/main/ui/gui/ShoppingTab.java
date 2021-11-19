@@ -80,7 +80,8 @@ public class ShoppingTab extends Tab
 
         refreshButton.addActionListener(e -> {
             if (e.getSource() == refreshButton) {
-                controller.loadNewShopping();
+//                controller.loadNewShopping();
+                this.repaint();
             }
         });
         topPanel.add(refreshButton);
