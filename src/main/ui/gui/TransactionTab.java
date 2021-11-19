@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -81,6 +80,7 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
         });
 
         addCostButton.setBackground(new Color(122, 189, 194));
+        addCostButton.setFont(new Font("Verdana", Font.BOLD, 16));
 
     }
 

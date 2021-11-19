@@ -142,8 +142,11 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
     // EFFECTS: create the labels for three textFields
     private void createLabels() {
         incomeLabel = new JLabel(incomeString);
+        incomeLabel.setFont(new Font("Verdana", Font.BOLD, 14));
         expenseLabel = new JLabel(expenseString);
+        expenseLabel.setFont(new Font("Verdana", Font.BOLD, 14));
         balanceLabel = new JLabel(balanceString);
+        balanceLabel.setFont(new Font("Verdana", Font.BOLD, 14));
     }
 
     // EFFECTS: compute the balance

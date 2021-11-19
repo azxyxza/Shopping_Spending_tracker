@@ -1,8 +1,5 @@
 package ui.gui;
 
-import model.Home;
-import model.ShoppingList;
-import model.Spending;
 import model.exception.AvoidDuplicateException;
 import persistence.*;
 
@@ -72,8 +69,8 @@ public class MainTab extends Tab {
     private void logoPanel() {
         try {
             BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/logo.png"));
-            Image newImage = myPicture.getScaledInstance(130,
-                    130, Image.SCALE_DEFAULT);
+            Image newImage = myPicture.getScaledInstance(120,
+                    120, Image.SCALE_DEFAULT);
             JLabel picLabel = new JLabel(new ImageIcon(newImage));
             add(picLabel);
         } catch (IOException e) {
@@ -87,9 +84,11 @@ public class MainTab extends Tab {
     private void saveAndLoad() {
         JButton saveButton = new JButton("Save current data");
         JLabel saveLabel = new JLabel("Save the data successfully", SwingConstants.CENTER);
+        saveLabel.setForeground(new Color(51, 14, 161, 216));
         saveLabel.setVisible(false);
         JButton loadButton = new JButton("Load previous data");
         JLabel loadLabel = new JLabel("Loaded previous data successfully", SwingConstants.CENTER);
+        loadLabel.setForeground(new Color(51, 14, 161, 216));
         loadLabel.setVisible(false);
 
         JPanel buttonRow = new JPanel(new GridLayout(2, 2));

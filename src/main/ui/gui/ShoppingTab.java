@@ -90,14 +90,7 @@ public class ShoppingTab extends Tab
     // EFFECTS: when click on the add button, show a new dialogue window to allow inputs
     private void createAddButton() {
         addButton = new JButton("Add");
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/addIcon.png"));
-            Image newImage = myPicture.getScaledInstance(30,
-                    30, Image.SCALE_DEFAULT);
-            addButton.setIcon(new ImageIcon(newImage));
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
+        createImageIconForAdd();
         addButton.addActionListener(e -> {
             JTextField itemName = new JTextField();
             JTextField itemAmount = new JFormattedTextField("1");
@@ -114,6 +107,19 @@ public class ShoppingTab extends Tab
             processCommand(e, panel, itemName, itemAmount, categoryList);
         });
         addButton.setBackground(new Color(122, 189, 194));
+        addButton.setFont(new Font("Verdana", Font.BOLD, 16));
+    }
+
+    // EFFECTS: create an image icon for add button
+    private void createImageIconForAdd() {
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/addIcon.png"));
+            Image newImage = myPicture.getScaledInstance(30,
+                    30, Image.SCALE_DEFAULT);
+            addButton.setIcon(new ImageIcon(newImage));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
 
