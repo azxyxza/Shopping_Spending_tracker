@@ -71,7 +71,7 @@ managing our relationship with money.
 - As a user, I want to be given the option to save and 
 load my previous home's, spending's, and shopping-list's data from file.
 
-###Phase 4: Task 2 - EventLog
+### Phase 4: Task 2 - EventLog
 Budget set to: 100.0 dollars.
 Income set to: 1000.0 dollars.
 Added 1 bread (Food) to the to-buy list.
@@ -92,7 +92,7 @@ bread's price is set to 5.99 dollars.
 milk's price is set to 6.99 dollars.
 
 
-###Phase 4: Task 3 - reflection
+### Phase 4: Task 3 - reflection
 If I had more time to work on the project, I would like to improve my code in following ways:
 - First, I would like to improve my ShoppingList class's cohesion and decrease the coupling between the ShoppingList class 
 and Transaction class. As for now, the ShoppingList class is also doing some jobs that would be better to be done in the 
