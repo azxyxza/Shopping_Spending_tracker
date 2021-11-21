@@ -20,7 +20,6 @@ public class Spending extends Home implements Writable {
     // EFFECTS: create a spending object that have the transaction keeping track
     public Spending() {
         transactions = new LinkedList<>();
-        // trackExpense(transactions);
         income = 0.0;
         expense = 0.0;
         balance = income - expense;
@@ -39,16 +38,20 @@ public class Spending extends Home implements Writable {
         return transactions;
     }
 
+
     // EFFECTS: balance is calculated as income - expense (can be negative, positive, zero)
     public double getBalance() {
-        return balance = income - expense;
+        double balance = income - expense;
+        return balance;
     }
 
 
+    // TODO:
     // MODIFIES: this
     // EFFECTS: record new income
     public void setIncome(Double income) {
         this.income += income;
+        EventLog.getInstance().logEvent(new Event("Income set to: " + income + " dollars."));
     }
 
     public void setExpense(double expense) {

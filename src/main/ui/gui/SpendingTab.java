@@ -18,8 +18,8 @@ import java.text.NumberFormat;
  * This is the spending panel that display the spending summary and transaction list
  */
 public class SpendingTab extends Tab implements PropertyChangeListener {
-    private Spending spending;
-    private ShoppingList shoppingList;
+//    private Spending spending;
+//    private ShoppingList shoppingList;
     private JPanel panel;
     private JPanel summary;
 
@@ -56,14 +56,14 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         panel = new JPanel(new GridLayout(2, 1));
         summary = new JPanel();
 
-        this.shoppingList = controller.shoppingList;
-        this.spending = controller.spending;
+//        this.shoppingList = controller.shoppingList;
+//        this.spending = controller.spending;
 
         // top summary panel
-        spending.trackExpense(shoppingList.getSpending().getTransactions());
-        income = spending.getIncome();
-        expense = spending.getExpense();
-        balance = spending.getBalance();
+        controller.spending.trackExpense(controller.shoppingList.getSpending().getTransactions());
+        income = controller.spending.getIncome();
+        expense = controller.spending.getExpense();
+        balance = controller.spending.getBalance();
         balance = computeBalance();
         createLabels();
         createTextField();
@@ -151,7 +151,7 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
 
     // EFFECTS: compute the balance
     private double computeBalance() {
-        return spending.getBalance();
+        return controller.spending.getBalance();
     }
 
     //Create and set up number formats. These objects also
@@ -170,13 +170,13 @@ public class SpendingTab extends Tab implements PropertyChangeListener {
         Object source = e.getSource();
         if (source == incomeField) {
             income = ((Number) incomeField.getValue()).doubleValue();
-            spending.setIncome(income);
+            controller.spending.setIncome(income);
         }
 
-        double expense = spending.getExpense();
+        double expense = controller.spending.getExpense();
         expenseField.setValue(new Double(expense));
 
-        double balance = spending.getBalance();
+        double balance = controller.spending.getBalance();
         balanceField.setValue(new Double(balance));
     }
 

@@ -1,9 +1,7 @@
 package ui.gui;
 
-import model.CategoryList;
-import model.Home;
-import model.ShoppingList;
-import model.Spending;
+import model.Event;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +19,7 @@ public class Main extends JFrame {
     public static final int HEIGHT = 630;
     private JTabbedPane topBar;
 
-    protected Home home;
+    //    protected Home home;
     protected ShoppingList shoppingList;
     protected Spending spending;
     protected CategoryList categoryList;
@@ -41,12 +39,20 @@ public class Main extends JFrame {
     //EFFECTS: creates MainPageUI, loads SmartHome appliances, displays topBars
     private Main() {
         super("Shopping-Spending tracker");
-        home = new Home();
+//        home = new Home();
         shoppingList = new ShoppingList();
         spending = new Spending();
         categoryList = new ShoppingList();
         setSize(WIDTH, HEIGHT);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                printLog(EventLog.getInstance());
+                //THEN you can exit the program
+                System.exit(0);
+            }
+        });
 
         topBar = new JTabbedPane();
         topBar.setTabPlacement(JTabbedPane.TOP);
@@ -60,6 +66,13 @@ public class Main extends JFrame {
         setSize(WIDTH, HEIGHT);
         setVisible(true);
         getContentPane().setBackground(new Color(218, 185, 255, 255));
+    }
+
+    // EFFECTS: print all the event log information
+    private void printLog(EventLog events) {
+        for (Event next : events) {
+            System.out.println(next.getDescription());
+        }
     }
 
     // EFFECTS: load the top three tabs for choices (switching between panel)

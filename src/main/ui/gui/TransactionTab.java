@@ -61,14 +61,7 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
         if (controller.shoppingList.getSpending().getTransactions().isEmpty()) {
             addCostButton.setEnabled(false);
         }
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/moneyAddIcon.png"));
-            Image newImage = myPicture.getScaledInstance(30,
-                    30, Image.SCALE_DEFAULT);
-            addCostButton.setIcon(new ImageIcon(newImage));
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
+        addCostButtonIcon();
         addCostButton.addActionListener(e -> {
             JPanel panel = new JPanel(new GridLayout(1, 2));
             JTextField itemCost = new JFormattedTextField();
@@ -86,6 +79,18 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
 
     }
 
+    // EFFECTS: create icon for the addCost button
+    private void addCostButtonIcon() {
+        try {
+            BufferedImage myPicture = ImageIO.read(new File("src/main/ui/gui/images/moneyAddIcon.png"));
+            Image newImage = myPicture.getScaledInstance(30,
+                    30, Image.SCALE_DEFAULT);
+            addCostButton.setIcon(new ImageIcon(newImage));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
     //MODIFIES: this
     //EFFECTS: edit the item's cost in the transaction list
     private void processCommand(ActionEvent e, JPanel panel, JTextField itemCost) {
@@ -97,6 +102,7 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
                 listModel.remove(index);
                 Item newItem = controller.shoppingList.getSpending().getTransactions().get(index).getItem();
                 Transaction newTransaction = new Transaction(newItem, amount);
+                newTransaction.setExpense(amount);
 
                 controller.shoppingList.getSpending().getTransactions().remove(index);
                 controller.shoppingList.getSpending().getTransactions().add(newTransaction);
@@ -122,12 +128,6 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
                 listModel.addElement(i.getAmount() + " " + i.getName() + " bought at " + i.getDate()
                         + " -- Cost : " + t.getExpense());
             }
-//            for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
-//                Item i = t.getItem();
-//                listModel.addElement(i.getAmount() + " " + i.getName() + " bought at " + i.getDate()
-//                        + " -- Cost : " + t.getExpense());
-//            }
-
             list = new JList(listModel);
             list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             list.setSelectedIndex(0);
@@ -259,20 +259,16 @@ public class TransactionTab extends Tab implements ListSelectionListener, Action
     // EFFECTS: display the transaction list with the item's name and cost
     private void listDisplay(List<Item> itemList) {
         listModel.removeAllElements();
-//        List<Transaction> transactions = new ArrayList<>();
         for (Item i : itemList) {
             double cost = 0;
             for (Transaction t : controller.shoppingList.getSpending().getTransactions()) {
                 if (t.getItem().equals(i)) {
                     cost = t.getExpense();
-//                    transactions.add(t);
                 }
             }
-//            DefaultListModel listModel = new DefaultListModel();
             listModel.addElement(i.getAmount() + "   " + i.getName() + "   bought at   " + i.getDate()
                     + " --- Cost : \n" + cost);
         }
-//        createCentralPanel(transactions);
     }
 
 

@@ -27,7 +27,10 @@ public class Transaction implements Writable {
         return expense;
     }
 
+    // EFFECTS: set the expense for certain item's
     public void setExpense(double expense) {
+        EventLog.getInstance().logEvent(new Event(this.getItem().getName() + "'s price is "
+                + "set to " + expense + " dollars."));
         this.expense = expense;
     }
 

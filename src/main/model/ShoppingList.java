@@ -48,9 +48,11 @@ public class ShoppingList extends CategoryList implements Writable {
         return spending;
     }
 
+    // TODO
     // MODIFIES: this
     // EFFECTS: set the budget for this shopping
     public void setBudget(double budget) {
+        EventLog.getInstance().logEvent(new Event("Budget set to: " + budget + " dollars."));
         this.budget = budget;
     }
 
@@ -60,6 +62,7 @@ public class ShoppingList extends CategoryList implements Writable {
     }
 
 
+    // TODO
     // MODIFIES: this
     // EFFECTS: add the given Item (item) into the toBuy list
     //          throw AvoidDuplicateException if the item already contained in the shopping list already
@@ -67,20 +70,27 @@ public class ShoppingList extends CategoryList implements Writable {
         if (isContained(item.getName())) {
             throw new AvoidDuplicateException("You already added the item to shopping list!");
         }
+        EventLog.getInstance().logEvent(new Event("Added " + item.getAmount() + " " + item.getName()
+                + " (" + item.getCategories().toString() + ")" + " to the to-buy list."));
         toBuy.add(item);
+
     }
 
 
+    // TODO
     // MODIFIES: this
     // EFFECTS: delete the items from the toBuy list
     public void deleteItem(Item item) throws NotInTheListException {
         if (!isContained(item.getName())) {
             throw new NotInTheListException("This item is not in the toBuy list!");
         }
+        EventLog.getInstance().logEvent(new Event("Deleted " + item.getName()
+                + " from the to-buy list."));
         toBuy.remove(item);
     }
 
 
+    // TODO
     // MODIFIES: this
     // EFFECTS: for the already-added-to-cart items, stores the transaction to home
     //          create a new transaction for the item.
@@ -89,6 +99,8 @@ public class ShoppingList extends CategoryList implements Writable {
         if (!isContained(item.getName())) {
             throw new NotInTheListException("The item you mark is not in toBuy list!");
         }
+        EventLog.getInstance().logEvent(new Event("Bought "  + item.getAmount() + " " + item.getName()
+                + " at " + item.getDate() + ", added to transaction list."));
         deleteItem(item);
         bought.add(item);
         addToHome(item);
