@@ -1,0 +1,48 @@
+{
+    "Needs to buy": [
+        {
+            "date": "2021-11-20",
+            "amount": 1,
+            "name": "cake",
+            "categories": "Food",
+            "favorite": false
+        },
+        {
+            "date": "2021-11-20",
+            "amount": 1,
+            "name": "apple",
+            "categories": "FruitAndVegetables",
+            "favorite": false
+        },
+        {
+            "date": "2021-11-20",
+            "amount": 1,
+            "name": "milk",
+            "categories": "Drinks",
+            "favorite": false
+        }
+    ],
+    "Have bought": [
+        {
+            "item": {
+                "date": "2021-11-20",
+                "amount": 1,
+                "name": "zjx",
+                "categories": "Others",
+                "favorite": false
+            },
+            "expense": 10
+        },
+        {
+            "item": {
+                "date": "2021-11-20",
+                "amount": 1,
+                "name": "gy",
+                "categories": "Necessities",
+                "favorite": false
+            },
+            "expense": 100
+        }
+    ],
+    "budget": 100
+}
