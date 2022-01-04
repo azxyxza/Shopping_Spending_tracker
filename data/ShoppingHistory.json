@@ -1,47 +1,45 @@
 {
-    "Needs to buy": [
-        {
-            "date": "2021-11-20",
-            "amount": 1,
-            "name": "cake",
-            "categories": "Food",
-            "favorite": false
-        },
-        {
-            "date": "2021-11-20",
-            "amount": 1,
-            "name": "apple",
-            "categories": "FruitAndVegetables",
-            "favorite": false
-        },
-        {
-            "date": "2021-11-20",
-            "amount": 1,
-            "name": "milk",
-            "categories": "Drinks",
-            "favorite": false
-        }
-    ],
+    "Needs to buy": [],
     "Have bought": [
         {
             "item": {
-                "date": "2021-11-20",
+                "date": "2021-12-02",
                 "amount": 1,
-                "name": "zjx",
-                "categories": "Others",
+                "name": "cake",
+                "categories": "Food",
                 "favorite": false
             },
-            "expense": 10
+            "expense": 2
         },
         {
             "item": {
-                "date": "2021-11-20",
+                "date": "2021-12-02",
                 "amount": 1,
-                "name": "gy",
+                "name": "milk",
+                "categories": "Drinks",
+                "favorite": false
+            },
+            "expense": 1
+        },
+        {
+            "item": {
+                "date": "2021-12-02",
+                "amount": 1,
+                "name": "pen",
                 "categories": "Necessities",
                 "favorite": false
             },
-            "expense": 100
+            "expense": 3
+        },
+        {
+            "item": {
+                "date": "2021-12-02",
+                "amount": 1,
+                "name": "paper",
+                "categories": "Others",
+                "favorite": false
+            },
+            "expense": 5
         }
     ],
     "budget": 100
